@@ -2328,7 +2328,7 @@
       <div class="hero-right">
         <div class="phone-wrap">
           <div class="phone-screen">
-            <video autoplay loop muted playsinline
+            <video autoplay loop muted playsinline webkit-playsinline
               style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0;">
               <source src="video.mp4" type="video/mp4">
             </video>
@@ -3155,6 +3155,17 @@
   </div>
 
   <script>
+    // Force Video Autoplay on Mobile
+    document.addEventListener('DOMContentLoaded', () => {
+      const videos = document.querySelectorAll('video');
+      videos.forEach(v => {
+        v.play().catch(error => {
+          console.log("Autoplay prevented, retrying on first touch.");
+          document.addEventListener('touchstart', () => v.play(), { once: true });
+        });
+      });
+    });
+
 
 
     // Mobile Menu Toggle
