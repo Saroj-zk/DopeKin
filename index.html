@@ -2086,9 +2086,24 @@
     /* ══════════════════════════════════
    RESPONSIVE
 ══════════════════════════════════ */
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 64px;
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+      z-index: 500;
+      padding: 0 20px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
     @media (max-width: 1100px) {
       .card-grid {
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(3, 1fr);
       }
 
       .features-grid {
@@ -2097,14 +2112,40 @@
     }
 
     @media (max-width: 860px) {
+      .mobile-nav {
+        display: flex;
+      }
+
+      .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 600;
+      }
+
+      .sidebar.open {
+        display: flex !important;
+        transform: translateX(0);
+      }
+
+      .main {
+        margin-left: 0;
+        padding-top: 64px;
+      }
+
       .hero {
         flex-direction: column;
         text-align: center;
-        padding: 60px 20px;
+        padding: 60px 20px 40px;
+        min-height: auto;
       }
 
       .hero-left {
         width: 100%;
+        margin-bottom: 40px;
+      }
+
+      .hero-left h1 {
+        font-size: clamp(32px, 8vw, 48px);
       }
 
       .hero-sub {
@@ -2115,59 +2156,88 @@
         justify-content: center;
       }
 
+      .hero-auth-links {
+        display: none !important;
+      }
+
       .phone-wrap {
-        width: 280px;
-        height: 520px;
+        width: 100%;
+        max-width: 320px;
+        height: 580px;
         margin: 0 auto;
       }
 
-      .sidebar {
-        display: none;
-      }
-
-      .main {
-        margin-left: 0;
-      }
-
       .card-grid {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(2, 1fr);
       }
     }
 
     @media (max-width: 600px) {
       .card-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: 1fr;
       }
 
-      .nav-tabs {
-        display: none;
-      }
-
-      .nav-filter {
+      .nav-tabs, .nav-filter {
         display: none;
       }
 
       .hero {
-        padding: 52px 16px 44px;
+        padding: 40px 16px;
       }
 
-      .grid-wrap,
-      .creators-wrap {
-        padding: 20px 12px 36px;
+      .grid-wrap, .creators-wrap {
+        padding: 24px 16px;
       }
 
       .features-grid {
         grid-template-columns: 1fr;
       }
 
-      .faq-wrap {
-        padding: 60px 20px;
+      .chat-modal {
+        width: 100%;
+        height: 100%;
+        max-height: 100%;
+        top: 0;
+      }
+
+      .modal-close {
+        top: 15px;
+        right: 15px;
+        color: var(--blk);
+        background: var(--y);
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 0;
+      }
+      
+      .creation-modal {
+        width: 100%;
+        height: 100%;
+        flex-direction: column;
+        overflow-y: auto;
+      }
+      
+      .wiz-preview {
+        width: 100%;
+        height: 250px;
       }
     }
   </style>
 </head>
 
 <body>
+
+  <!-- MOBILE NAV -->
+  <header class="mobile-nav">
+    <div class="footer-logo">Dope<span>Kin</span></div>
+    <div style="display: flex; gap: 15px; align-items: center;">
+      <a href="#" class="btn-get-started" style="padding: 6px 12px; font-size: 11px;">GET STARTED</a>
+      <span class="material-symbols-outlined" id="menuToggle" style="color: #fff; cursor: pointer; font-size: 28px;">menu</span>
+    </div>
+  </header>
 
 
   <!-- SIDEBAR -->
@@ -3081,6 +3151,25 @@
 
   <script>
 
+
+    // Mobile Menu Toggle
+    const menuToggle = document.getElementById('menuToggle');
+    const sidebar = document.querySelector('.sidebar');
+    if (menuToggle && sidebar) {
+      menuToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        sidebar.classList.toggle('open');
+        menuToggle.textContent = sidebar.classList.contains('open') ? 'close' : 'menu';
+      });
+
+      // Close sidebar when clicking outside
+      document.addEventListener('click', (e) => {
+        if (sidebar.classList.contains('open') && !sidebar.contains(e.target) && e.target !== menuToggle) {
+          sidebar.classList.remove('open');
+          menuToggle.textContent = 'menu';
+        }
+      });
+    }
 
     // Sidebar
     document.querySelectorAll('.sb-item').forEach(item => {
