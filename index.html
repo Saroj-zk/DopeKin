@@ -2112,6 +2112,8 @@
     }
 
     @media (max-width: 860px) {
+      .desktop-only { display: none !important; }
+      
       .mobile-nav {
         display: flex;
       }
@@ -2148,12 +2150,15 @@
         font-size: clamp(32px, 8vw, 48px);
       }
 
-      .hero-sub {
-        margin: 0 auto 32px;
-      }
-
       .hero-ctas {
         justify-content: center;
+        gap: 16px;
+        margin-top: 32px;
+      }
+
+      .hero-sub {
+        margin: 0 auto 32px;
+        text-align: center;
       }
 
       .hero-auth-links {
@@ -2341,7 +2346,7 @@
         </div>
       </div>
 
-      <div class="hero-auth-links"
+      <div class="hero-auth-links desktop-only"
         style="position: absolute; top: 20px; right: 20px; display: flex; gap: 12px; z-index: 10;">
         <a href="#" class="btn-login"
           style="padding: 8px 16px; border: 1px solid var(--border); font-family: 'Poppins', sans-serif; font-size: 12px; font-weight: 600; text-transform: uppercase; color: var(--muted2); transition: all 0.2s;">Log
