@@ -180,6 +180,18 @@
       letter-spacing: 0.04em;
     }
 
+    .sb-badge.live {
+      background: #ffe701;
+      color: #000;
+      animation: pulse-glow 2s infinite;
+    }
+
+    @keyframes pulse-glow {
+      0% { box-shadow: 0 0 0 0 rgba(255, 231, 1, 0.7); }
+      70% { box-shadow: 0 0 0 10px rgba(255, 231, 1, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(255, 231, 1, 0); }
+    }
+
     .sb-spacer {
       flex: 1;
       min-height: 20px;
@@ -2164,6 +2176,293 @@
         padding: 60px 20px;
       }
     }
+
+    /* ══════════════════════════════════
+       LIVE STREAM & SOCIAL PROFILE ADDITIONS
+    ══════════════════════════════════ */
+    .live-streams-wrap {
+      padding: 60px 20px;
+      background: linear-gradient(to bottom, var(--bg), #0f0d1a);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .live-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 24px;
+    }
+
+    .live-card {
+      position: relative;
+      aspect-ratio: 16/9;
+      background: #000;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .live-card:hover {
+      border-color: var(--y);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 20px rgba(255,231,1,0.1);
+    }
+
+    .live-video-preview {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      transition: transform 0.5s;
+    }
+
+    .live-card:hover .live-video-preview {
+      transform: scale(1.05);
+    }
+
+    .live-tag {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: #ff4d4d;
+      color: #fff;
+      padding: 4px 10px;
+      font-size: 10px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .live-viewers {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(8px);
+      color: #fff;
+      padding: 4px 10px;
+      font-size: 10px;
+      font-weight: 700;
+      border-radius: 4px;
+      z-index: 2;
+    }
+
+    .live-info {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 20px 16px 16px;
+      background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+      z-index: 2;
+    }
+
+    .live-user {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .live-ava {
+      width: 40px;
+      height: 40px;
+      border: 2px solid var(--y);
+      background-size: cover;
+      background-position: center;
+    }
+
+    .live-det h4 {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .live-det p {
+      font-size: 11px;
+      color: var(--y);
+      font-weight: 600;
+    }
+
+    /* Profile Page / Overlay */
+    .profile-overlay {
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      z-index: 1500;
+      display: none;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+
+    .profile-overlay.active {
+      display: flex;
+    }
+
+    .profile-hero {
+      height: 350px;
+      position: relative;
+      background-size: cover;
+      background-position: center 20%;
+    }
+
+    .profile-hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 30%, var(--bg));
+    }
+
+    .profile-header {
+      max-width: 1100px;
+      margin: -80px auto 0;
+      width: 100%;
+      padding: 0 40px;
+      position: relative;
+      z-index: 10;
+      display: flex;
+      align-items: flex-end;
+      gap: 32px;
+    }
+
+    .profile-avatar-big {
+      width: 180px;
+      height: 180px;
+      border: 6px solid var(--bg);
+      background-size: cover;
+      background-position: center;
+      background-color: var(--card);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    .profile-meta {
+      flex: 1;
+      padding-bottom: 20px;
+    }
+
+    .profile-name-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 8px;
+    }
+
+    .profile-name-row h1 {
+      font-family: 'Inter', sans-serif;
+      font-size: 36px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+    }
+
+    .btn-follow {
+      padding: 10px 24px;
+      background: var(--y);
+      color: var(--blk);
+      font-family: 'Inter', sans-serif;
+      font-weight: 900;
+      text-transform: uppercase;
+      font-size: 12px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-follow.following {
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+      border: 1px solid var(--border);
+    }
+
+    .profile-stats {
+      display: flex;
+      gap: 32px;
+      margin-top: 16px;
+    }
+
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .stat-val {
+      font-family: 'Inter', sans-serif;
+      font-size: 18px;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .stat-lbl {
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .profile-content {
+      max-width: 1100px;
+      margin: 40px auto;
+      width: 100%;
+      padding: 0 40px;
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 40px;
+    }
+
+    .social-feed {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .feed-item {
+      aspect-ratio: 1/1;
+      background-size: cover;
+      background-position: center;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .feed-item::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .feed-item:hover::after {
+      opacity: 1;
+    }
+
+    .close-profile {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 1600;
+      width: 40px;
+      height: 40px;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .close-profile:hover {
+      background: var(--y);
+      color: var(--blk);
+    }
   </style>
 </head>
 
@@ -2186,6 +2485,11 @@
       <div class="sb-item">
         <span class="material-symbols-outlined sb-icon">chat</span>
         <span>Chat</span>
+      </div>
+      <div class="sb-item" id="sbLive">
+        <span class="material-symbols-outlined sb-icon">sensors</span>
+        <span>Live</span>
+        <span class="sb-badge live">8+</span>
       </div>
       <div class="sb-item">
         <span class="material-symbols-outlined sb-icon">auto_awesome_motion</span>
@@ -2281,6 +2585,61 @@
           <span class="material-symbols-outlined" style="font-size:14px;">bolt</span>
           Get Started
         </a>
+      </div>
+    </section>
+
+    <!-- LIVE STREAMS SECTION -->
+    <section class="live-streams-wrap" id="liveSection">
+      <div class="grid-head">
+        <div class="grid-title">Live Now</div>
+        <div class="grid-see">Explore Streams <span class="material-symbols-outlined">arrow_forward</span></div>
+      </div>
+
+      <div class="live-grid">
+        <div class="live-card" onclick="openProfile('Maya R.', 'Musician', 'maya_r_musician_1777285899647.png')">
+          <div class="live-tag"><span class="live-dot"></span>Live</div>
+          <div class="live-viewers">12.4K Viewing</div>
+          <div class="live-video-preview" style="background-image: url('maya_r_musician_1777285899647.png');"></div>
+          <div class="live-info">
+            <div class="live-user">
+              <div class="live-ava" style="background-image: url('maya_r_musician_1777285899647.png');"></div>
+              <div class="live-det">
+                <h4>Maya R.</h4>
+                <p>Late Night Melodies & Chilled Vibes</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="live-card" onclick="openProfile('James K.', 'Actor', 'james_k_actor_1777285914844.png')">
+          <div class="live-tag"><span class="live-dot"></span>Live</div>
+          <div class="live-viewers">8.1K Viewing</div>
+          <div class="live-video-preview" style="background-image: url('james_k_actor_1777285914844.png');"></div>
+          <div class="live-info">
+            <div class="live-user">
+              <div class="live-ava" style="background-image: url('james_k_actor_1777285914844.png');"></div>
+              <div class="live-det">
+                <h4>James K.</h4>
+                <p>Script Reading & Q&A</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="live-card" onclick="openProfile('Rina L.', 'DJ', 'rina_l_dj_1777286013466.png')">
+          <div class="live-tag"><span class="live-dot"></span>Live</div>
+          <div class="live-viewers">45.2K Viewing</div>
+          <div class="live-video-preview" style="background-image: url('rina_l_dj_1777286013466.png');"></div>
+          <div class="live-info">
+            <div class="live-user">
+              <div class="live-ava" style="background-image: url('rina_l_dj_1777286013466.png');"></div>
+              <div class="live-det">
+                <h4>Rina L.</h4>
+                <p>Cyber-Techno Session [LIVE FROM NEO-TOKYO]</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -2786,6 +3145,117 @@
       </div>
     </div>
 
+    <!-- SOCIAL & LIVE ECOSYSTEM VISUAL EXPLANATION -->
+    <section class="live-explainer-wrap" style="padding: 100px 40px; background: #08070b; border-top: 1px solid var(--border);">
+      <div style="max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.2fr; gap: 60px; align-items: center;">
+        
+        <div class="explainer-text">
+          <div class="hero-badge" style="margin-bottom: 20px;"><span class="badge-dot"></span>Zero Effort Growth</div>
+          <h2 style="font-family: 'Inter', sans-serif; font-size: 48px; font-weight: 900; text-transform: uppercase; color: #fff; line-height: 1; margin-bottom: 24px;">
+            YOUR AI TWIN <br><span>NEVER SLEEPS.</span>
+          </h2>
+          <p style="font-family: 'Poppins', sans-serif; font-size: 16px; color: var(--muted2); line-height: 1.6; margin-bottom: 32px;">
+            Let your twin handle the grind. While you’re out living your life or catching some Z’s, your AI is busy posting, streaming, and hanging out with your community. 
+          </p>
+          <div style="display:flex; flex-direction:column; gap:16px;">
+            <div style="display:flex; align-items:center; gap:12px; color:var(--y); font-weight:700; font-size:13px; text-transform:uppercase;">
+              <span class="material-symbols-outlined" style="font-size:20px;">check_circle</span>
+              Posting on Autopilot
+            </div>
+            <div style="display:flex; align-items:center; gap:12px; color:var(--y); font-weight:700; font-size:13px; text-transform:uppercase;">
+              <span class="material-symbols-outlined" style="font-size:20px;">check_circle</span>
+              Streaming 24/7
+            </div>
+          </div>
+        </div>
+
+        <!-- PC COMMAND CENTER DASHBOARD MOCKUP -->
+        <div class="visual-dashboard" style="position: relative; width: 520px; background: #0c0b12; border: 1px solid #222; border-radius: 12px; box-shadow: 0 50px 100px rgba(0,0,0,0.9); overflow: hidden; font-family: 'Inter', sans-serif;">
+          
+          <!-- Title Bar -->
+          <div style="height: 38px; background: #16151d; border-bottom: 1px solid #222; display: flex; align-items: center; padding: 0 16px; justify-content: space-between;">
+            <div style="display: flex; gap: 8px;">
+              <div style="width: 10px; height: 10px; border-radius: 50%; background: #ff5f56;"></div>
+              <div style="width: 10px; height: 10px; border-radius: 50%; background: #ffbd2e;"></div>
+              <div style="width: 10px; height: 10px; border-radius: 50%; background: #27c93f;"></div>
+            </div>
+            <div style="color: #666; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;">DopeKin // Creator_OS_v2.0</div>
+            <div style="width: 40px;"></div> <!-- Spacer -->
+          </div>
+
+          <div style="display: flex; flex-direction: column; height: 380px; background: #0c0b12; position: relative;">
+            
+            <!-- COVER PHOTO & PROFILE HEADER -->
+            <div style="height: 100px; background: linear-gradient(rgba(0,0,0,0.4), rgba(12,11,18,1)), url('maya_r_musician_1777285899647.png'); background-size: cover; background-position: center; position: relative;">
+              <!-- Profile Avatar -->
+              <div style="position: absolute; bottom: -30px; left: 24px; display: flex; align-items: flex-end; gap: 16px;">
+                <div style="width: 80px; height: 80px; border-radius: 20px; background: #1a1921; padding: 3px; box-shadow: 0 10px 20px rgba(0,0,0,0.4);">
+                  <div style="width: 100%; height: 100%; border-radius: 17px; background-image: url('maya_r_musician_1777285899647.png'); background-size: cover; border: 1px solid rgba(255,255,255,0.1);"></div>
+                </div>
+                <div style="margin-bottom: 8px;">
+                  <div style="color: #fff; font-weight: 900; font-size: 18px; letter-spacing: -0.02em; display: flex; align-items: center; gap: 6px;">
+                    Maya R. <span class="material-symbols-outlined" style="color: #00a2ff; font-size: 18px; font-variation-settings: 'FILL' 1;">verified</span>
+                  </div>
+                  <div style="color: #666; font-size: 12px; font-weight: 500;">@maya_twin_01 • <span style="color: #00ff66;">Live now 🎤</span></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- DASHBOARD CONTENT -->
+            <div style="flex: 1; padding: 40px 24px 20px; overflow: hidden;">
+              
+              <!-- Stats Row -->
+              <div style="display: flex; gap: 12px; margin-bottom: 24px;">
+                <div style="flex: 1; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); padding: 12px; border-radius: 12px; backdrop-filter: blur(10px);">
+                  <div style="color: #444; font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px;">Followers</div>
+                  <div style="color: #fff; font-size: 16px; font-weight: 900;">2.4M</div>
+                </div>
+                <div style="flex: 1; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); padding: 12px; border-radius: 12px; backdrop-filter: blur(10px);">
+                  <div style="color: #444; font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px;">Posts</div>
+                  <div style="color: #fff; font-size: 16px; font-weight: 900;">1,240</div>
+                </div>
+                <div style="flex: 1; background: rgba(255,231,1,0.05); border: 1px solid rgba(255,231,1,0.1); padding: 12px; border-radius: 12px; backdrop-filter: blur(10px);">
+                  <div style="color: var(--y); font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px;">Subscribers</div>
+                  <div style="color: var(--y); font-size: 16px; font-weight: 900;">12.5K</div>
+                </div>
+              </div>
+
+              <!-- Exclusive Drop Card -->
+              <div style="background: linear-gradient(135deg, #1a1921, #0f0e16); border: 1px solid #222; border-radius: 16px; padding: 16px; display: flex; gap: 20px; align-items: center; box-shadow: 0 20px 40px rgba(0,0,0,0.3);">
+                <div style="width: 100px; height: 100px; border-radius: 12px; position: relative; overflow: hidden; flex-shrink: 0;">
+                  <div style="width: 100%; height: 100%; background-image: url('maya_r_musician_1777285899647.png'); background-size: cover; filter: blur(4px) brightness(0.5);"></div>
+                  <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;">
+                    <span class="material-symbols-outlined" style="color: var(--y); font-size: 32px; font-variation-settings: 'FILL' 1;">lock</span>
+                  </div>
+                </div>
+                <div style="flex: 1;">
+                  <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                    <span style="background: var(--y); color: #000; font-size: 8px; font-weight: 900; padding: 2px 6px; border-radius: 4px; text-transform: uppercase;">Latest Look</span>
+                    <span style="color: #666; font-size: 10px;">• Just Now</span>
+                  </div>
+                  <h4 style="color: #fff; font-size: 14px; font-weight: 700; margin-bottom: 6px;">Quick check-in? ☕️</h4>
+                  <p style="color: #666; font-size: 11px; line-height: 1.4; margin-bottom: 12px;">Just grabbed some coffee and thought I'd drop a new look. Hope you guys are having a chill weekend. ✨</p>
+                  <div style="display: flex; align-items: center; gap: 16px;">
+                    <div style="display: flex; align-items: center; gap: 4px; color: #fff; font-size: 11px; font-weight: 700;">
+                      <span class="material-symbols-outlined" style="font-size: 16px; color: #ff3b3b; font-variation-settings: 'FILL' 1;">favorite</span> 12.4k
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 4px; color: #fff; font-size: 11px; font-weight: 700;">
+                      <span class="material-symbols-outlined" style="font-size: 16px; color: #666;">forum</span> 842
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 4px; color: #fff; font-size: 11px; font-weight: 700;">
+                      <span class="material-symbols-outlined" style="font-size: 16px; color: #666;">share</span> 1.2k
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
     <!-- FEATURES / CREATOR TOOLS -->
     <section class="features-wrap">
       <div class="grid-head">
@@ -2941,6 +3411,74 @@
       <div class="chat-footer">
         <input type="text" class="chat-input" placeholder="Type a message..." id="chatInput">
         <button class="chat-send" id="sendBtn">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI PROFILE OVERLAY -->
+  <div class="profile-overlay" id="profileOverlay">
+    <div class="close-profile" onclick="document.getElementById('profileOverlay').classList.remove('active')">
+      <span class="material-symbols-outlined">close</span>
+    </div>
+
+    <div class="profile-hero" id="profileCover" style="background-image: url('maya_r_musician_1777285899647.png');"></div>
+
+    <div class="profile-header">
+      <div class="profile-avatar-big" id="profileAvatarBig"
+        style="background-image: url('maya_r_musician_1777285899647.png');"></div>
+      <div class="profile-meta">
+        <div class="profile-name-row">
+          <h1 id="profileName">Maya R.</h1>
+          <button class="btn-follow" id="followBtn" onclick="toggleFollow()">Follow</button>
+          <button class="cta-main" style="padding: 10px 24px; font-size: 12px;" onclick="openChatFromProfile()">Chat with Twin</button>
+        </div>
+        <div id="profileBio" style="color: var(--muted2); font-size: 14px; max-width: 600px;">
+          Digital Twin of the underground neo-soul sensation. Here to share music, stories, and the creative process in real-time.
+        </div>
+        <div class="profile-stats">
+          <div class="stat-item">
+            <span class="stat-val" id="followerCount">2.4M</span>
+            <span class="stat-lbl">Followers</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-val">152</span>
+            <span class="stat-lbl">Posts</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-val">12.8M</span>
+            <span class="stat-lbl">Likes</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="profile-content">
+      <div class="profile-main">
+        <div class="nav-tabs" style="margin-bottom: 24px; display: inline-flex;">
+          <div class="nav-tab active">Feed</div>
+          <div class="nav-tab">Shorts</div>
+          <div class="nav-tab">Live Replays</div>
+        </div>
+
+        <div class="social-feed" id="socialFeed">
+          <!-- Feed items generated by JS -->
+        </div>
+      </div>
+
+      <div class="profile-sidebar">
+        <div class="wiz-label">About Character</div>
+        <div style="background: var(--bg2); border: 1px solid var(--border); padding: 20px; font-size: 13px; color: var(--muted2); line-height: 1.6;">
+          <p style="margin-bottom: 12px;"><strong style="color: #fff;">Interests:</strong> Analog Synths, Urban Photography, Midnight Tea.</p>
+          <p><strong style="color: #fff;">Personality:</strong> Creative, Introverted, Highly Intuitive.</p>
+        </div>
+
+        <div class="wiz-label" style="margin-top: 32px;">Mutual Connections</div>
+        <div style="display: flex; gap: -10px;">
+          <div style="width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--bg); background-image: url('james_k_actor_1777285914844.png'); background-size: cover;"></div>
+          <div style="width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--bg); background-image: url('alicia_f_athlete_1777285933768.png'); background-size: cover; margin-left: -10px;"></div>
+          <div style="width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--bg); background-image: url('lena_m_podcaster_1777285949166.png'); background-size: cover; margin-left: -10px;"></div>
+          <div style="width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--bg); background: var(--bg3); display: flex; align-items: center; justify-content: center; font-size: 10px; margin-left: -10px;">+12</div>
+        </div>
       </div>
     </div>
   </div>
@@ -3168,13 +3706,71 @@
         const name = card.getAttribute('data-name');
         const role = card.getAttribute('data-role');
         const cardImg = window.getComputedStyle(card.querySelector('.pcard-img')).backgroundImage;
-        modalName.textContent = name;
-        modalRole.textContent = role;
-        modalAvatar.style.backgroundImage = cardImg;
-        chatBody.innerHTML = `<div class="msg ai">Hey! I'm ${name.split(' ')[0]}. I'm so glad you're here. What's on your mind today?</div>`;
-        modal.classList.add('active');
+        const imgUrl = cardImg.replace('url("', '').replace('")', '');
+        openProfile(name, role, imgUrl);
       });
     });
+
+    // Profile Logic
+    function openProfile(name, role, imgUrl) {
+      document.getElementById('profileName').textContent = name;
+      document.getElementById('profileAvatarBig').style.backgroundImage = `url('${imgUrl}')`;
+      document.getElementById('profileCover').style.backgroundImage = `url('${imgUrl}')`;
+      document.getElementById('profileBio').textContent = `Digital Twin of ${name}. ${role}. Experience the next generation of social connection.`;
+
+      // Generate random feed
+      const feed = document.getElementById('socialFeed');
+      feed.innerHTML = '';
+      const images = [
+        'maya_r_musician_1777285899647.png', 'james_k_actor_1777285914844.png',
+        'alicia_f_athlete_1777285933768.png', 'lena_m_podcaster_1777285949166.png',
+        'priya_s_model_1777285965538.png', 'rina_l_dj_1777286013466.png',
+        'omar_t_youtuber_1777286030521.png', 'sasha_w_boxer_1777286043654.png'
+      ];
+
+      for (let i = 0; i < 9; i++) {
+        const item = document.createElement('div');
+        item.className = 'feed-item';
+        item.style.backgroundImage = `url('${images[Math.floor(Math.random() * images.length)]}')`;
+        feed.appendChild(item);
+      }
+
+      document.getElementById('profileOverlay').classList.add('active');
+    }
+
+    window.toggleFollow = function () {
+      const btn = document.getElementById('followBtn');
+      const count = document.getElementById('followerCount');
+      if (btn.classList.contains('following')) {
+        btn.classList.remove('following');
+        btn.textContent = 'Follow';
+        count.textContent = (parseFloat(count.textContent) - 0.1).toFixed(1) + 'M';
+      } else {
+        btn.classList.add('following');
+        btn.textContent = 'Following';
+        count.textContent = (parseFloat(count.textContent) + 0.1).toFixed(1) + 'M';
+      }
+    };
+
+    window.openChatFromProfile = function () {
+      const name = document.getElementById('profileName').textContent;
+      const role = "Digital Twin";
+      const img = document.getElementById('profileAvatarBig').style.backgroundImage;
+
+      modalName.textContent = name;
+      modalRole.textContent = role;
+      modalAvatar.style.backgroundImage = img;
+      chatBody.innerHTML = `<div class="msg ai">Hey! I'm ${name.split(' ')[0]}. I'm so glad you're here. What's on your mind today?</div>`;
+      modal.classList.add('active');
+    };
+
+    // Sidebar Live Tab
+    const sbLive = document.getElementById('sbLive');
+    if (sbLive) {
+      sbLive.addEventListener('click', () => {
+        document.getElementById('liveSection').scrollIntoView({ behavior: 'smooth' });
+      });
+    }
 
     closeModal.addEventListener('click', () => modal.classList.remove('active'));
     window.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('active'); });
