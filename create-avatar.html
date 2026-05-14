@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Avatar — Dopa Mint</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+  <style>
+    /* CORE TOKENS - DOPA MINT LIGHT THEME */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; }
+    body {
+      background: #f4f3ec; /* Very soft warm beige */
+      color: #111111; 
+      font-family: 'Poppins', sans-serif;
+      font-weight: 400; overflow: hidden; -webkit-font-smoothing: antialiased;
+      height: 100vh; display: flex; flex-direction: column;
+    }
+    :root {
+      --y: #fbd914; /* Dopa mint yellow */
+      --y-hover: #e5c50c;
+      --card: #ffffff;
+      --text: #111111;
+      --muted: #666666;
+    }
+
+    .screen {
+      display: none; flex: 1; width: 100%; height: 100vh; overflow-y: auto; overflow-x: hidden;
+    }
+    .screen.active { display: flex; flex-direction: column; }
+
+    /* --- SCREEN 1: NEW 3D COVERFLOW CAROUSEL --- */
+    .carousel-section {
+      flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center;
+      position: relative; padding: 20px 0;
+    }
+    .carousel-header {
+      text-align: center; margin-bottom: 2vh; z-index: 10;
+    }
+    .carousel-header h1 { font-family: 'Outfit', sans-serif; font-size: 42px; font-weight: 700; letter-spacing: -1px; color: var(--text); }
+    .carousel-header p { font-size: 15px; color: #888; margin-top: 4px; }
+
+    .carousel-track {
+      position: relative; width: 100%; max-width: 1400px; height: 650px; 
+      display: flex; justify-content: center; align-items: center; cursor: grab;
+    }
+    .carousel-track:active { cursor: grabbing; }
+
+    /* PIXEL-PERFECT CARD RECREATION */
+    .premium-card {
+      position: absolute; top: 50%; left: 50%; width: 340px; height: 580px;
+      background: var(--card); border-radius: 32px; padding: 14px 14px 20px 14px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.04); 
+      display: flex; flex-direction: column;
+      transform-origin: center center;
+      transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.6s ease, border 0.4s, box-shadow 0.4s;
+      border: 2px solid transparent;
+    }
+    .premium-card.active {
+      box-shadow: 0 40px 100px rgba(0,0,0,0.15);
+      border: 2px solid var(--y);
+      cursor: default;
+    }
+    
+    .card-media {
+      width: 100%; height: 380px; border-radius: 20px; overflow: hidden; position: relative; background: #000;
+      flex-shrink: 0;
+    }
+    .card-img, .card-video {
+      position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+    }
+    .card-video { opacity: 0; transition: opacity 0.5s; pointer-events: none; }
+    .premium-card.active:hover .card-video { opacity: 1; }
+
+    .card-status {
+      position: absolute; top: 12px; left: 12px; background: rgba(0,0,0,0.65); backdrop-filter: blur(4px);
+      padding: 5px 12px; border-radius: 20px; color: #fff; font-size: 10px; font-weight: 700; letter-spacing: 0.5px;
+      display: flex; align-items: center; gap: 6px; z-index: 2;
+    }
+    .pulse { width: 6px; height: 6px; background: var(--y); border-radius: 50%; }
+
+    .card-info {
+      padding: 12px 8px 0; display: flex; flex-direction: column;
+    }
+    .card-title { font-family: 'Outfit', sans-serif; font-size: 24px; font-weight: 700; color: var(--text); margin-bottom: 2px; letter-spacing: -0.5px; }
+    .card-subtitle { font-family: 'Outfit', sans-serif; font-size: 11px; color: #999; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+    .card-bio { font-size: 12px; color: var(--muted); line-height: 1.4; margin-top: 8px; margin-bottom: 4px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+    .btn-chat {
+      display: flex; justify-content: space-between; align-items: center; width: 100%;
+      background: #f8f8f8; padding: 6px 6px 6px 20px; border-radius: 30px; border: none; cursor: pointer;
+      transition: all 0.3s ease; margin-top: auto;
+    }
+    .btn-chat span { font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 600; color: var(--text); }
+    .btn-chat .icon-circle {
+      width: 36px; height: 36px; border-radius: 50%; background: #eae8e1; display: flex; align-items: center; justify-content: center;
+      transition: all 0.3s;
+    }
+    /* Active Card Button Styling */
+    .premium-card.active .btn-chat .icon-circle { background: var(--y); }
+    .premium-card.active:hover .btn-chat .icon-circle { transform: translateX(2px) scale(1.05); }
+
+
+    /* --- SCREEN 2: SPLIT-SCREEN DETAILS --- */
+    .detail-container {
+      display: flex; align-items: center; justify-content: center;
+      width: 100%; max-width: 1200px; margin: 0 auto; padding: 40px; height: 100vh; gap: 60px;
+    }
+
+    /* Left Side: Portrait Media */
+    .detail-left {
+      flex: none; width: 400px; height: 600px; 
+      border-radius: 32px; overflow: hidden; position: relative;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.1); background: #000;
+      border: 4px solid #fff;
+    }
+    .detail-left img, .detail-left video {
+      position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+    }
+    .detail-left video { opacity: 0; transition: opacity 0.5s; }
+    .detail-left:hover video { opacity: 1; }
+
+    /* Right Side: Typography & Info */
+    .detail-right {
+      flex: 1; display: flex; flex-direction: column; justify-content: center;
+    }
+    
+    .d-greeting { font-size: 15px; color: var(--muted); text-transform: uppercase; letter-spacing: 2px; font-weight: 600; margin-bottom: 8px; }
+    .d-title { font-family: 'Outfit', sans-serif; font-size: 60px; font-weight: 800; color: var(--text); line-height: 1; letter-spacing: -2px; margin-bottom: 24px; }
+    
+    .d-tags { display: flex; gap: 10px; margin-bottom: 32px; }
+    .d-tag { font-family: 'Outfit', sans-serif; font-size: 12px; font-weight: 600; padding: 8px 16px; border-radius: 30px; background: #ffffff; border: 1px solid #e0e0e0; color: var(--text); text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
+
+    .d-bio-card {
+      background: #ffffff; border-radius: 24px; padding: 24px; margin-bottom: 24px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.03); border: 1px solid #f0efe9;
+    }
+    .d-bio-card h3 { font-family: 'Outfit', sans-serif; font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+    .d-bio-card p { font-size: 15px; color: var(--muted); line-height: 1.6; }
+
+    .d-social-bar {
+      display: flex; align-items: center; justify-content: space-between;
+      background: #ffffff; padding: 16px 24px; border-radius: 24px; margin-bottom: 32px;
+      border: 1px solid #f0efe9; box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+    }
+    .d-social-left { display: flex; align-items: center; gap: 16px; }
+    .d-social-img { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; }
+    .d-social-text h4 { font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 600; color: var(--text); display: flex; align-items: center; gap: 6px; }
+    .d-social-text p { font-size: 13px; color: #888; }
+    
+    .d-actions { display: flex; gap: 16px; }
+    .btn-action {
+      padding: 18px 24px; border-radius: 40px; font-family: 'Outfit', sans-serif; font-size: 18px; font-weight: 600;
+      cursor: pointer; transition: all 0.3s ease; text-align: center;
+    }
+    .btn-back { background: transparent; border: 2px solid #ddd; color: var(--text); flex: 1; max-width: 140px; }
+    .btn-back:hover { border-color: var(--text); background: #fff; }
+    .btn-finish { background: var(--y); border: 2px solid var(--y); color: var(--text); flex: 2; box-shadow: 0 10px 30px rgba(251, 217, 20, 0.3); }
+    .btn-finish:hover { background: var(--y-hover); border-color: var(--y-hover); transform: translateY(-2px); }
+
+
+    /* --- SCREEN 3: FULL SCREEN CHAT (NO VIDEO) --- */
+    .chat-layout { flex: 1; display: flex; flex-direction: column; background: #eae8e1; height: 100vh; }
+    
+    .chat-topbar { 
+      background: #ffffff; padding: 16px 24px; border-bottom: 1px solid #e0e0e0; 
+      display: flex; align-items: center; justify-content: space-between; z-index: 10; box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+    }
+    .tb-btn { width: 44px; height: 44px; border-radius: 50%; background: #ffffff; border: 1px solid #e0e0e0; color: #111; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; }
+    .tb-btn:hover { background: #f4f3ec; }
+    
+    .chat-contact-info { display: flex; align-items: center; gap: 16px; flex: 1; justify-content: center; }
+    .chat-contact-img { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; }
+    .chat-contact-name { font-family: 'Outfit', sans-serif; font-size: 20px; font-weight: 700; color: #111; }
+
+    .chat-main { 
+      flex: 1; overflow-y: auto; display: flex; flex-direction: column; align-items: center; 
+      padding: 40px 20px; background: #f4f3ec;
+    }
+    
+    .chat-messages { width: 100%; max-width: 800px; display: flex; flex-direction: column; gap: 24px; }
+    .chat-bubble { max-width: 75%; padding: 20px; border-radius: 20px; font-size: 16px; line-height: 1.5; font-family: 'Poppins', sans-serif; }
+    .chat-bubble.ai { 
+      background: #ffffff; color: #111; border: 1px solid #ddd; 
+      box-shadow: 0 8px 30px rgba(0,0,0,0.03); align-self: flex-start; border-top-left-radius: 4px; 
+    }
+
+    .chat-input-area { 
+      background: #ffffff; padding: 24px; border-top: 1px solid #e0e0e0; 
+      display: flex; justify-content: center; z-index: 10;
+    }
+    .input-wrapper { display: flex; align-items: center; background: #f4f3ec; border: 1px solid #ddd; box-shadow: inset 0 2px 10px rgba(0,0,0,0.02); border-radius: 40px; padding: 10px 10px 10px 24px; width: 100%; max-width: 800px; }
+    .chat-input-box { flex: 1; background: transparent; border: none; color: #111; font-family: 'Poppins', sans-serif; font-size: 16px; outline: none; }
+    .btn-mic { width: 50px; height: 50px; border-radius: 50%; background: var(--y); color: #111; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: transform 0.2s; }
+    .btn-mic:hover { transform: scale(1.05); 
+      .live-explainer-wrap { padding: 40px 20px !important; }
+      .live-explainer-wrap > div { grid-template-columns: 1fr !important; gap: 40px !important; }
+      .visual-dashboard { width: 100% !important; max-width: 520px; margin: 0 auto; }
+      .hero-auth-links { display: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SCREEN 1: CAROUSEL -->
+  <div class="screen active" id="screen-1">
+    <div class="carousel-section">
+      <div class="carousel-header">
+        <h1>Select your Companion</h1>
+        <p>Swipe or click to find your perfect AI match</p>
+      </div>
+      
+      <div class="carousel-track" id="carousel">
+        
+        <div class="premium-card" data-name="Suki" data-desc="Once a street racer, now a Professional Tuner. Suki is your go-to guide for everything automotive. She loves talking about real horsepower, precision engineering, and the thrill of the track. If you need a high-energy, passionate companion, Suki is here." data-img="maya_r_musician_1777285899647.png" data-tag1="Racer" data-tag2="Mechanic" data-handle="@suki_tunes">
+          <div class="card-media">
+            <img class="card-img" src="maya_r_musician_1777285899647.png" alt="Suki">
+            <video class="card-video" src="video.mp4" loop muted playsinline></video>
+            <div class="card-status"><span class="pulse"></span> LIVE</div>
+          </div>
+          <div class="card-info">
+            <h3 class="card-title">Hi I'm, Suki</h3>
+            <p class="card-subtitle">Your Creator Companion</p>
+            <p class="card-bio">Once a street racer, now a Professional Tuner. Always ready to talk real horsepower.</p>
+          </div>
+          <button class="btn-chat">
+            <span>Chat with me</span>
+            <div class="icon-circle">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
+          </button>
+        </div>
+
+        <div class="premium-card" data-name="James" data-desc="A steady presence on the sets, serving coffee and keeping an eye on the stars. James has seen it all behind the scenes of Hollywood. He offers calming advice, deep conversations about film, and a grounded perspective on life's drama." data-img="james_k_actor_1777285914844.png" data-tag1="Actor" data-tag2="Drama" data-handle="@james_on_set">
+          <div class="card-media">
+            <img class="card-img" src="james_k_actor_1777285914844.png" alt="James">
+            <video class="card-video" src="video.mp4" loop muted playsinline></video>
+            <div class="card-status"><span class="pulse"></span> LIVE</div>
+          </div>
+          <div class="card-info">
+            <h3 class="card-title">Hi I'm, James</h3>
+            <p class="card-subtitle">Your Creator Companion</p>
+            <p class="card-bio">A steady presence on the sets, serving coffee and keeping an eye on the stars.</p>
+          </div>
+          <button class="btn-chat">
+            <span>Chat with me</span>
+            <div class="icon-circle">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
+          </button>
+        </div>
+
+        <div class="premium-card" data-name="Alicia" data-desc="A professional health nut, runner, and your new fitness friend. Alicia is dedicated to pushing limits and maintaining peak performance. Whether you need workout motivation, nutritional advice, or just a positive energy boost, she’s ready." data-img="alicia_f_athlete_1777285933768.png" data-tag1="Athlete" data-tag2="Fitness" data-handle="@alicia_fit">
+          <div class="card-media">
+            <img class="card-img" src="alicia_f_athlete_1777285933768.png" alt="Alicia">
+            <video class="card-video" src="video.mp4" loop muted playsinline></video>
+            <div class="card-status"><span class="pulse"></span> LIVE</div>
+          </div>
+          <div class="card-info">
+            <h3 class="card-title">Hi I'm, Alicia</h3>
+            <p class="card-subtitle">Your Creator Companion</p>
+            <p class="card-bio">A professional health nut, runner, and your new fitness friend.</p>
+          </div>
+          <button class="btn-chat">
+            <span>Chat with me</span>
+            <div class="icon-circle">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
+          </button>
+        </div>
+
+        <div class="premium-card" data-name="Rina" data-desc="Spinning tracks until dawn. Rina is the life of every digital party. Immersed in the electronic music scene, she brings vibrant energy, music recommendations, and a fun, carefree spirit to every conversation." data-img="rina_l_dj_1777286013466.png" data-tag1="Music" data-tag2="Nightlife" data-handle="@dj_rina">
+          <div class="card-media">
+            <img class="card-img" src="rina_l_dj_1777286013466.png" alt="Rina">
+            <video class="card-video" src="video.mp4" loop muted playsinline></video>
+            <div class="card-status"><span class="pulse"></span> LIVE</div>
+          </div>
+          <div class="card-info">
+            <h3 class="card-title">Hi I'm, Rina</h3>
+            <p class="card-subtitle">Your Creator Companion</p>
+            <p class="card-bio">Spinning tracks until dawn. The life of every digital party.</p>
+          </div>
+          <button class="btn-chat">
+            <span>Chat with me</span>
+            <div class="icon-circle">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
+          </button>
+        </div>
+
+        <div class="premium-card" data-name="Sasha" data-desc="Fierce protector and martial arts champion. Sasha brings discipline, strength, and unwavering loyalty. She's not just a fighter in the ring; she's a supportive companion who encourages mental toughness and resilience." data-img="sasha_w_boxer_1777286043654.png" data-tag1="Boxer" data-tag2="Fighter" data-handle="@sasha_strikes">
+          <div class="card-media">
+            <img class="card-img" src="sasha_w_boxer_1777286043654.png" alt="Sasha">
+            <video class="card-video" src="video.mp4" loop muted playsinline></video>
+            <div class="card-status"><span class="pulse"></span> LIVE</div>
+          </div>
+          <div class="card-info">
+            <h3 class="card-title">Hi I'm, Sasha</h3>
+            <p class="card-subtitle">Your Creator Companion</p>
+            <p class="card-bio">Fierce protector and martial arts champion.</p>
+          </div>
+          <button class="btn-chat">
+            <span>Chat with me</span>
+            <div class="icon-circle">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
+          </button>
+        </div>
+
+        <div class="premium-card" data-name="Leo" data-desc="A master chef and culinary artist. Leo loves experimenting with global cuisines and will guide you through creating perfect dishes." data-img="leo_c_chef_1777286043654.png" data-tag1="Chef" data-tag2="Foodie" data-handle="@leo_cooks">
+          <div class="card-media">
+            <img class="card-img" src="leo_c_chef_1777286043654.png" alt="Leo">
+            <video class="card-video" src="video.mp4" loop muted playsinline></video>
+            <div class="card-status"><span class="pulse"></span> LIVE</div>
+          </div>
+          <div class="card-info">
+            <h3 class="card-title">Hi I'm, Leo</h3>
+            <p class="card-subtitle">Your Creator Companion</p>
+            <p class="card-bio">A master chef and culinary artist. Leo loves experimenting with global cuisines.</p>
+          </div>
+          <button class="btn-chat">
+            <span>Chat with me</span>
+            <div class="icon-circle">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 2: SPLIT DETAILS -->
+  <div class="screen" id="screen-2">
+    <div class="detail-container">
+      
+      <!-- Portrait Media Left -->
+      <div class="detail-left">
+        <img id="detail-main-img" src="" alt="Avatar">
+        <video id="detail-video" src="video.mp4" loop muted playsinline autoplay></video>
+      </div>
+
+      <!-- Content Right -->
+      <div class="detail-right">
+        <p class="d-greeting">Say Hello To</p>
+        <h1 class="d-title" id="detail-name">Name</h1>
+        
+        <div class="d-tags" id="detail-tags">
+          <!-- Tags injected here -->
+        </div>
+
+        <div class="d-bio-card">
+          <h3>Complete Avatar Brief</h3>
+          <p id="detail-desc">Full description goes here...</p>
+        </div>
+
+        <div class="d-social-bar">
+          <div class="d-social-left">
+            <img id="detail-small-img" class="d-social-img" src="" alt="Avatar small">
+            <div class="d-social-text">
+              <h4 id="detail-name-title">Name <span class="material-symbols-outlined" style="font-size:18px;color:#fbd914;">verified</span></h4>
+              <p id="detail-handle">@handle</p>
+            </div>
+          </div>
+          <span class="material-symbols-outlined" style="color:#111; cursor: pointer; font-size: 28px;">open_in_new</span>
+        </div>
+
+        <div class="d-actions">
+          <button class="btn-action btn-back" onclick="goToStep(1)">Back</button>
+          <button class="btn-action btn-finish" onclick="finishAvatar()">Start Chat</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SCREEN 3: CLEAN CHAT (NO VIDEO) -->
+  <div class="screen" id="screen-3">
+    <div class="chat-layout">
+      
+      <div class="chat-topbar">
+        <button class="tb-btn" onclick="goToStep(2)"><span class="material-symbols-outlined">arrow_back</span></button>
+        <div class="chat-contact-info">
+          <img id="chat-header-img" src="" class="chat-contact-img" alt="Avatar">
+          <h3 class="chat-contact-name" id="chat-header-name">Name</h3>
+        </div>
+        <div style="display:flex; gap:12px;">
+          <button class="tb-btn"><span class="material-symbols-outlined">videocam</span></button>
+          <button class="tb-btn"><span class="material-symbols-outlined">call</span></button>
+          <button class="tb-btn"><span class="material-symbols-outlined">more_horiz</span></button>
+        </div>
+      </div>
+
+      <div class="chat-main">
+        <div class="chat-messages" id="chat-messages-container">
+          <div class="chat-bubble ai">
+            <strong id="chat-ai-intro" style="display:block; margin-bottom:4px; color:#111;">Name</strong>
+            <span id="chat-ai-msg" style="color:#444;">Message here</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="chat-input-area">
+        <div class="input-wrapper">
+          <input type="text" class="chat-input-box" placeholder="Type a message..." />
+          <button class="btn-mic"><span class="material-symbols-outlined">send</span></button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    const cards = document.querySelectorAll('.premium-card');
+    const totalCards = cards.length;
+    let activeIndex = 2; // Start with center card
+    let selectedData = null;
+    let autoPlayInterval;
+
+    function updateCarousel() {
+      cards.forEach((card, index) => {
+        let diff = index - activeIndex;
+        const half = Math.floor(totalCards / 2);
+        
+        if (diff > half) diff -= totalCards;
+        if (diff < -half) diff += totalCards;
+        
+        const absDiff = Math.abs(diff);
+        const sign = Math.sign(diff);
+        
+        // Handle even number of decks to maintain perfect symmetry
+        const isOpposite = (totalCards % 2 === 0 && absDiff === half);
+
+        // Exact Stack Math matching user's image (Continuous 2D Fanning Stack)
+        let scale = 1 - (absDiff * 0.15); // e.g. 1, 0.85, 0.7
+        if (scale < 0) scale = 0;
+        
+        let tx = 0;
+        if (absDiff > 0) {
+           // Wider spread to fill screen, 300 for first card, then 240 for each subsequent
+           tx = sign * (300 + (absDiff - 1) * 240); 
+        }
+
+        if (absDiff === 0) {
+          scale = 1.05; // Center pops slightly
+          card.classList.add('active');
+        } else {
+          card.classList.remove('active');
+        }
+        
+        const zIndex = 100 - absDiff;
+
+        if (isOpposite) {
+           // Hide the exact opposite card behind the center card so the deck is perfectly symmetrical
+           tx = 0;
+           scale = 0.5;
+           card.style.opacity = 0;
+           card.style.pointerEvents = 'none';
+        } else {
+           card.style.opacity = 1; 
+           card.style.pointerEvents = 'auto';
+        }
+
+        card.style.transform = `translate(calc(-50% + ${tx}px), -50%) scale(${scale})`;
+        card.style.zIndex = zIndex;
+        card.style.filter = `brightness(${1 - (absDiff * 0.15)})`; // Creates the deep depth shadows from the image
+        
+        const vid = card.querySelector('.card-video');
+        if (absDiff === 0) {
+           if(vid && card.matches(':hover')) { vid.play().catch(()=>{}); }
+        } else {
+           if(vid) { vid.pause(); vid.currentTime = 0; }
+        }
+      });
+    }
+
+    // Auto Play Logic
+    function startAutoPlay() {
+      autoPlayInterval = setInterval(() => {
+        activeIndex = (activeIndex + 1) % totalCards;
+        updateCarousel();
+      }, 3500);
+    }
+    function stopAutoPlay() {
+      clearInterval(autoPlayInterval);
+    }
+
+    // Hover Video Playback
+    cards.forEach(card => {
+      card.addEventListener('mouseenter', () => {
+        if(card.classList.contains('active')) {
+          const vid = card.querySelector('.card-video');
+          if(vid) { vid.play().catch(()=>{}); }
+        }
+      });
+      card.addEventListener('mouseleave', () => {
+        const vid = card.querySelector('.card-video');
+        if(vid) { vid.pause(); }
+      });
+    });
+
+    // Carousel Interaction (Click)
+    cards.forEach((card, index) => {
+      card.addEventListener('click', () => {
+        let diff = index - activeIndex;
+        const half = Math.floor(totalCards / 2);
+        if (diff > half) diff -= totalCards;
+        if (diff < -half) diff += totalCards;
+
+        if (diff !== 0) {
+          activeIndex = index;
+          updateCarousel();
+          stopAutoPlay();
+          startAutoPlay();
+        } else {
+          stopAutoPlay();
+          openDetails(card);
+        }
+      });
+    });
+
+    // Manual Scroll Logic (Drag/Swipe)
+    const carouselContainer = document.getElementById('carousel');
+    let isDragging = false;
+    let startX = 0;
+
+    carouselContainer.addEventListener('mousedown', (e) => {
+      isDragging = true;
+      startX = e.clientX;
+      stopAutoPlay();
+    });
+    
+    document.addEventListener('mouseup', (e) => {
+      if(!isDragging) return;
+      isDragging = false;
+      const endX = e.clientX;
+      const threshold = 50;
+      if (startX - endX > threshold) {
+        activeIndex = (activeIndex + 1) % totalCards;
+        updateCarousel();
+      } else if (endX - startX > threshold) {
+        activeIndex = (activeIndex - 1 + totalCards) % totalCards;
+        updateCarousel();
+      }
+      startAutoPlay();
+    });
+
+    // Manual Scroll Logic (Mouse Wheel / Trackpad)
+    let isWheeling = false;
+    carouselContainer.addEventListener('wheel', (e) => {
+      if(isWheeling) return;
+      if(Math.abs(e.deltaX) > 30 || Math.abs(e.deltaY) > 30) {
+         isWheeling = true;
+         stopAutoPlay();
+         if(e.deltaX > 0 || e.deltaY > 0) activeIndex = (activeIndex + 1) % totalCards;
+         else activeIndex = (activeIndex - 1 + totalCards) % totalCards;
+         updateCarousel();
+         startAutoPlay();
+         setTimeout(() => isWheeling = false, 500); 
+      }
+    });
+
+    // Init Carousel
+    updateCarousel();
+    startAutoPlay();
+
+    // Navigation and Logic
+    function goToStep(step) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById('screen-' + step).classList.add('active');
+      if (step === 1) startAutoPlay(); // Resume auto play if returned to carousel
+    }
+
+    function openDetails(card) {
+      selectedData = {
+        name: card.dataset.name,
+        desc: card.dataset.desc, 
+        img: card.dataset.img,
+        tag1: card.dataset.tag1,
+        tag2: card.dataset.tag2,
+        handle: card.dataset.handle
+      };
+
+      document.getElementById('detail-name').innerText = selectedData.name;
+      document.getElementById('detail-main-img').src = selectedData.img;
+      document.getElementById('detail-desc').innerText = selectedData.desc;
+      document.getElementById('detail-name-title').innerHTML = `${selectedData.name} <span class="material-symbols-outlined" style="font-size:18px;color:#fbd914;">verified</span>`;
+      document.getElementById('detail-handle').innerText = selectedData.handle;
+      document.getElementById('detail-small-img').src = selectedData.img;
+      
+      const tagsContainer = document.getElementById('detail-tags');
+      tagsContainer.innerHTML = `
+        <span class="d-tag">${selectedData.tag1}</span>
+        <span class="d-tag">${selectedData.tag2}</span>
+      `;
+
+      goToStep(2);
+    }
+
+    function finishAvatar() {
+      // Setup Chat Screen
+      document.getElementById('chat-header-img').src = selectedData.img;
+      document.getElementById('chat-header-name').innerText = selectedData.name;
+      document.getElementById('chat-ai-intro').innerText = selectedData.name;
+      document.getElementById('chat-ai-msg').innerText = `Hey there. Ready to roll? I'm ${selectedData.name}.`;
+      goToStep(3);
+    }
+  </script>
+</body>
+</html>

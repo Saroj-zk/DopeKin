@@ -80,7 +80,7 @@
       left: 0;
       top: 0;
       bottom: 0;
-      width: var(--sidebar);
+      width: var(--sb-width);
       background: #100e1b;
       border-right: 1px solid var(--border);
       z-index: 300;
@@ -2122,6 +2122,11 @@
       .card-grid {
         grid-template-columns: repeat(3, 1fr);
       }
+    
+      .live-explainer-wrap { padding: 40px 20px !important; }
+      .live-explainer-wrap > div { grid-template-columns: 1fr !important; gap: 40px !important; }
+      .visual-dashboard { width: 100% !important; max-width: 520px; margin: 0 auto; }
+      .hero-auth-links { display: none !important; }
     }
 
     @media (max-width: 600px) {
@@ -2440,6 +2445,50 @@
     .close-profile:hover {
       background: var(--y);
       color: var(--blk);
+    }
+  
+    /* RESPONSIVE DESIGN */
+    @media (max-width: 900px) {
+      .sidebar { position: fixed !important;
+        left: 0 !important;
+        width: 100% !important; height: 70px; bottom: 0; top: auto; flex-direction: row; border-right: none; border-top: 1px solid var(--border); justify-content: space-around; padding: 0; z-index: 2000; background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(10px); }
+      .sb-logo, .sb-spacer, .sb-bottom { display: none; }
+      .sb-items { display: flex; flex-direction: row; width: 100%; justify-content: flex-start; padding: 0 10px; overflow-x: auto; gap: 8px; scrollbar-width: none; }
+      .sb-items::-webkit-scrollbar { display: none; }
+      .sb-item { flex-direction: column; padding: 8px 12px; gap: 4px; border-radius: 8px; flex-shrink: 0; align-items: center; justify-content: center; }
+      .sb-item span:not(.sb-icon) { font-size: 10px; }
+      .sb-badge { display: none; }
+      .main { margin-left: 0; margin-bottom: 70px; padding-top: 20px; }
+      .hero { flex-direction: column; height: auto; padding: 20px; gap: 40px; }
+      .hero-left { width: 100%; padding-top: 40px; }
+      .hero-left h1 { font-size: 40px; }
+      .hero-right { display: none; }
+      .card-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+      .live-grid { grid-template-columns: 1fr; }
+      .vision-grid { grid-template-columns: 1fr; }
+      .creator-card { flex-direction: column; text-align: center; }
+      .insta-header .insta-info > div:first-child { flex-direction: column !important; gap: 10px !important; }
+      .profile-actions { gap: 10px !important; flex-direction: column !important; }
+      .profile-stats { gap: 20px !important; }
+      .profile-tabs { gap: 20px !important; }
+      .post-actions-row { gap: 4px !important; flex-wrap: wrap !important; justify-content: space-between !important; }
+      .post-actions-row > div { font-size: 11px !important; }
+      .post-actions-row span.material-symbols-outlined { font-size: 16px !important; }
+      
+    
+      .live-explainer-wrap { padding: 40px 20px !important; }
+      .live-explainer-wrap > div { grid-template-columns: 1fr !important; gap: 40px !important; }
+      .visual-dashboard { width: 100% !important; max-width: 520px; margin: 0 auto; }
+      .hero-auth-links { display: none !important; }
+    }
+
+    @media (max-width: 600px) {
+      .card-grid { grid-template-columns: 1fr; }
+    
+      
+      
+      
+      
     }
   </style>
 </head>
@@ -3332,24 +3381,24 @@
         <div class="grid-title" style="font-size: 24px;">Frequently Asked Questions</div>
       </div>
       <div class="faq-grid">
-        <div class="faq-item" onclick="this.classList.toggle('active'); const icon = this.querySelector('.material-symbols-outlined'); if(icon) icon.textContent = this.classList.contains('active') ? 'expand_less' : 'expand_more';">
+        <div class="faq-item" onclick="this.classList.toggle('active'); var icon = this.querySelector('.material-symbols-outlined'); if(icon) icon.textContent = this.classList.contains('active') ? 'expand_less' : 'expand_more';">
           <div class="faq-q">What is a Digital Twin? <span class="material-symbols-outlined">expand_more</span></div>
           <div class="faq-a">A Digital Twin is an AI-powered version of a creator that can chat, call, and interact with
             fans 24/7, mimicking the creator's voice and personality.</div>
         </div>
-        <div class="faq-item" onclick="this.classList.toggle('active'); const icon = this.querySelector('.material-symbols-outlined'); if(icon) icon.textContent = this.classList.contains('active') ? 'expand_less' : 'expand_more';">
+        <div class="faq-item" onclick="this.classList.toggle('active'); var icon = this.querySelector('.material-symbols-outlined'); if(icon) icon.textContent = this.classList.contains('active') ? 'expand_less' : 'expand_more';">
           <div class="faq-q">How do creators earn on DopeKin? <span class="material-symbols-outlined">expand_more</span>
           </div>
           <div class="faq-a">Creators set subscription tiers or per-message fees for their twins. DopeKin handles all
             the processing and payouts, letting creators focus on content.</div>
         </div>
-        <div class="faq-item" onclick="this.classList.toggle('active'); const icon = this.querySelector('.material-symbols-outlined'); if(icon) icon.textContent = this.classList.contains('active') ? 'expand_less' : 'expand_more';">
+        <div class="faq-item" onclick="this.classList.toggle('active'); var icon = this.querySelector('.material-symbols-outlined'); if(icon) icon.textContent = this.classList.contains('active') ? 'expand_less' : 'expand_more';">
           <div class="faq-q">Is the chat private and secure? <span class="material-symbols-outlined">expand_more</span>
           </div>
           <div class="faq-a">Yes, all chats are end-to-end encrypted and completely private between the user and the
             digital twin.</div>
         </div>
-        <div class="faq-item" onclick="this.classList.toggle('active'); const icon = this.querySelector('.material-symbols-outlined'); if(icon) icon.textContent = this.classList.contains('active') ? 'expand_less' : 'expand_more';">
+        <div class="faq-item" onclick="this.classList.toggle('active'); var icon = this.querySelector('.material-symbols-outlined'); if(icon) icon.textContent = this.classList.contains('active') ? 'expand_less' : 'expand_more';">
           <div class="faq-q">Can I create my own Twin? <span class="material-symbols-outlined">expand_more</span></div>
           <div class="faq-a">Absolutely. Our Creator Studio provides easy-to-use tools to train your twin on your voice
             and knowledge base in minutes.</div>
@@ -3611,6 +3660,7 @@
           if (label === 'home') window.scrollTo({ top: 0, behavior: 'smooth' });
           if (label === 'discover') document.querySelector('.grid-wrap').scrollIntoView({ behavior: 'smooth' });
           if (label === 'chat') document.querySelector('.creators-wrap').scrollIntoView({ behavior: 'smooth' });
+          if (label === 'collection') { window.location.href = 'create-avatar.html'; }
           if (label === 'create character') {
             document.getElementById('creationModal').classList.add('active');
           }
@@ -3849,6 +3899,7 @@
           prevRole.textContent = `${text.toUpperCase()} // INITIALIZING`;
         }
       });
+    });
 
       // Load More Twins logic
       const loadMoreBtnTop = document.getElementById('loadMoreTwins');
