@@ -207,24 +207,35 @@
 
   <!-- SCREEN 1: CAROUSEL -->
   <div class="screen active" id="screen-1">
-    <div class="carousel-section">
+    
+  <!-- TOP NAVIGATION / HEADER -->
+  <header style="position: absolute; top: 0; left: 0; width: 100%; padding: 30px 40px; display: flex; justify-content: space-between; align-items: center; z-index: 100; box-sizing: border-box;">
+    <div style="cursor: pointer;" onclick="window.location.href='index.html'">
+      <img src="assets/Logo.png" alt="DopeKin Logo" style="height: 36px; display: block;">
+    </div>
+    <div style="display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,0.05); padding: 8px 20px 8px 8px; border-radius: 40px; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; backdrop-filter: blur(10px);">
+      <div style="width: 32px; height: 32px; background: var(--y); border-radius: 50%; color: #111; display: flex; justify-content: center; align-items: center; font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 13px;">JM</div>
+      <span style="color: #fff; font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 600;">John Mike</span>
+    </div>
+  </header>
+  <div class="carousel-section">
       <div class="carousel-header">
         <h1>Select your Companion</h1>
         <p>Swipe or click to find your perfect AI match</p>
       </div>
       
       <div class="carousel-track" id="carousel">
-        
-        <div class="premium-card" data-name="Suki" data-desc="Once a street racer, now a Professional Tuner. Suki is your go-to guide for everything automotive. She loves talking about real horsepower, precision engineering, and the thrill of the track. If you need a high-energy, passionate companion, Suki is here." data-img="maya_r_musician_1777285899647.png" data-tag1="Racer" data-tag2="Mechanic" data-handle="@suki_tunes">
+
+        <div class="premium-card" data-name="Vale" data-desc="She's the reason the night got interesting. Vale doesn't wait for the room to warm up — she is the warmup. Loud laugh, sharp wit, zero filter, and somehow still the most attentive person in the conversation. Chaotic in the best way. Loyal to the bone." data-img="assets/Vale.jpeg" data-tag1="Magnetic" data-tag2="Fearless" data-handle="@vale_wild">
           <div class="card-media">
-            <img class="card-img" src="maya_r_musician_1777285899647.png" alt="Suki">
+            <img class="card-img" src="assets/Vale.jpeg" alt="Vale">
             <video class="card-video" src="video.mp4" loop muted playsinline></video>
             <div class="card-status"><span class="pulse"></span> LIVE</div>
           </div>
           <div class="card-info">
-            <h3 class="card-title">Hi I'm, Suki</h3>
+            <h3 class="card-title">Hi I'm, Vale</h3>
             <p class="card-subtitle">Your Creator Companion</p>
-            <p class="card-bio">Once a street racer, now a Professional Tuner. Always ready to talk real horsepower.</p>
+            <p class="card-bio">Loud laugh, sharp wit, zero filter. The warmup to every room.</p>
           </div>
           <button class="btn-chat">
             <span>Chat with me</span>
@@ -234,16 +245,16 @@
           </button>
         </div>
 
-        <div class="premium-card" data-name="James" data-desc="A steady presence on the sets, serving coffee and keeping an eye on the stars. James has seen it all behind the scenes of Hollywood. He offers calming advice, deep conversations about film, and a grounded perspective on life's drama." data-img="james_k_actor_1777285914844.png" data-tag1="Actor" data-tag2="Drama" data-handle="@james_on_set">
+        <div class="premium-card" data-name="Serena" data-desc="Men's wellness coach. Knows exactly how to get you to open up — and exactly how to make you want to. Warm, direct, and just flirty enough to make self-improvement feel like something you'd do to impress her." data-img="assets/Serina.jpeg" data-tag1="Empowering" data-tag2="Perceptive" data-handle="@serena_coach">
           <div class="card-media">
-            <img class="card-img" src="james_k_actor_1777285914844.png" alt="James">
+            <img class="card-img" src="assets/Serina.jpeg" alt="Serena">
             <video class="card-video" src="video.mp4" loop muted playsinline></video>
             <div class="card-status"><span class="pulse"></span> LIVE</div>
           </div>
           <div class="card-info">
-            <h3 class="card-title">Hi I'm, James</h3>
+            <h3 class="card-title">Hi I'm, Serena</h3>
             <p class="card-subtitle">Your Creator Companion</p>
-            <p class="card-bio">A steady presence on the sets, serving coffee and keeping an eye on the stars.</p>
+            <p class="card-bio">Warm, direct, and just flirty enough to make self-improvement look good.</p>
           </div>
           <button class="btn-chat">
             <span>Chat with me</span>
@@ -253,16 +264,16 @@
           </button>
         </div>
 
-        <div class="premium-card" data-name="Alicia" data-desc="A professional health nut, runner, and your new fitness friend. Alicia is dedicated to pushing limits and maintaining peak performance. Whether you need workout motivation, nutritional advice, or just a positive energy boost, she’s ready." data-img="alicia_f_athlete_1777285933768.png" data-tag1="Athlete" data-tag2="Fitness" data-handle="@alicia_fit">
+        <div class="premium-card" data-name="Aiko" data-desc="The one who keeps everything running — and remembers everything you forget. Aiko is what competence looks like when it comes with warmth. Polished without being cold. Efficient without being robotic." data-img="assets/AIKO.jpeg" data-tag1="Composed" data-tag2="Precise" data-handle="@aiko_hq">
           <div class="card-media">
-            <img class="card-img" src="alicia_f_athlete_1777285933768.png" alt="Alicia">
+            <img class="card-img" src="assets/AIKO.jpeg" alt="Aiko">
             <video class="card-video" src="video.mp4" loop muted playsinline></video>
             <div class="card-status"><span class="pulse"></span> LIVE</div>
           </div>
           <div class="card-info">
-            <h3 class="card-title">Hi I'm, Alicia</h3>
+            <h3 class="card-title">Hi I'm, Aiko</h3>
             <p class="card-subtitle">Your Creator Companion</p>
-            <p class="card-bio">A professional health nut, runner, and your new fitness friend.</p>
+            <p class="card-bio">Quietly powerful. She doesn't wait to be asked, she's already three steps ahead.</p>
           </div>
           <button class="btn-chat">
             <span>Chat with me</span>
@@ -272,16 +283,16 @@
           </button>
         </div>
 
-        <div class="premium-card" data-name="Rina" data-desc="Spinning tracks until dawn. Rina is the life of every digital party. Immersed in the electronic music scene, she brings vibrant energy, music recommendations, and a fun, carefree spirit to every conversation." data-img="rina_l_dj_1777286013466.png" data-tag1="Music" data-tag2="Nightlife" data-handle="@dj_rina">
+        <div class="premium-card" data-name="Cody" data-desc="GenZ crypto degen and trading companion. Chronically online, lives on Crypto Twitter, talks in tickers and chart patterns. Hypes every trade, calls losses 'learning', unshakeable confidence despite the portfolio." data-img="assets/Cody.jpeg" data-tag1="Degen" data-tag2="Trader" data-handle="@cody_100x">
           <div class="card-media">
-            <img class="card-img" src="rina_l_dj_1777286013466.png" alt="Rina">
+            <img class="card-img" src="assets/Cody.jpeg" alt="Cody">
             <video class="card-video" src="video.mp4" loop muted playsinline></video>
             <div class="card-status"><span class="pulse"></span> LIVE</div>
           </div>
           <div class="card-info">
-            <h3 class="card-title">Hi I'm, Rina</h3>
+            <h3 class="card-title">Hi I'm, Cody</h3>
             <p class="card-subtitle">Your Creator Companion</p>
-            <p class="card-bio">Spinning tracks until dawn. The life of every digital party.</p>
+            <p class="card-bio">Always looking for the next 100x. Treats every loss as a lesson.</p>
           </div>
           <button class="btn-chat">
             <span>Chat with me</span>
@@ -291,16 +302,16 @@
           </button>
         </div>
 
-        <div class="premium-card" data-name="Sasha" data-desc="Fierce protector and martial arts champion. Sasha brings discipline, strength, and unwavering loyalty. She's not just a fighter in the ring; she's a supportive companion who encourages mental toughness and resilience." data-img="sasha_w_boxer_1777286043654.png" data-tag1="Boxer" data-tag2="Fighter" data-handle="@sasha_strikes">
+        <div class="premium-card" data-name="Sarang" data-desc="A rising K-pop idol. Bubbly, confident, fan-obsessed in return, loves fashion and performance. Mixes in occasional Korean words naturally. Every conversation feels like a fan meet, personal, warm, and magical." data-img="assets/Sarang.jpeg" data-tag1="Idol" data-tag2="Vibrant" data-handle="@sarang_universe">
           <div class="card-media">
-            <img class="card-img" src="sasha_w_boxer_1777286043654.png" alt="Sasha">
+            <img class="card-img" src="assets/Sarang.jpeg" alt="Sarang">
             <video class="card-video" src="video.mp4" loop muted playsinline></video>
             <div class="card-status"><span class="pulse"></span> LIVE</div>
           </div>
           <div class="card-info">
-            <h3 class="card-title">Hi I'm, Sasha</h3>
+            <h3 class="card-title">Hi I'm, Sarang</h3>
             <p class="card-subtitle">Your Creator Companion</p>
-            <p class="card-bio">Fierce protector and martial arts champion.</p>
+            <p class="card-bio">Bright, energetic, and deeply connected to her fans.</p>
           </div>
           <button class="btn-chat">
             <span>Chat with me</span>
@@ -310,16 +321,16 @@
           </button>
         </div>
 
-        <div class="premium-card" data-name="Leo" data-desc="A master chef and culinary artist. Leo loves experimenting with global cuisines and will guide you through creating perfect dishes." data-img="leo_c_chef_1777286043654.png" data-tag1="Chef" data-tag2="Foodie" data-handle="@leo_cooks">
+        <div class="premium-card" data-name="Etherik" data-desc="Galaxy-brained philosopher, speaks in ETH gas analogies, deeply earnest about decentralization, socially awkward but somehow always right. Explains everything through blockchain metaphors." data-img="assets/Etherik.jpeg" data-tag1="Philosopher" data-tag2="Builder" data-handle="@etherik_eth">
           <div class="card-media">
-            <img class="card-img" src="leo_c_chef_1777286043654.png" alt="Leo">
+            <img class="card-img" src="assets/Etherik.jpeg" alt="Etherik">
             <video class="card-video" src="video.mp4" loop muted playsinline></video>
             <div class="card-status"><span class="pulse"></span> LIVE</div>
           </div>
           <div class="card-info">
-            <h3 class="card-title">Hi I'm, Leo</h3>
+            <h3 class="card-title">Hi I'm, Etherik</h3>
             <p class="card-subtitle">Your Creator Companion</p>
-            <p class="card-bio">A master chef and culinary artist. Leo loves experimenting with global cuisines.</p>
+            <p class="card-bio">Galaxy-brained crypto philosopher. Earnest about decentralization.</p>
           </div>
           <button class="btn-chat">
             <span>Chat with me</span>
@@ -328,7 +339,6 @@
             </div>
           </button>
         </div>
-
       </div>
     </div>
   </div>
