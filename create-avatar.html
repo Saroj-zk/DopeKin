@@ -205,19 +205,38 @@
 </head>
 <body>
 
+  <!-- GLOBAL NAVIGATION / HEADER -->
+  <header id="global-header" style="position: absolute; top: 0; left: 0; width: 100%; padding: 30px 40px; display: flex; justify-content: space-between; align-items: center; z-index: 999; box-sizing: border-box; background: transparent; pointer-events: none;">
+    <div style="display: flex; align-items: center; gap: 16px; pointer-events: auto;">
+      <!-- Back Arrow -->
+      <div id="btn-global-back" onclick="goBack()" style="display: none; width: 44px; height: 44px; border-radius: 50%; background: #ffffff; box-shadow: 0 4px 12px rgba(0,0,0,0.05); color: #111; align-items: center; justify-content: center; cursor: pointer; transition: transform 0.2s;">
+        <span class="material-symbols-outlined" style="font-size: 20px;">arrow_back</span>
+      </div>
+      <!-- Logo -->
+      <div style="cursor: pointer;" onclick="window.location.href='index.html'">
+        <img src="assets/Logo.png" alt="DopeKin Logo" style="height: 36px; display: block;">
+      </div>
+    </div>
+
+    <!-- Right Actions -->
+    <div style="display: flex; align-items: center; gap: 12px; pointer-events: auto;">
+      <div style="background: #ffffff; padding: 12px 24px; border-radius: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); cursor: pointer; font-family: 'Poppins', sans-serif; font-weight: 500; font-size: 15px; color: #111;">
+        Settings
+      </div>
+      <div style="background: #ffffff; width: 46px; height: 46px; border-radius: 50%; box-shadow: 0 4px 12px rgba(0,0,0,0.03); cursor: pointer; display: flex; align-items: center; justify-content: center; color: #111;">
+        <span class="material-symbols-outlined" style="font-size: 22px;">notifications</span>
+      </div>
+      <div style="background: #ffffff; padding: 10px 24px 10px 16px; border-radius: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); cursor: pointer; display: flex; align-items: center; gap: 10px; color: #111;">
+        <span class="material-symbols-outlined" style="font-size: 22px;">person</span>
+        <span style="font-family: 'Poppins', sans-serif; font-size: 15px; font-weight: 500;">John Mike</span>
+      </div>
+    </div>
+  </header>
+
   <!-- SCREEN 1: CAROUSEL -->
   <div class="screen active" id="screen-1">
     
-  <!-- TOP NAVIGATION / HEADER -->
-  <header style="position: absolute; top: 0; left: 0; width: 100%; padding: 30px 40px; display: flex; justify-content: space-between; align-items: center; z-index: 100; box-sizing: border-box;">
-    <div style="cursor: pointer;" onclick="window.location.href='index.html'">
-      <img src="assets/Logo.png" alt="DopeKin Logo" style="height: 36px; display: block;">
-    </div>
-    <div style="display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,0.05); padding: 8px 20px 8px 8px; border-radius: 40px; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; backdrop-filter: blur(10px);">
-      <div style="width: 32px; height: 32px; background: var(--y); border-radius: 50%; color: #111; display: flex; justify-content: center; align-items: center; font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 13px;">JM</div>
-      <span style="color: #fff; font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 600;">John Mike</span>
-    </div>
-  </header>
+  
   <div class="carousel-section">
       <div class="carousel-header">
         <h1>Select your Companion</h1>
@@ -578,10 +597,51 @@
     startAutoPlay();
 
     // Navigation and Logic
+    let currentStep = 1;
+    function goBack() {
+      if (currentStep === 3) {
+        goToStep(2);
+      } else if (currentStep === 2) {
+        goToStep(1);
+      }
+    }
+
     function goToStep(step) {
+      currentStep = step;
       document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
       document.getElementById('screen-' + step).classList.add('active');
-      if (step === 1) startAutoPlay(); // Resume auto play if returned to carousel
+      
+      const header = document.getElementById('global-header');
+      if (header) {
+        if (step === 3) header.style.display = 'none';
+        else header.style.display = 'flex';
+      }
+      
+      const backBtn = document.getElementById('btn-global-back');
+      
+      if (step === 1) {
+        startAutoPlay();
+        if (backBtn) backBtn.style.display = 'none';
+        document.body.style.background = '#f4f3ec';
+      } else {
+        if (backBtn) backBtn.style.display = 'flex';
+        if (step === 2) {
+          document.body.style.background = '#f4f3ec';
+        } else if (step === 3 && selectedData) {
+          const bgs = {
+            'Vale': '#fff0f5', // Warm pinkish
+            'Serena': '#f0f8ff', // Calm wellness blue
+            'Aiko': '#f5f5f5', // Precise grayscale
+            'Cody': '#e6ffe6', // Degen green
+            'Sarang': '#ffe4e1', // Vibrant idol pink
+            'Etherik': '#f3e5f5' // Galaxy brain purple
+          };
+          document.body.style.background = bgs[selectedData.name] || '#f4f3ec';
+          // Make chat main transparent to inherit body bg
+          const chatMain = document.querySelector('.chat-main');
+          if (chatMain) chatMain.style.background = 'transparent';
+        }
+      }
     }
 
     function openDetails(card) {
