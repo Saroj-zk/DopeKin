@@ -637,9 +637,27 @@
             'Etherik': '#f3e5f5' // Galaxy brain purple
           };
           document.body.style.background = bgs[selectedData.name] || '#f4f3ec';
-          // Make chat main transparent to inherit body bg
+          
+          // Make chat layout elements transparent to inherit body bg
+          const chatLayout = document.querySelector('.chat-layout');
+          if (chatLayout) chatLayout.style.background = 'transparent';
+          
           const chatMain = document.querySelector('.chat-main');
           if (chatMain) chatMain.style.background = 'transparent';
+          
+          const chatTopbar = document.querySelector('.chat-topbar');
+          if (chatTopbar) {
+            chatTopbar.style.background = 'rgba(255,255,255,0.6)';
+            chatTopbar.style.backdropFilter = 'blur(10px)';
+            chatTopbar.style.borderBottom = '1px solid rgba(255,255,255,0.2)';
+          }
+          
+          const chatInput = document.querySelector('.chat-input-area');
+          if (chatInput) {
+            chatInput.style.background = 'rgba(255,255,255,0.6)';
+            chatInput.style.backdropFilter = 'blur(10px)';
+            chatInput.style.borderTop = '1px solid rgba(255,255,255,0.2)';
+          }
         }
       }
     }
