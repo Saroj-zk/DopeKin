@@ -3,699 +3,3641 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Create Avatar — Dopa Mint</title>
+  <title>Create Your Twin — DopeKin</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+  
   <style>
-    /* CORE TOKENS - DOPA MINT LIGHT THEME */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { font-size: 16px; }
+    /* ══════════════════════════════════
+       DESIGN TOKENS & SYSTEM BASE
+       ══════════════════════════════════ */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      font-size: 16px;
+    }
+
     body {
-      background: #f4f3ec; /* Very soft warm beige */
-      color: #111111; 
+      background: #09080e;
+      color: #f5f5f5;
       font-family: 'Poppins', sans-serif;
-      font-weight: 400; overflow: hidden; -webkit-font-smoothing: antialiased;
-      height: 100vh; display: flex; flex-direction: column;
+      font-weight: 400;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+      height: 100vh;
+      display: flex;
     }
+
     :root {
-      --y: #fbd914; /* Dopa mint yellow */
-      --y-hover: #e5c50c;
-      --card: #ffffff;
-      --text: #111111;
-      --muted: #666666;
+      --y: #ffe701;
+      --y2: #fffa7d;
+      --blk: #0d0d0d;
+      --bg: #0d0b14;
+      --bg2: #13101f;
+      --bg3: #1a1628;
+      --card: rgba(28, 24, 41, 0.7);
+      --border: rgba(255, 231, 1, 0.15);
+      --border2: rgba(255, 231, 1, 0.3);
+      --muted: rgba(255, 255, 255, 0.38);
+      --muted2: rgba(255, 255, 255, 0.6);
+      --sidebar: 220px;
+      --sb-width: var(--sidebar, 220px);
+      --glow-y: 0 0 25px rgba(255, 231, 1, 0.25);
     }
 
-    .screen {
-      display: none; flex: 1; width: 100%; height: 100vh; overflow-y: auto; overflow-x: hidden;
+    ::-webkit-scrollbar {
+      width: 4px;
     }
-    .screen.active { display: flex; flex-direction: column; }
 
-    /* --- SCREEN 1: NEW 3D COVERFLOW CAROUSEL --- */
-    .carousel-section {
-      flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center;
-      position: relative; padding: 20px 0;
+    ::-webkit-scrollbar-track {
+      background: var(--bg);
     }
-    .carousel-header {
-      text-align: center; margin-bottom: 2vh; z-index: 10;
-    }
-    .carousel-header h1 { font-family: 'Outfit', sans-serif; font-size: 42px; font-weight: 700; letter-spacing: -1px; color: var(--text); }
-    .carousel-header p { font-size: 15px; color: #888; margin-top: 4px; }
 
-    .carousel-track {
-      position: relative; width: 100%; max-width: 1400px; height: 650px; 
-      display: flex; justify-content: center; align-items: center; cursor: grab;
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 231, 1, 0.2);
+      border-radius: 2px;
     }
-    .carousel-track:active { cursor: grabbing; }
 
-    /* PIXEL-PERFECT CARD RECREATION */
-    .premium-card {
-      position: absolute; top: 50%; left: 50%; width: 340px; height: 580px;
-      background: var(--card); border-radius: 32px; padding: 14px 14px 20px 14px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.04); 
-      display: flex; flex-direction: column;
-      transform-origin: center center;
-      transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.6s ease, border 0.4s, box-shadow 0.4s;
-      border: 2px solid transparent;
+    /* ══════════════════════════════════
+       SIDEBAR — Kept Fully Intact & Identical to index.html
+       ══════════════════════════════════ */
+    .sidebar {
+      display: none !important;
     }
-    .premium-card.active {
-      box-shadow: 0 40px 100px rgba(0,0,0,0.15);
-      border: 2px solid var(--y);
-      cursor: default;
-    }
-    
-    .card-media {
-      width: 100%; height: 380px; border-radius: 20px; overflow: hidden; position: relative; background: #000;
+
+    .sb-logo {
+      font-family: 'Outfit', sans-serif;
+      font-size: 22px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: -0.04em;
+      color: #fff;
+      padding: 0 16px;
+      margin-bottom: 28px;
       flex-shrink: 0;
     }
-    .card-img, .card-video {
-      position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
-    }
-    .card-video { opacity: 0; transition: opacity 0.5s; pointer-events: none; }
-    .premium-card.active:hover .card-video { opacity: 1; }
 
-    .card-status {
-      position: absolute; top: 12px; left: 12px; background: rgba(0,0,0,0.65); backdrop-filter: blur(4px);
-      padding: 5px 12px; border-radius: 20px; color: #fff; font-size: 10px; font-weight: 700; letter-spacing: 0.5px;
-      display: flex; align-items: center; gap: 6px; z-index: 2;
+    .sb-logo span {
+      color: var(--y);
     }
-    .pulse { width: 6px; height: 6px; background: var(--y); border-radius: 50%; }
 
-    .card-info {
-      padding: 12px 8px 0; display: flex; flex-direction: column;
+    .sb-items {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      padding: 0 8px;
     }
-    .card-title { font-family: 'Outfit', sans-serif; font-size: 24px; font-weight: 700; color: var(--text); margin-bottom: 2px; letter-spacing: -0.5px; }
-    .card-subtitle { font-family: 'Outfit', sans-serif; font-size: 11px; color: #999; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
-    .card-bio { font-size: 12px; color: var(--muted); line-height: 1.4; margin-top: 8px; margin-bottom: 4px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 
-    .btn-chat {
-      display: flex; justify-content: space-between; align-items: center; width: 100%;
-      background: #f8f8f8; padding: 6px 6px 6px 20px; border-radius: 30px; border: none; cursor: pointer;
-      transition: all 0.3s ease; margin-top: auto;
+    .sb-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      color: rgba(255, 255, 255, 0.55);
+      cursor: pointer;
+      transition: all 0.1s;
+      font-family: 'Poppins', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
     }
-    .btn-chat span { font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 600; color: var(--text); }
-    .btn-chat .icon-circle {
-      width: 36px; height: 36px; border-radius: 50%; background: #eae8e1; display: flex; align-items: center; justify-content: center;
+
+    .sb-item:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: #fff;
+    }
+
+    .sb-item.active {
+      background: var(--y);
+      color: var(--blk);
+    }
+
+    .sb-item.active .sb-icon {
+      color: var(--blk);
+    }
+
+    .sb-icon {
+      font-size: 20px;
+      color: rgba(255, 255, 255, 0.35);
+      flex-shrink: 0;
+      transition: color 0.15s;
+    }
+
+    .sb-item:hover .sb-icon {
+      color: rgba(255, 255, 255, 0.75);
+    }
+
+    .sb-badge {
+      margin-left: auto;
+      padding: 2px 7px;
+      background: #ff4d4d;
+      color: #fff;
+      font-size: 9px;
+      font-weight: 900;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .sb-badge.live {
+      background: #ffe701;
+      color: #000;
+      animation: pulse-glow 2s infinite;
+    }
+
+    .sb-spacer {
+      flex-grow: 1;
+    }
+
+    .sb-bottom {
+      padding: 0 8px;
+      margin-top: 20px;
+    }
+
+    /* ══════════════════════════════════
+       MAIN APP CANVAS & STUDIO WORKSPACE
+       ══════════════════════════════════ */
+    .main {
+      flex: 1;
+      margin-left: 0 !important;
+      width: 100vw !important;
+      height: 100vh;
+      overflow: hidden;
+      background: #08070d;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .studio-navbar {
+      height: 70px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(16, 14, 27, 0.85);
+      backdrop-filter: blur(15px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      z-index: 100;
+      flex-shrink: 0;
+    }
+
+    .nav-steps {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .nav-step {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      opacity: 0.35;
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: default;
+    }
+
+    .nav-step.active {
+      opacity: 1;
+    }
+
+    .nav-step.completed {
+      opacity: 0.8;
+      color: var(--y);
+    }
+
+    .step-circle {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(255,255,255,0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Outfit', sans-serif;
+      font-size: 11px;
+      font-weight: 800;
+      transition: all 0.35s ease;
+    }
+
+    .nav-step.active .step-circle {
+      border-color: var(--y);
+      background: var(--y);
+      color: var(--blk);
+      box-shadow: var(--glow-y);
+    }
+
+    .nav-step.completed .step-circle {
+      border-color: var(--y);
+      background: var(--y);
+      color: var(--blk);
+    }
+
+    .step-text {
+      font-family: 'Outfit', sans-serif;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .step-line {
+      height: 1px;
+      width: 30px;
+      background: rgba(255,255,255,0.12);
+    }
+
+    .studio-screen {
+      display: none !important;
+      width: 100%;
+      flex: 1;
+      min-height: 0;
+      position: relative;
+      overflow-y: auto;
+    }
+
+    .studio-screen.active {
+      display: flex !important;
+      flex-direction: column;
+    }
+
+    /* ══════════════════════════════════
+       STEP 1: INTERACTIVE DIGITAL SOUL
+       ══════════════════════════════════ */
+    .screen-split {
+      display: flex;
+      width: 100%;
+      height: 100%;
+    }
+
+    .preview-pane {
+      flex: 1;
+      background: #09080e;
+      border-right: 1px solid var(--border);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 40px;
+    }
+
+    /* Ambient glowing background */
+    .aura-ambient-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background: radial-gradient(circle at center, rgba(16, 14, 27, 0.4) 0%, #09080e 80%);
+      transition: background 1s ease-in-out;
+    }
+
+    /* Central glowing, pulsing core */
+    .aura-sphere-wrap {
+      position: absolute;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+    }
+
+    .aura-sphere {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      filter: blur(45px);
+      opacity: 0.75;
+      transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+      transform-origin: center;
+    }
+
+    /* Aura states */
+    .aura-sphere.empathic {
+      background: radial-gradient(circle, rgba(255, 123, 123, 0.8) 0%, rgba(255, 176, 123, 0.3) 60%, transparent 80%);
+      animation: auraBreath 4s infinite ease-in-out;
+    }
+
+    .aura-sphere.witty {
+      background: radial-gradient(circle, rgba(255, 231, 1, 0.85) 0%, rgba(255, 250, 125, 0.3) 60%, transparent 80%);
+      animation: auraWiggle 2.5s infinite ease-in-out;
+    }
+
+    .aura-sphere.serene {
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.8) 0%, rgba(139, 92, 246, 0.35) 60%, transparent 80%);
+      animation: auraBreath 5.5s infinite ease-in-out;
+    }
+
+    .aura-sphere.vibrant {
+      background: radial-gradient(circle, rgba(255, 231, 1, 0.9) 0%, rgba(255, 255, 255, 0.4) 50%, transparent 75%);
+      animation: auraPulseFast 1.8s infinite ease-in-out;
+    }
+
+    @keyframes auraBreath {
+      0% { transform: scale(0.9); opacity: 0.65; }
+      50% { transform: scale(1.15); opacity: 0.85; }
+      100% { transform: scale(0.9); opacity: 0.65; }
+    }
+
+    @keyframes auraWiggle {
+      0% { transform: scale(0.95) translate(0, 0); }
+      33% { transform: scale(1.08) translate(-2%, 1%); }
+      66% { transform: scale(1.02) translate(1%, -2%); }
+      100% { transform: scale(0.95) translate(0, 0); }
+    }
+
+    @keyframes auraPulseFast {
+      0% { transform: scale(0.85); opacity: 0.55; filter: blur(35px); }
+      50% { transform: scale(1.2); opacity: 0.95; filter: blur(50px); }
+      100% { transform: scale(0.85); opacity: 0.55; filter: blur(35px); }
+    }
+
+    /* Floating luxury glass info pill - Centered */
+    .preview-card-floating {
+      width: 100%;
+      max-width: 320px;
+      height: 440px;
+      background: rgba(16, 14, 27, 0.7);
+      backdrop-filter: blur(25px);
+      border: 1.5px solid var(--border);
+      border-radius: 24px;
+      padding: 0;
+      z-index: 3;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.65);
+      box-sizing: border-box;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .preview-card-floating:hover {
+      border-color: rgba(255, 231, 1, 0.35);
+      box-shadow: 0 25px 60px rgba(0,0,0,0.75), var(--glow-y);
+      transform: translateY(-4px);
+    }
+
+    .preset-avatar-chip {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      cursor: pointer;
+      object-fit: cover;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .preset-avatar-chip:hover {
+      transform: scale(1.1);
+      border-color: rgba(255, 231, 1, 0.5);
+    }
+
+    .preset-avatar-chip.active {
+      border-color: var(--y) !important;
+      box-shadow: 0 0 10px rgba(255, 231, 1, 0.4);
+      transform: scale(1.1);
+    }
+
+    .prev-vibe {
+      font-family: 'Outfit', sans-serif;
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--y);
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      margin-bottom: 6px;
+    }
+
+    .prev-name {
+      font-family: 'Outfit', sans-serif;
+      font-size: 28px;
+      font-weight: 900;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
+      line-height: 1.1;
+    }
+
+    .prev-desc {
+      font-size: 11.5px;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.6;
+      margin-top: 10px;
+    }
+
+    /* Delicate Cockpit Corner Crosshairs */
+    .cockpit-crosshair {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      z-index: 10;
+      color: rgba(255, 231, 1, 0.2);
+      font-size: 12px;
+      font-family: monospace;
+      pointer-events: none;
+    }
+    .c-tl { top: 20px; left: 20px; }
+    .c-tr { top: 20px; right: 20px; }
+    .c-bl { bottom: 20px; left: 20px; }
+    .c-br { bottom: 20px; right: 20px; }
+
+    /* Right side - Glassmorphic Luxury Control Lounge */
+    .form-pane {
+      width: 520px;
+      background: rgba(16, 14, 27, 0.85);
+      border-left: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      flex-shrink: 0;
+      backdrop-filter: blur(25px);
+      z-index: 10;
+    }
+
+    .form-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 40px 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .form-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 22px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #fff;
+      line-height: 1.2;
+    }
+
+    .form-title span {
+      color: var(--y);
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .form-label {
+      font-family: 'Outfit', sans-serif;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted2);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .form-input, .form-textarea, .form-select-native {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.025);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 16px 20px;
+      color: #fff;
+      font-family: 'Poppins', sans-serif;
+      font-size: 13.5px;
+      outline: none;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .form-input:focus, .form-textarea:focus, .form-select-native:focus {
+      border-color: rgba(255, 231, 1, 0.35);
+      background: rgba(255, 255, 255, 0.04);
+      box-shadow: 0 0 15px rgba(255, 231, 1, 0.06);
+    }
+
+    /* Premium visual selection card grids */
+    .dimension-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      width: 100%;
+    }
+
+    .select-card {
+      background: rgba(255, 255, 255, 0.015);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 14px;
+      padding: 16px;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      position: relative;
+      overflow: hidden;
+      text-align: left;
+    }
+
+    .select-card:hover {
+      background: rgba(255, 255, 255, 0.03);
+      border-color: rgba(255, 231, 1, 0.25);
+      transform: translateY(-2px);
+    }
+
+    .select-card.active {
+      background: rgba(255, 231, 1, 0.025);
+      border-color: var(--y);
+      box-shadow: 0 0 20px rgba(255, 231, 1, 0.15);
+    }
+
+    .select-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--y);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .select-card.active::before {
+      opacity: 1;
+    }
+
+    .select-card-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      transition: color 0.3s;
+    }
+
+    .select-card.active .select-card-title {
+      color: var(--y);
+    }
+
+    .select-card-sub {
+      font-size: 10px;
+      color: var(--muted2);
+      line-height: 1.4;
+    }
+
+    /* Redefine personality capsules into cards */
+    .personality-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      width: 100%;
+    }
+
+    /* Studio footer button bar */
+    .studio-footer {
+      height: 90px;
+      border-top: 1px solid var(--border);
+      background: rgba(16, 14, 27, 0.95);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      flex-shrink: 0;
+    }
+
+    .btn-studio {
+      padding: 14px 28px;
+      border-radius: 30px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      border: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.25s;
+    }
+
+    .btn-studio.primary {
+      background: var(--y);
+      color: var(--blk);
+      box-shadow: var(--glow-y);
+    }
+
+    .btn-studio.primary:hover {
+      background: var(--y2);
+      transform: translateY(-1px);
+    }
+
+    .btn-studio.secondary {
+      background: transparent;
+      border: 1.5px solid rgba(255,255,255,0.15);
+      color: #fff;
+    }
+
+    .btn-studio.secondary:hover {
+      border-color: #fff;
+      background: rgba(255,255,255,0.04);
+    }
+
+    /* ══════════════════════════════════
+       STEP 2: HD LOOK CALIBRATION
+       ══════════════════════════════════ */
+    .calib-screen-layout {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      flex-direction: column;
+      padding: 32px 40px 48px;
+      overflow-y: auto;
+    }
+
+    .calib-headline {
+      font-family: 'Outfit', sans-serif;
+      font-size: 26px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: -0.5px;
+      color: #fff;
+      margin-bottom: 6px;
+      text-align: center;
+    }
+
+    .calib-subhead {
+      font-size: 12px;
+      color: var(--muted2);
+      margin-bottom: 14px;
+      text-align: center;
+      max-width: 480px;
+      line-height: 1.5;
+    }
+
+    .tab-pills {
+      display: flex;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 30px;
+      padding: 4px;
+      margin-bottom: 14px;
+    }
+
+    .tab-pill-btn {
+      padding: 10px 24px;
+      border-radius: 20px;
+      border: none;
+      background: transparent;
+      color: var(--muted2);
+      font-family: 'Outfit', sans-serif;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .tab-pill-btn.active {
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+    }
+
+    .video-view-wrap {
+      width: 580px;
+      height: 290px;
+      border-radius: 24px;
+      border: 1px solid var(--border);
+      background: #050408;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+      flex-shrink: 0;
+    }
+
+    #webcamStreamVideo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: none;
+      transform: scaleX(-1);
+    }
+
+    .video-instructions-card {
+      position: absolute;
+      inset: 0;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: rgba(13,11,20,0.85);
+      padding: 40px;
+      text-align: center;
+    }
+
+    .btn-enable-hardware {
+      padding: 14px 28px;
+      border-radius: 30px;
+      background: var(--y);
+      color: var(--blk);
+      font-family: 'Outfit', sans-serif;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+      box-shadow: var(--glow-y);
+      transition: all 0.2s;
+      margin-bottom: 12px;
+    }
+
+    .btn-enable-hardware:hover {
+      background: var(--y2);
+    }
+
+    .hardware-info-text {
+      font-size: 11px;
+      color: var(--muted);
+      max-width: 280px;
+      line-height: 1.5;
+    }
+
+    /* Face scanning visual feedback */
+    .face-scanner-grid {
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+      display: none;
+      pointer-events: none;
+    }
+
+    .face-target-ellipse {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 210px;
+      height: 210px;
+      border: 2px dashed var(--y);
+      border-radius: 50%;
+      animation: targetPulse 2s infinite alternate;
+    }
+
+    @keyframes targetPulse {
+      from { border-color: rgba(255,231,1,0.25); transform: translate(-50%, -50%) scale(0.95); }
+      to { border-color: rgba(255,231,1,0.85); transform: translate(-50%, -50%) scale(1.05); }
+    }
+
+    .face-guide-tag {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: rgba(0, 0, 0, 0.75);
+      border: 1px solid var(--border);
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-family: monospace;
+      font-size: 10px;
+      color: var(--y);
+    }
+
+    /* Photo Angles Upload Grid */
+    .photo-upload-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      width: 580px;
+      margin-bottom: 30px;
+      flex-shrink: 0;
+    }
+
+    .photo-upload-slot {
+      aspect-ratio: 3/4;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px dashed rgba(255, 231, 1, 0.25);
+      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .photo-upload-slot:hover {
+      border-color: var(--y);
+      background: rgba(255, 231, 1, 0.03);
+      transform: translateY(-2px);
+      box-shadow: var(--glow-y);
+    }
+
+    .photo-upload-slot.uploaded {
+      border-style: solid;
+      border-color: var(--y);
+      background: #000;
+    }
+
+    .upload-slot-preview {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      z-index: 1;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+
+    .photo-upload-slot.uploaded .upload-slot-preview {
+      opacity: 1;
+    }
+
+    .upload-slot-content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 16px;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.2) 60%, transparent 100%);
+      pointer-events: none;
+    }
+
+    .photo-upload-slot.uploaded .upload-slot-content {
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 80%);
+    }
+
+    .upload-icon {
+      font-size: 26px;
+      color: var(--y);
+      margin-bottom: 10px;
+      transition: transform 0.2s;
+    }
+
+    .photo-upload-slot:hover .upload-icon {
+      transform: scale(1.1);
+    }
+
+    .upload-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+
+    .upload-sub {
+      font-size: 9px;
+      color: var(--muted2);
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+
+    .photo-upload-slot.uploaded .upload-sub {
+      color: #00ff66;
+      font-weight: 700;
+    }
+
+    /* Calib Mode Toggle Wrapper */
+    .calib-mode-content {
+      display: none;
+      width: 100%;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    .calib-mode-content.active {
+      display: flex;
+    }
+
+    /* Style for btn-activate-twin to make it premium */
+    .btn-activate-twin {
+      width: 100%;
+      padding: 16px;
+      border-radius: 30px;
+      background: var(--y);
+      color: var(--blk);
+      font-family: 'Outfit', sans-serif;
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      border: none;
+      cursor: pointer;
+      box-shadow: var(--glow-y);
+      transition: all 0.25s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .btn-activate-twin:hover {
+      background: var(--y2);
+      transform: translateY(-1px);
+    }
+
+    /* ══════════════════════════════════
+       ADVANCED STUDIO FLOW EXPANSIONS
+       ══════════════════════════════════ */
+    .qr-popover-box {
+      width: 320px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 36px 30px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.7);
+      text-align: center;
+      position: relative;
+    }
+
+    .qr-graphic {
+      width: 170px;
+      height: 170px;
+      background: #fff;
+      border: 6px solid #fff;
+      border-radius: 12px;
+      margin: 24px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-size: cover;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    }
+
+    .photo-upload-grid-five {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+      width: 100%;
+      max-width: 600px;
+      margin-bottom: 24px;
+      flex-shrink: 0;
+    }
+
+    .photo-upload-slot-five {
+      aspect-ratio: 1/1;
+      background: rgba(255, 255, 255, 0.015);
+      border: 1px dashed rgba(255, 231, 1, 0.2);
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .photo-upload-slot-five:hover {
+      border-color: var(--y);
+      background: rgba(255, 231, 1, 0.03);
+      transform: translateY(-2px);
+      box-shadow: var(--glow-y);
+    }
+
+    .photo-upload-slot-five.uploaded {
+      border-style: solid;
+      border-color: var(--y);
+      background: #000;
+    }
+
+    /* Instruction Grid for Step 3 */
+    .instruction-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      width: 100%;
+      max-width: 600px;
+      margin-bottom: 24px;
+    }
+
+    .instruction-card {
+      background: rgba(255,255,255,0.015);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 12px;
+      padding: 12px 8px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .instruction-card span.icon {
+      font-size: 20px;
+      color: var(--y);
+    }
+
+    .instruction-card span.text {
+      font-size: 9.5px;
+      font-weight: 800;
+      color: rgba(255,255,255,0.6);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Recording Prompts Carousel */
+    .prompts-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      max-width: 600px;
+      margin-bottom: 16px;
+    }
+
+    .prompts-container::-webkit-scrollbar {
+      display: none;
+    }
+
+    .prompt-pill {
+      padding: 8px 16px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 20px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 10.5px;
+      font-weight: 800;
+      color: rgba(255,255,255,0.55);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .prompt-pill:hover {
+      border-color: rgba(255,231,1,0.25);
+      color: #fff;
+    }
+
+    .prompt-pill.active {
+      background: var(--y);
+      border-color: var(--y);
+      color: var(--blk);
+      font-weight: 900;
+      box-shadow: var(--glow-y);
+    }
+
+    /* Live Validation Meter */
+    .validation-hud-pane {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      z-index: 20;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      pointer-events: none;
+    }
+
+    .validation-item-row {
+      background: rgba(0, 0, 0, 0.75);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 6px 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: monospace;
+      font-size: 9px;
+      color: rgba(255,255,255,0.5);
+      backdrop-filter: blur(8px);
+    }
+
+    .validation-item-row .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #ff4655;
       transition: all 0.3s;
     }
-    /* Active Card Button Styling */
-    .premium-card.active .btn-chat .icon-circle { background: var(--y); }
-    .premium-card.active:hover .btn-chat .icon-circle { transform: translateX(2px) scale(1.05); }
 
-
-    /* --- SCREEN 2: SPLIT-SCREEN DETAILS --- */
-    .detail-container {
-      display: flex; align-items: center; justify-content: center;
-      width: 100%; max-width: 1200px; margin: 0 auto; padding: 40px; height: 100vh; gap: 60px;
+    .validation-item-row.passed .status-dot {
+      background: #00ff66;
+      box-shadow: 0 0 6px #00ff66;
     }
 
-    /* Left Side: Portrait Media */
-    .detail-left {
-      flex: none; width: 400px; height: 600px; 
-      border-radius: 32px; overflow: hidden; position: relative;
-      box-shadow: 0 24px 60px rgba(0,0,0,0.1); background: #000;
-      border: 4px solid #fff;
-    }
-    .detail-left img, .detail-left video {
-      position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
-    }
-    .detail-left video { opacity: 0; transition: opacity 0.5s; }
-    .detail-left:hover video { opacity: 1; }
-
-    /* Right Side: Typography & Info */
-    .detail-right {
-      flex: 1; display: flex; flex-direction: column; justify-content: center;
-    }
-    
-    .d-greeting { font-size: 15px; color: var(--muted); text-transform: uppercase; letter-spacing: 2px; font-weight: 600; margin-bottom: 8px; }
-    .d-title { font-family: 'Outfit', sans-serif; font-size: 60px; font-weight: 800; color: var(--text); line-height: 1; letter-spacing: -2px; margin-bottom: 24px; }
-    
-    .d-tags { display: flex; gap: 10px; margin-bottom: 32px; }
-    .d-tag { font-family: 'Outfit', sans-serif; font-size: 12px; font-weight: 600; padding: 8px 16px; border-radius: 30px; background: #ffffff; border: 1px solid #e0e0e0; color: var(--text); text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
-
-    .d-bio-card {
-      background: #ffffff; border-radius: 24px; padding: 24px; margin-bottom: 24px;
-      box-shadow: 0 12px 40px rgba(0,0,0,0.03); border: 1px solid #f0efe9;
-    }
-    .d-bio-card h3 { font-family: 'Outfit', sans-serif; font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
-    .d-bio-card p { font-size: 15px; color: var(--muted); line-height: 1.6; }
-
-    .d-social-bar {
-      display: flex; align-items: center; justify-content: space-between;
-      background: #ffffff; padding: 16px 24px; border-radius: 24px; margin-bottom: 32px;
-      border: 1px solid #f0efe9; box-shadow: 0 4px 20px rgba(0,0,0,0.02);
-    }
-    .d-social-left { display: flex; align-items: center; gap: 16px; }
-    .d-social-img { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; }
-    .d-social-text h4 { font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 600; color: var(--text); display: flex; align-items: center; gap: 6px; }
-    .d-social-text p { font-size: 13px; color: #888; }
-    
-    .d-actions { display: flex; gap: 16px; }
-    .btn-action {
-      padding: 18px 24px; border-radius: 40px; font-family: 'Outfit', sans-serif; font-size: 18px; font-weight: 600;
-      cursor: pointer; transition: all 0.3s ease; text-align: center;
-    }
-    .btn-back { background: transparent; border: 2px solid #ddd; color: var(--text); flex: 1; max-width: 140px; }
-    .btn-back:hover { border-color: var(--text); background: #fff; }
-    .btn-finish { background: var(--y); border: 2px solid var(--y); color: var(--text); flex: 2; box-shadow: 0 10px 30px rgba(251, 217, 20, 0.3); }
-    .btn-finish:hover { background: var(--y-hover); border-color: var(--y-hover); transform: translateY(-2px); }
-
-
-    /* --- SCREEN 3: FULL SCREEN CHAT (NO VIDEO) --- */
-    .chat-layout { flex: 1; display: flex; flex-direction: column; background: #eae8e1; height: 100vh; }
-    
-    .chat-topbar { 
-      background: #ffffff; padding: 16px 24px; border-bottom: 1px solid #e0e0e0; 
-      display: flex; align-items: center; justify-content: space-between; z-index: 10; box-shadow: 0 4px 20px rgba(0,0,0,0.03);
-    }
-    .tb-btn { width: 44px; height: 44px; border-radius: 50%; background: #ffffff; border: 1px solid #e0e0e0; color: #111; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; }
-    .tb-btn:hover { background: #f4f3ec; }
-    
-    .chat-contact-info { display: flex; align-items: center; gap: 16px; flex: 1; justify-content: center; }
-    .chat-contact-img { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; }
-    .chat-contact-name { font-family: 'Outfit', sans-serif; font-size: 20px; font-weight: 700; color: #111; }
-
-    .chat-main { 
-      flex: 1; overflow-y: auto; display: flex; flex-direction: column; align-items: center; 
-      padding: 40px 20px; background: #f4f3ec;
-    }
-    
-    .chat-messages { width: 100%; max-width: 800px; display: flex; flex-direction: column; gap: 24px; }
-    .chat-bubble { max-width: 75%; padding: 20px; border-radius: 20px; font-size: 16px; line-height: 1.5; font-family: 'Poppins', sans-serif; }
-    .chat-bubble.ai { 
-      background: #ffffff; color: #111; border: 1px solid #ddd; 
-      box-shadow: 0 8px 30px rgba(0,0,0,0.03); align-self: flex-start; border-top-left-radius: 4px; 
+    .validation-item-row.passed {
+      color: #00ff66;
+      border-color: rgba(0, 255, 102, 0.2);
     }
 
-    .chat-input-area { 
-      background: #ffffff; padding: 24px; border-top: 1px solid #e0e0e0; 
-      display: flex; justify-content: center; z-index: 10;
+    /* Continuous Learning Switch */
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px;
+      background: rgba(255,255,255,0.015);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 12px;
+      width: 100%;
     }
-    .input-wrapper { display: flex; align-items: center; background: #f4f3ec; border: 1px solid #ddd; box-shadow: inset 0 2px 10px rgba(0,0,0,0.02); border-radius: 40px; padding: 10px 10px 10px 24px; width: 100%; max-width: 800px; }
-    .chat-input-box { flex: 1; background: transparent; border: none; color: #111; font-family: 'Poppins', sans-serif; font-size: 16px; outline: none; }
-    .btn-mic { width: 50px; height: 50px; border-radius: 50%; background: var(--y); color: #111; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: transform 0.2s; }
-    .btn-mic:hover { transform: scale(1.05); 
-      .live-explainer-wrap { padding: 40px 20px !important; }
-      .live-explainer-wrap > div { grid-template-columns: 1fr !important; gap: 40px !important; }
-      .visual-dashboard { width: 100% !important; max-width: 520px; margin: 0 auto; }
-      .hero-auth-links { display: none !important; }
+
+    .toggle-switch-input {
+      position: relative;
+      width: 44px;
+      height: 24px;
+      appearance: none;
+      background: rgba(255,255,255,0.1);
+      border-radius: 12px;
+      outline: none;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .toggle-switch-input:checked {
+      background: var(--y);
+    }
+
+    .toggle-switch-input::before {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      top: 2px;
+      left: 2px;
+      background: #fff;
+      transition: transform 0.3s;
+    }
+
+    .toggle-switch-input:checked::before {
+      transform: translateX(20px);
+      background: var(--blk);
+    }
+
+    /* Split Screen Step 5 Cockpit */
+    .split-cockpit-pane {
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      width: 100%;
+      height: 100%;
+    }
+
+    .preview-cockpit-left {
+      background: #000;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      border-right: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    .settings-cockpit-right {
+      background: rgba(16, 14, 27, 0.95);
+      backdrop-filter: blur(25px);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      overflow-y: auto;
+      padding: 36px 40px;
+      gap: 28px;
+    }
+
+    .testing-tabs-deck {
+      display: flex;
+      background: rgba(16, 14, 27, 0.8);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 20px;
+      gap: 12px;
+      z-index: 15;
+    }
+
+    .testing-tab-btn {
+      padding: 8px 16px;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.02);
+      color: var(--muted2);
+      font-family: 'Outfit', sans-serif;
+      font-size: 10.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.25s;
+    }
+
+    .testing-tab-btn:hover {
+      border-color: rgba(255,231,1,0.25);
+      color: #fff;
+    }
+
+    .testing-tab-btn.active {
+      background: var(--y);
+      border-color: var(--y);
+      color: var(--blk);
+      font-weight: 900;
+      box-shadow: var(--glow-y);
+    }
+
+    .testing-tab-btn.active span.icon {
+      color: var(--blk);
+    }
+
+    .cockpit-view-content {
+      display: none;
+      flex: 1;
+      width: 100%;
+      height: calc(100% - 48px);
+      position: relative;
+    }
+
+    .cockpit-view-content.active {
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Consent Checkboxes */
+    .consent-card-deck {
+      background: rgba(255,255,255,0.015);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 12px;
+      padding: 12px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 580px;
+      margin-bottom: 14px;
+      flex-shrink: 0;
+    }
+
+    .consent-row-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      cursor: pointer;
+    }
+
+    .consent-checkbox {
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 4px;
+      outline: none;
+      cursor: pointer;
+      position: relative;
+      margin-top: 2px;
+      flex-shrink: 0;
+      background: rgba(255,255,255,0.02);
+      transition: all 0.25s;
+    }
+
+    .consent-checkbox:checked {
+      background: var(--y);
+      border-color: var(--y);
+    }
+
+    .consent-checkbox:checked::after {
+      content: '✓';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: var(--blk);
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    .consent-text-label {
+      font-size: 11.5px;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.5;
+    }
+
+    .consent-text-label span.req {
+      color: var(--y);
+      font-weight: 800;
+    }
+
+    /* Custom Checkbox Grid for categories */
+    .category-grid-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      width: 100%;
+    }
+
+    .category-tag-card {
+      padding: 10px 18px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.02);
+      border-radius: 20px;
+      font-size: 11px;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      color: rgba(255,255,255,0.65);
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+
+    .category-tag-card:hover {
+      border-color: rgba(255,231,1,0.25);
+      color: #fff;
+    }
+
+    .category-tag-card.active {
+      border-color: var(--y);
+      background: rgba(255,231,1,0.03);
+      color: var(--y);
+      font-weight: 700;
+    }
+
+    /* Guidelines Modal Overlay */
+    .modal-overlay-bg {
+      position: absolute;
+      inset: 0;
+      background: rgba(8,7,13,0.85);
+      backdrop-filter: blur(8px);
+      z-index: 500;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-overlay-bg.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .guide-modal-box {
+      width: 580px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 36px;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+      position: relative;
+    }
+
+    .modal-headline-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 18px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+
+    .modal-helper-desc {
+      font-size: 12px;
+      color: var(--muted2);
+      line-height: 1.5;
+      margin-bottom: 24px;
+    }
+
+    .guide-split-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .guide-item-card {
+      background: rgba(0,0,0,0.25);
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      padding: 12px;
+    }
+
+    .guide-media-crop {
+      width: 100%;
+      height: 130px;
+      border-radius: 6px;
+      background-size: cover;
+      background-position: center;
+      margin-bottom: 12px;
+      position: relative;
+    }
+
+    .badge-guide-status {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 9px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .badge-guide-status.success {
+      background: #00ff66;
+      color: #000;
+    }
+
+    .badge-guide-status.avoid {
+      background: #ff4655;
+      color: #fff;
+    }
+
+    .checklist-rows {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .checklist-row-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+      color: #fff;
+    }
+
+    .checklist-row-item span.icon {
+      color: var(--y);
+      font-size: 16px;
+    }
+
+    .btn-record-action {
+      width: 100%;
+      padding: 14px;
+      border-radius: 30px;
+      background: var(--y);
+      color: var(--blk);
+      font-family: 'Outfit', sans-serif;
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border: none;
+      cursor: pointer;
+      box-shadow: var(--glow-y);
+      transition: all 0.2s;
+    }
+
+    /* ══════════════════════════════════
+       STEP 3: ACTIVE CAPTURE RECORDING
+       ══════════════════════════════════ */
+    .active-capture-layout {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 32px 40px 48px;
+      overflow-y: auto;
+    }
+
+    .capture-feed-viewport {
+      width: 600px;
+      height: 290px;
+      border-radius: 24px;
+      border: 3px solid #ffe701;
+      background: #000;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 16px;
+      box-shadow: 0 0 20px rgba(255, 231, 1, 0.2);
+      flex-shrink: 0;
+    }
+
+    .rec-badge-pulsing {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: #ff4655;
+      color: #fff;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      animation: flash 1s infinite alternate;
+    }
+
+    .teleprompter-script-box {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      right: 20px;
+      background: rgba(13,11,20,0.92);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      padding: 16px;
+      z-index: 15;
+    }
+
+    .teleprompter-script-box h4 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--y);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 6px;
+      text-align: center;
+    }
+
+    .script-prompt-lines {
+      font-size: 11px;
+      line-height: 1.6;
+      color: #fff;
+      margin-left: 16px;
+    }
+
+    .timer-ribbon {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      width: 600px;
+      margin-bottom: 16px;
+      flex-shrink: 0;
+    }
+
+    .timer-seconds-counter {
+      font-family: monospace;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--y);
+      width: 50px;
+      text-align: center;
+    }
+
+    .rec-bar-bg {
+      flex: 1;
+      height: 6px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .rec-bar-fill {
+      height: 100%;
+      width: 100%;
+      background: var(--y);
+      border-radius: 3px;
+      transition: width 0.1s linear;
+    }
+
+    .mic-wave-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .organic-wave-canvas {
+      width: 240px;
+      height: 36px;
+      background: transparent;
+    }
+
+    .wave-caption {
+      font-family: 'Outfit', sans-serif;
+      font-size: 9px;
+      font-weight: 800;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* ══════════════════════════════════
+       STEP 4: COGNITIVE UPLOAD
+       ══════════════════════════════════ */
+    .knowledge-canvas {
+      flex: 1;
+      padding: 40px 50px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .knowledge-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 30px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: -0.5px;
+      color: #fff;
+    }
+
+    .knowledge-title span {
+      color: var(--y);
+    }
+
+    .knowledge-desc {
+      font-size: 13px;
+      color: var(--muted2);
+      margin-top: 4px;
+      margin-bottom: 30px;
+    }
+
+    .upload-columns {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 30px;
+      margin-bottom: 40px;
+    }
+
+    .upload-zone-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .dropzone-box {
+      border: 1.5px dashed rgba(255,231,1,0.25);
+      background: rgba(255,231,1,0.01);
+      border-radius: 10px;
+      padding: 36px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+
+    .dropzone-box:hover {
+      border-color: var(--y);
+      background: rgba(255,231,1,0.03);
+    }
+
+    .terminal-progress-log {
+      background: #050408;
+      border: 1px solid var(--border);
+      padding: 12px 16px;
+      border-radius: 6px;
+      font-family: monospace;
+      font-size: 9px;
+      color: var(--y);
+      max-height: 100px;
+      overflow-y: auto;
+      line-height: 1.5;
+      display: none;
+    }
+
+    /* Compiling Progress Overlay */
+    .compiling-overlay-wrap {
+      position: fixed;
+      inset: 0;
+      background: #08070d;
+      z-index: 200;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+    }
+
+    .glow-spinner-ring {
+      width: 70px;
+      height: 70px;
+      border: 3px solid rgba(255,231,1,0.05);
+      border-top-color: var(--y);
+      border-radius: 50%;
+      animation: rotateRing 1s linear infinite;
+      margin-bottom: 24px;
+      box-shadow: var(--glow-y);
+    }
+
+    .compiling-headline {
+      font-family: 'Outfit', sans-serif;
+      font-size: 20px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #fff;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .compiling-terminal-logs {
+      width: 520px;
+      height: 180px;
+      background: #040306;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px;
+      font-family: monospace;
+      font-size: 10px;
+      color: var(--y);
+      overflow-y: auto;
+      line-height: 1.6;
+    }
+
+    /* ══════════════════════════════════
+       STEP 5: PRESTIGE LIVE AI VIDEO CALL
+       ══════════════════════════════════ */
+    .call-view-canvas {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      position: relative;
+      background: #000;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .call-stream-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-size: cover;
+      background-position: center;
+      overflow: hidden;
+    }
+
+    #twinVideoBackdrop {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .call-camera-filters {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle, transparent 40%, rgba(0,0,0,0.65) 90%), linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
+      background-size: 100%, 100% 4px;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .call-top-hud {
+      position: absolute;
+      top: 24px;
+      left: 24px;
+      right: 24px;
+      z-index: 10;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      pointer-events: none;
+    }
+
+    .call-profile-card {
+      background: rgba(16, 14, 27, 0.8);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+      pointer-events: auto;
+    }
+
+    .call-profile-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 2px solid var(--y);
+      background-size: cover;
+      background-position: center;
+    }
+
+    .call-profile-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 13px;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .call-profile-status {
+      font-family: monospace;
+      font-size: 9px;
+      color: #00ff66;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    .pip-user-video-wrap {
+      width: 110px;
+      height: 160px;
+      border-radius: 12px;
+      border: 2px solid var(--y);
+      background: #050408;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      overflow: hidden;
+      pointer-events: auto;
+      transform: scaleX(-1);
+    }
+
+    .call-subtitles-card {
+      position: absolute;
+      bottom: 110px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(13, 11, 20, 0.9);
+      border: 1px solid var(--border);
+      border-radius: 30px;
+      padding: 10px 24px;
+      z-index: 10;
+      max-width: 80%;
+      text-align: center;
+      display: none;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    .call-subtitles-text {
+      font-size: 14px;
+      font-weight: 500;
+      color: #fff;
+      line-height: 1.4;
+    }
+
+    .call-controls-overlay {
+      position: absolute;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(16, 14, 27, 0.85);
+      border: 1px solid var(--border);
+      padding: 10px 24px;
+      border-radius: 40px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+    }
+
+    .btn-call-circle {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.05);
+      border: 1.5px solid rgba(255,255,255,0.1);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-call-circle:hover {
+      background: rgba(255,255,255,0.12);
+      border-color: #fff;
+    }
+
+    .btn-call-circle.decline {
+      background: #ff4655;
+      border-color: #ff4655;
+    }
+
+    .btn-call-circle.decline:hover {
+      background: #ff6675;
+      transform: scale(1.05);
+    }
+
+    .btn-call-circle.active {
+      background: var(--y);
+      border-color: var(--y);
+      color: var(--blk);
+      box-shadow: var(--glow-y);
+    }
+
+    .call-input-pill-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      padding: 4px 6px 4px 14px;
+      width: 250px;
+    }
+
+    .call-pill-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-size: 12px;
+      font-family: 'Poppins', sans-serif;
+      outline: none;
+    }
+
+    .call-pill-input::placeholder {
+      color: var(--muted);
+    }
+
+    .btn-call-send {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: var(--y);
+      color: var(--blk);
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .btn-call-send:hover {
+      transform: scale(1.05);
+    }
+
+    .audio-waveform-bars {
+      width: 44px;
+      height: 16px;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .wave-indicator-bar {
+      width: 2.5px;
+      height: 100%;
+      background: var(--y);
+      border-radius: 2px;
+      animation: wavePulse 1s infinite alternate ease-in-out;
+    }
+
+    .wbar-2 { animation-delay: 0.2s; }
+    .wbar-3 { animation-delay: 0.4s; }
+    .wbar-4 { animation-delay: 0.6s; }
+
+    /* ══════════════════════════════════
+       RESPONSIVE DESIGN (MEDIA QUERIES)
+       ══════════════════════════════════ */
+    @media (max-width: 900px) {
+      .sidebar {
+        display: none !important;
+      }
+      
+      .sb-logo, .sb-spacer, .sb-bottom { display: none; }
+      
+      .sb-items {
+        display: none !important;
+      }
+      
+      .main {
+        margin-left: 0 !important;
+        margin-bottom: 0 !important;
+      }
+
+      .studio-navbar {
+        padding: 0 20px;
+      }
+
+      #telemetryHdr {
+        display: none;
+      }
+
+      .screen-split {
+        flex-direction: column;
+        overflow-y: auto;
+      }
+
+      .preview-pane {
+        padding: 20px;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        flex-shrink: 0;
+        height: 480px;
+      }
+
+      .preview-card-floating {
+        width: 100%;
+        max-width: 320px;
+        bottom: 20px;
+      }
+
+      .form-pane {
+        width: 100%;
+        height: auto;
+      }
+
+      .form-scroll {
+        padding: 30px 20px;
+      }
+
+      .video-view-wrap {
+        width: 100%;
+        max-width: 580px;
+        height: 280px;
+      }
+
+      .capture-feed-viewport {
+        width: 100%;
+        max-width: 600px;
+        height: 280px;
+      }
+
+      .timer-ribbon {
+        width: 100%;
+        max-width: 600px;
+      }
+
+      .upload-columns {
+        grid-template-columns: 1fr;
+      }
+
+      .guide-modal-box {
+        width: 90%;
+        padding: 24px;
+      }
+
+      .guide-split-cards {
+        grid-template-columns: 1fr;
+      }
+
+      .call-controls-overlay {
+        width: 95%;
+        max-width: 480px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .split-cockpit-pane {
+        grid-template-columns: 1fr !important;
+        grid-template-rows: auto auto !important;
+        height: auto !important;
+      }
+
+      .preview-cockpit-left {
+        height: 480px !important;
+        border-right: none !important;
+        border-bottom: 1px solid var(--border) !important;
+      }
+
+      .settings-cockpit-right {
+        height: auto !important;
+        overflow-y: visible !important;
+      }
+    }
+
+    /* Widescreen Floating Calibration Note Responsiveness */
+    @media (max-width: 1200px) {
+      .calibration-side-note {
+        position: static !important;
+        transform: none !important;
+        width: 100% !important;
+        max-width: 640px !important;
+        margin-top: 24px !important;
+      }
     }
   </style>
 </head>
+
 <body>
 
-  <!-- GLOBAL NAVIGATION / HEADER -->
-  <header id="global-header" style="position: absolute; top: 0; left: 0; width: 100%; padding: 30px 40px; display: flex; justify-content: space-between; align-items: center; z-index: 999; box-sizing: border-box; background: transparent; pointer-events: none;">
-    <div style="display: flex; align-items: center; gap: 16px; pointer-events: auto;">
-      <!-- Back Arrow -->
-      <div id="btn-global-back" onclick="goBack()" style="display: none; width: 44px; height: 44px; border-radius: 50%; background: #ffffff; box-shadow: 0 4px 12px rgba(0,0,0,0.05); color: #111; align-items: center; justify-content: center; cursor: pointer; transition: transform 0.2s;">
-        <span class="material-symbols-outlined" style="font-size: 20px;">arrow_back</span>
+  <!-- SIDEBAR NAVIGATION — Kept Fully Intact & Identical to index.html -->
+  <aside class="sidebar">
+    <div class="sb-logo">Dope<span>Kin</span></div>
+
+    <div class="sb-items">
+      <div class="sb-item" onclick="window.location.href='index.html'">
+        <span class="material-symbols-outlined sb-icon">home</span>
+        <span>Home</span>
       </div>
-      <!-- Logo -->
-      <div style="cursor: pointer;" onclick="window.location.href='index.html'">
-        <img src="Assets/Logo.png" alt="DopeKin Logo" style="height: 36px; display: block;">
+      <div class="sb-item" onclick="window.location.href='index.html?section=feed'">
+        <span class="material-symbols-outlined sb-icon">grid_on</span>
+        <span>Feed</span>
+      </div>
+      <div class="sb-item" onclick="window.location.href='index.html?section=chat'">
+        <span class="material-symbols-outlined sb-icon">chat</span>
+        <span>Chat</span>
+      </div>
+      <div class="sb-item" id="sbLive" onclick="window.location.href='index.html?section=live'">
+        <span class="material-symbols-outlined sb-icon">sensors</span>
+        <span>Live</span>
+        <span class="sb-badge live">8+</span>
+      </div>
+      <div class="sb-item" onclick="window.location.href='create-avatar.html'">
+        <span class="material-symbols-outlined sb-icon">auto_awesome_motion</span>
+        <span>Collection</span>
+      </div>
+      <div class="sb-item active" onclick="window.location.href='create-avatar.html'">
+        <span class="material-symbols-outlined sb-icon">magic_button</span>
+        <span>Create Character</span>
+      </div>
+      <div class="sb-item" onclick="window.location.href='index.html'">
+        <span class="material-symbols-outlined sb-icon">face</span>
+        <span>My AI</span>
+      </div>
+      <div class="sb-item" style="color:#d4af37;" onclick="window.location.href='index.html'">
+        <span class="material-symbols-outlined sb-icon" style="color:#d4af37;">diamond</span>
+        <span>Premium</span>
+        <span class="sb-badge">-70%</span>
+      </div>
+    </div>
+
+    <div class="sb-spacer"></div>
+
+    <div class="sb-bottom">
+      <div class="sb-item" onclick="window.location.href='index.html'">
+        <span class="material-symbols-outlined sb-icon">language</span>
+        <span>English</span>
+      </div>
+      <div class="sb-item" onclick="window.location.href='index.html'">
+        <span class="material-symbols-outlined sb-icon">chat_bubble</span>
+        <span>Discord</span>
+      </div>
+      <div class="sb-item" onclick="window.location.href='index.html'">
+        <span class="material-symbols-outlined sb-icon">help</span>
+        <span>Help Center</span>
+      </div>
+      <div class="sb-item" onclick="window.location.href='index.html'">
+        <span class="material-symbols-outlined sb-icon">mail</span>
+        <span>Contact Us</span>
+      </div>
+      <div class="sb-item" onclick="window.location.href='index.html'">
+        <span class="material-symbols-outlined sb-icon">emoji_events</span>
+        <span>Affiliate</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN CANVAS -->
+  <main class="main">
+
+    <header class="studio-navbar">
+      <div class="nav-steps">
+        <div class="nav-step active" id="navStep1">
+          <div class="step-circle">1</div>
+          <div class="step-text">About You</div>
+        </div>
+        <div class="step-line"></div>
+        <div class="nav-step" id="navStep2">
+          <div class="step-circle">2</div>
+          <div class="step-text">Face Capture</div>
+        </div>
+        <div class="step-line"></div>
+        <div class="nav-step" id="navStep3">
+          <div class="step-circle">3</div>
+          <div class="step-text">Voice Capture</div>
+        </div>
+        <div class="step-line"></div>
+        <div class="nav-step" id="navStep4">
+          <div class="step-circle">4</div>
+          <div class="step-text">Teach Brain</div>
+        </div>
+        <div class="step-line"></div>
+        <div class="nav-step" id="navStep5">
+          <div class="step-circle">5</div>
+          <div class="step-text">Launch</div>
+        </div>
+      </div>
+      <div style="font-family: monospace; font-size: 10px; color: var(--y); letter-spacing: 0.05em; display: none !important;" id="telemetryHdr">STUDIO STATE: ABOUT YOU</div>
+    </header>
+
+    <!-- ══════════════════════════════════
+         STEP 1: DYNAMIC PROFILE CONFIG
+         ══════════════════════════════════ -->
+    <div class="studio-screen active" id="screen1">
+      <div class="screen-split">
+        <!-- Left Side Immersive Full-Bleed Digital Soul Visualizer -->
+        <div class="preview-pane">
+          <div class="aura-ambient-bg" id="auraAmbientBg"></div>
+          <div class="aura-sphere-wrap">
+            <div class="aura-sphere empathic" id="auraSphere"></div>
+          </div>
+
+          <!-- delicate crosshairs at corner edges -->
+          <div class="cockpit-crosshair c-tl">+</div>
+          <div class="cockpit-crosshair c-tr">+</div>
+          <div class="cockpit-crosshair c-bl">+</div>
+          <div class="cockpit-crosshair c-br">+</div>
+
+          <!-- Floating glass information portrait overlay centered - Full height card design -->
+          <div class="preview-card-floating">
+            <!-- Full Height Background Image Viewport -->
+            <div id="cardImageBg" style="position: absolute; inset: 0; background-size: cover; background-position: center; z-index: 1; display: none;"></div>
+            
+            <!-- Fallback Blank State Viewport -->
+            <div id="cardFallbackBg" style="position: absolute; inset: 0; z-index: 2; background: radial-gradient(circle at center, #1b162f 0%, #0d0b14 100%); transition: all 0.5s ease; border-radius: 24px;"></div>
+
+            <!-- Top Left NEW Badge -->
+            <div style="position: absolute; top: 16px; left: 16px; z-index: 3; background: #ffe701; color: #000; padding: 3px 8px; font-family: 'Outfit', sans-serif; font-size: 9px; font-weight: 900; border-radius: 2px; text-transform: uppercase; letter-spacing: 0.1em; box-shadow: 0 4px 10px rgba(0,0,0,0.3); pointer-events: none;">
+              NEW
+            </div>
+
+            <!-- Bottom Content Overlay (Gradient & Info) -->
+            <div style="position: absolute; bottom: 0; left: 0; right: 0; z-index: 3; background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.75) 60%, transparent 100%); padding: 24px 20px 20px; display: flex; flex-direction: column; gap: 6px; text-align: left; box-sizing: border-box; pointer-events: none;">
+              <h2 class="prev-name" id="twinPrevName" style="font-family: 'Outfit', sans-serif; font-size: 22px; font-weight: 900; color: #fff; text-transform: none; letter-spacing: -0.01em; margin: 0; line-height: 1.2;">Aria Sterling</h2>
+              <div id="twinPrevSubtitle" style="font-family: 'Poppins', sans-serif; font-size: 11px; font-weight: 500; color: rgba(255,255,255,0.7); display: flex; align-items: center; gap: 4px; margin-top: 1px;">
+                <span id="twinPrevProf">Musician</span> — Digital Twin
+              </div>
+              <p class="prev-desc" id="twinPrevBio" style="font-family: 'Poppins', sans-serif; font-size: 10.5px; color: rgba(255,255,255,0.48); line-height: 1.5; margin: 4px 0 6px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; height: 32px;">Warm brown eyes, shoulder-length wavy brunette hair, friendly natural smile. Wearing a grey casual knit hoodie, sitting in a cozy study...</p>
+              <div style="font-family: 'Outfit', sans-serif; font-size: 9.5px; font-weight: 800; color: var(--y); text-transform: uppercase; letter-spacing: 0.08em; display: flex; align-items: center; gap: 4px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 8px;">
+                <span style="font-size: 8px;">—</span> <span id="twinPrevFans">0 FANS</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Side Elegant Glassmorphic Lounge Pane -->
+        <div class="form-pane">
+          <div class="form-scroll">
+            <h2 class="form-title">Bring your <span>Twin to life</span></h2>
+            
+            <div class="form-group">
+              <label class="form-label">WHAT SHALL WE CALL YOUR TWIN?</label>
+              <input type="text" id="twinNameInput" class="form-input" placeholder="Enter a beautiful name..." value="Aria Sterling">
+            </div>
+
+            <!-- New Thumbnail Upload Form Group -->
+            <div class="form-group">
+              <label class="form-label">UPLOAD CARD THUMBNAIL (REQUIRED)</label>
+              <div onclick="triggerThumbnailUpload()" style="width: 100%; height: 110px; border-radius: 16px; border: 1.5px dashed rgba(255,231,1,0.25); background: rgba(255,255,255,0.01); display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: all 0.25s; overflow: hidden; position: relative; box-sizing: border-box;" onmouseover="this.style.borderColor='var(--y)'; this.style.background='rgba(255,231,1,0.02)';" onmouseout="this.style.borderColor='rgba(255,231,1,0.25)'; this.style.background='rgba(255,255,255,0.01)';">
+                <input type="file" id="thumbnailFileInput" style="display:none;" onchange="handleThumbnailUpload(this)">
+                <div id="formThumbnailPreview" style="position: absolute; inset: 0; background-size: cover; background-position: center; display: none;"></div>
+                <div id="formThumbnailPlaceholder" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; z-index: 2; padding: 20px; text-align: center;">
+                  <span class="material-symbols-outlined" style="color: var(--y); font-size: 26px;">cloud_upload</span>
+                  <span style="font-size: 11px; color: #fff; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">Upload Portrait Image</span>
+                  <span style="font-size: 9px; color: var(--muted2);">PNG, JPG or JPEG. Recommended portrait aspect ratio.</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">CHOOSE THEIR PROFESSION OR ANCHOR</label>
+              <div class="category-grid-tags" id="professionGrid">
+                <div class="category-tag-card active" data-val="Musician" onclick="selectTag('profession', this)">Musician</div>
+                <div class="category-tag-card" data-val="Athlete" onclick="selectTag('profession', this)">Athlete</div>
+                <div class="category-tag-card" data-val="Creator" onclick="selectTag('profession', this)">Creator</div>
+                <div class="category-tag-card" data-val="Educator" onclick="selectTag('profession', this)">Educator</div>
+                <div class="category-tag-card" data-val="Assistant" onclick="selectTag('profession', this)">Assistant</div>
+                <div class="category-tag-card" data-val="Other" onclick="selectTag('profession', this)">Other</div>
+              </div>
+              <div class="form-group" id="customProfessionGroup" style="display: none; margin-top: 10px;">
+                <input type="text" id="customProfessionInput" class="form-input" placeholder="Type your custom profession..." oninput="handleCustomProfessionInput(this)">
+              </div>
+            </div>
+
+
+
+            <div class="form-group">
+              <label class="form-label">WHAT LANGUAGES DO THEY FLUENTLY SPEAK?</label>
+              <div class="category-grid-tags" id="languageGrid">
+                <div class="category-tag-card active" data-val="English" onclick="selectTag('language', this)">English</div>
+                <div class="category-tag-card" data-val="Spanish" onclick="selectTag('language', this)">Spanish</div>
+                <div class="category-tag-card" data-val="French" onclick="selectTag('language', this)">French</div>
+                <div class="category-tag-card" data-val="Japanese" onclick="selectTag('language', this)">Japanese</div>
+                <div class="category-tag-card" data-val="Mandarin" onclick="selectTag('language', this)">Mandarin</div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">CHOOSE THEIR PERSONALITY</label>
+              <div class="personality-grid" id="archetypeGrid">
+                <div class="select-card active" data-val="Warm &amp; Empathic" onclick="selectStyleCard('vibe', this)">
+                  <span class="select-card-title">Warm &amp; Empathetic</span>
+                  <span class="select-card-sub">Caring, compassionate, and attentive listener.</span>
+                </div>
+                <div class="select-card" data-val="Witty &amp; Playful" onclick="selectStyleCard('vibe', this)">
+                  <span class="select-card-title">Witty &amp; Playful</span>
+                  <span class="select-card-sub">Lively, quick-witted, and fun to talk to.</span>
+                </div>
+                <div class="select-card" data-val="Calm &amp; Reflective" onclick="selectStyleCard('vibe', this)">
+                  <span class="select-card-title">Calm &amp; Reflective</span>
+                  <span class="select-card-sub">Deep, peaceful, and thoughtful composer.</span>
+                </div>
+                <div class="select-card" data-val="Vibrant &amp; Bold" onclick="selectStyleCard('vibe', this)">
+                  <span class="select-card-title">Vibrant &amp; Bold</span>
+                  <span class="select-card-sub">Dynamic, adventurous, and full of high energy.</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">CHOOSE THEIR COMMUNICATION STYLE</label>
+              <div class="personality-grid" id="communicationGrid">
+                <div class="select-card active" data-val="Warm &amp; Attentive" onclick="selectStyleCard('comm', this)">
+                  <span class="select-card-title">Attentive</span>
+                  <span class="select-card-sub">Encouraging, warm, and nurturing dialogues.</span>
+                </div>
+                <div class="select-card" data-val="Playful &amp; Quick" onclick="selectStyleCard('comm', this)">
+                  <span class="select-card-title">Expressive</span>
+                  <span class="select-card-sub">Quick responses, lively, and full of expressive humor.</span>
+                </div>
+                <div class="select-card" data-val="Reserved &amp; Analytical" onclick="selectStyleCard('comm', this)">
+                  <span class="select-card-title">Analytical</span>
+                  <span class="select-card-sub">Detailed, logical, and steady feedback.</span>
+                </div>
+                <div class="select-card" data-val="Poetic &amp; Cryptic" onclick="selectStyleCard('comm', this)">
+                  <span class="select-card-title">Philosophical</span>
+                  <span class="select-card-sub">Deep, artistic, and thoughtful phrasing.</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="form-label">
+                <span>PAINT A PICTURE OF THEIR STYLE &amp; PRESENCE</span>
+                <span style="color:var(--y); cursor:pointer; font-weight:800;" onclick="sampleVisualPrompt()">Try a Sample</span>
+              </div>
+              <textarea id="twinVisualPrompt" class="form-textarea" placeholder="Describe hair, style of clothes, signature expression, or a setting that makes them feel like home...">Warm brown eyes, shoulder-length wavy brunette hair, friendly natural smile. Wearing a grey casual knit hoodie, sitting in a cozy modern study with natural ambient light filtering from the window. Bright and welcoming presence.</textarea>
+            </div>
+          </div>
+
+          <div class="studio-footer">
+            <div></div>
+            <button class="btn-studio primary" onclick="goToStep(2)">Proceed</button>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- Right Actions -->
-    <div style="display: flex; align-items: center; gap: 12px; pointer-events: auto;">
-      <div style="background: #ffffff; padding: 12px 24px; border-radius: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); cursor: pointer; font-family: 'Poppins', sans-serif; font-weight: 500; font-size: 15px; color: #111;">
-        Settings
-      </div>
-      <div style="background: #ffffff; width: 46px; height: 46px; border-radius: 50%; box-shadow: 0 4px 12px rgba(0,0,0,0.03); cursor: pointer; display: flex; align-items: center; justify-content: center; color: #111;">
-        <span class="material-symbols-outlined" style="font-size: 22px;">notifications</span>
-      </div>
-      <div style="background: #ffffff; padding: 10px 24px 10px 16px; border-radius: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); cursor: pointer; display: flex; align-items: center; gap: 10px; color: #111;">
-        <span class="material-symbols-outlined" style="font-size: 22px;">person</span>
-        <span style="font-family: 'Poppins', sans-serif; font-size: 15px; font-weight: 500;">John Mike</span>
+    <!-- ══════════════════════════════════
+         STEP 2: FACE CAPTURE (VISUAL CALIBRATION)
+         ══════════════════════════════════ -->
+    <div class="studio-screen" id="screen2">
+      <div class="calib-screen-layout">
+        <h2 class="calib-headline">Presence Alignment</h2>
+        <p class="calib-subhead">Synchronize your visual identity. Upload five required profile angles or sync instantly via mobile to mirror your facial likeness naturally.</p>
+
+        <div class="tab-pills">
+          <button class="tab-pill-btn active" id="tabUploadBtn" onclick="switchCalibMode('upload')">Upload Photos</button>
+          <button class="tab-pill-btn" id="tabWebcamBtn" onclick="switchCalibMode('webcam')">Record via Webcam</button>
+          <button class="tab-pill-btn" id="tabMobileBtn" onclick="switchCalibMode('mobile')">Mobile QR Sync</button>
+        </div>
+
+        <!-- Photo Angles Upload View (Default) -->
+        <div class="calib-mode-content active" id="calibUploadView">
+          <div class="photo-upload-grid-five">
+            <!-- Front View -->
+            <div class="photo-upload-slot-five" id="uploadSlotFront" onclick="triggerPhotoUpload('front')">
+              <input type="file" id="photoInputFront" style="display:none;" onchange="handlePhotoUpload(this, 'front')">
+              <div class="upload-slot-preview" id="photoPreviewFront"></div>
+              <div class="upload-slot-content">
+                <span class="material-symbols-outlined upload-icon">add_a_photo</span>
+                <span class="upload-title">Front View</span>
+                <span class="upload-sub" id="uploadSubFront">Click to Upload</span>
+              </div>
+            </div>
+
+            <!-- Left Profile -->
+            <div class="photo-upload-slot-five" id="uploadSlotLeft" onclick="triggerPhotoUpload('left')">
+              <input type="file" id="photoInputLeft" style="display:none;" onchange="handlePhotoUpload(this, 'left')">
+              <div class="upload-slot-preview" id="photoPreviewLeft"></div>
+              <div class="upload-slot-content">
+                <span class="material-symbols-outlined upload-icon">add_a_photo</span>
+                <span class="upload-title">Left Profile</span>
+                <span class="upload-sub" id="uploadSubLeft">Click to Upload</span>
+              </div>
+            </div>
+
+            <!-- Right Profile -->
+            <div class="photo-upload-slot-five" id="uploadSlotRight" onclick="triggerPhotoUpload('right')">
+              <input type="file" id="photoInputRight" style="display:none;" onchange="handlePhotoUpload(this, 'right')">
+              <div class="upload-slot-preview" id="photoPreviewRight"></div>
+              <div class="upload-slot-content">
+                <span class="material-symbols-outlined upload-icon">add_a_photo</span>
+                <span class="upload-title">Right Profile</span>
+                <span class="upload-sub" id="uploadSubRight">Click to Upload</span>
+              </div>
+            </div>
+
+            <!-- Smiling Expression -->
+            <div class="photo-upload-slot-five" id="uploadSlotSmiling" onclick="triggerPhotoUpload('smiling')">
+              <input type="file" id="photoInputSmiling" style="display:none;" onchange="handlePhotoUpload(this, 'smiling')">
+              <div class="upload-slot-preview" id="photoPreviewSmiling"></div>
+              <div class="upload-slot-content">
+                <span class="material-symbols-outlined upload-icon">add_a_photo</span>
+                <span class="upload-title">Smiling</span>
+                <span class="upload-sub" id="uploadSubSmiling">Click to Upload</span>
+              </div>
+            </div>
+
+            <!-- Neutral Expression -->
+            <div class="photo-upload-slot-five" id="uploadSlotNeutral" onclick="triggerPhotoUpload('neutral')">
+              <input type="file" id="photoInputNeutral" style="display:none;" onchange="handlePhotoUpload(this, 'neutral')">
+              <div class="upload-slot-preview" id="photoPreviewNeutral"></div>
+              <div class="upload-slot-content">
+                <span class="material-symbols-outlined upload-icon">add_a_photo</span>
+                <span class="upload-title">Neutral</span>
+                <span class="upload-sub" id="uploadSubNeutral">Click to Upload</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Record via Webcam View -->
+        <div class="calib-mode-content" id="calibWebcamView">
+          <div class="video-view-wrap">
+            <div class="face-scanner-grid" id="faceScannerOverlay">
+              <div class="face-target-ellipse"></div>
+              <div class="face-guide-tag" id="faceGuideTag">CALIBRATING MIRROR FEED...</div>
+            </div>
+
+            <video id="webcamStreamVideo" autoplay playsinline></video>
+
+            <div class="video-instructions-card" id="cameraUnlockCover">
+              <span class="material-symbols-outlined" style="font-size:48px; color:var(--y); margin-bottom:14px;">videocam</span>
+              <button class="btn-enable-hardware" onclick="enableWebcamHardware()">Turn on Cam &amp; Mic</button>
+              <p class="hardware-info-text">Your browser will ask for permission to use your camera and microphone to capture your expressions.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mobile Device QR Sync -->
+        <div class="calib-mode-content" id="calibMobileView">
+          <div class="qr-popover-box" style="margin-bottom: 24px;">
+            <h4 style="font-family: 'Outfit', sans-serif; font-size:13px; text-transform:uppercase; color:#fff; letter-spacing:0.05em; margin-bottom:6px;">Mobile Device QR Sync</h4>
+            <p style="font-size:11px; color:var(--muted2); line-height:1.5; margin-bottom: 16px;">Scan this secure QR code using your phone camera to seamlessly upload various profile angles directly from your gallery.</p>
+            
+            <!-- emulated QR Graphic -->
+            <div class="qr-graphic" style="background-image: url('media__1777298308093.png'); background-size: cover;"></div>
+            
+            <div style="font-family: monospace; font-size:9.5px; color:var(--y); text-transform:uppercase; letter-spacing:0.05em;">
+              Status: Waiting for mobile connection...
+            </div>
+          </div>
+          
+          <button class="btn-enable-hardware" style="background: rgba(255, 231, 1, 0.1); border: 1px solid var(--y); color: var(--y); margin-bottom: 0;" onclick="simulateMobileSync()">Simulate Mobile Sync Connection</button>
+        </div>
+
+        <!-- Optional 360° Face Scan -->
+        <div class="toggle-row" style="max-width: 580px; margin-bottom: 12px;">
+          <div>
+            <h4 style="font-family: 'Outfit', sans-serif; font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:0.1em; color:#fff;">360 Degree Face Scan</h4>
+            <p style="font-size:9.5px; color:var(--muted2); margin-top:2px;">Enable high-fidelity deep mapping using a full 360 degree spatial sweep (Optional).</p>
+          </div>
+          <input type="checkbox" id="toggle360Scan" class="toggle-switch-input">
+        </div>
+
+        <div class="consent-card-deck" style="background: rgba(255,255,255,0.015); border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; padding: 20px 24px; display: flex; flex-direction: column; gap: 14px; width: 100%; max-width: 580px; margin-bottom: 24px; box-sizing: border-box;">
+          <h4 style="font-family: 'Outfit', sans-serif; font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:0.1em; color:#fff; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom:10px; margin-bottom:4px;">Identity &amp; Likeness Verification</h4>
+          
+          <label class="consent-row-item" style="display: flex; align-items: flex-start; gap: 12px; cursor: pointer;">
+            <input type="checkbox" class="consent-checkbox" id="checkVerifyId" onchange="validateConsent()">
+            <span class="consent-text-label" style="font-size: 11.5px; color: rgba(255,255,255,0.75); line-height: 1.5;">
+              <strong>Identity Verification</strong> <span style="color:var(--y);">*</span><br>
+              <span style="font-size: 10px; opacity: 0.7;">I certify that the provided visual angles represent my legal twin image or a likeness I have full authorization to digitize.</span>
+            </span>
+          </label>
+          
+          <label class="consent-row-item" style="display: flex; align-items: flex-start; gap: 12px; cursor: pointer;">
+            <input type="checkbox" class="consent-checkbox" id="checkVerifyConsent" onchange="validateConsent()">
+            <span class="consent-text-label" style="font-size: 11.5px; color: rgba(255,255,255,0.75); line-height: 1.5;">
+              <strong>Voice &amp; Likeness Consent</strong> <span style="color:var(--y);">*</span><br>
+              <span style="font-size: 10px; opacity: 0.7;">I explicitly consent to train a conversational model mirroring my expressive voice and facial mannerisms.</span>
+            </span>
+          </label>
+          
+          <label class="consent-row-item" style="display: flex; align-items: flex-start; gap: 12px; cursor: pointer;">
+            <input type="checkbox" class="consent-checkbox" id="checkVerifyAgreement" onchange="validateConsent()">
+            <span class="consent-text-label" style="font-size: 11.5px; color: rgba(255,255,255,0.75); line-height: 1.5;">
+              <strong>AI Usage Agreement</strong> <span style="color:var(--y);">*</span><br>
+              <span style="font-size: 10px; opacity: 0.7;">I agree to the DopeKin digital twin utilization policies and guarantee this AI won't be used for malicious synthesis.</span>
+            </span>
+          </label>
+        </div>
+
+        <div style="display:flex; gap:16px;">
+          <button class="btn-studio secondary" onclick="goToStep(1)">Back</button>
+          <button class="btn-studio primary" id="btnOpenGuide" onclick="startActiveFaceRecording()" style="opacity: 0.5; pointer-events: none;">I'm ready</button>
+        </div>
       </div>
     </div>
-  </header>
 
-  <!-- SCREEN 1: CAROUSEL -->
-  <div class="screen active" id="screen-1">
-    
-  
-  <div class="carousel-section">
-      <div class="carousel-header">
-        <h1>Select your Companion</h1>
-        <p>Swipe or click to find your perfect AI match</p>
-      </div>
-      
-      <div class="carousel-track" id="carousel">
-
-        <div class="premium-card" data-name="Vale" data-desc="She's the reason the night got interesting. Vale doesn't wait for the room to warm up — she is the warmup. Loud laugh, sharp wit, zero filter, and somehow still the most attentive person in the conversation. Chaotic in the best way. Loyal to the bone." data-img="Assets/Vale.jpeg" data-tag1="Magnetic" data-tag2="Fearless" data-handle="@vale_wild">
-          <div class="card-media">
-            <img class="card-img" src="Assets/Vale.jpeg" alt="Vale">
-            <video class="card-video" src="video.mp4" loop muted playsinline></video>
-            <div class="card-status"><span class="pulse"></span> LIVE</div>
-          </div>
-          <div class="card-info">
-            <h3 class="card-title">Hi I'm, Vale</h3>
-            <p class="card-subtitle">Your Creator Companion</p>
-            <p class="card-bio">Loud laugh, sharp wit, zero filter. The warmup to every room.</p>
-          </div>
-          <button class="btn-chat">
-            <span>Chat with me</span>
-            <div class="icon-circle">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </div>
-          </button>
-        </div>
-
-        <div class="premium-card" data-name="Serena" data-desc="Men's wellness coach. Knows exactly how to get you to open up — and exactly how to make you want to. Warm, direct, and just flirty enough to make self-improvement feel like something you'd do to impress her." data-img="Assets/Serina.jpeg" data-tag1="Empowering" data-tag2="Perceptive" data-handle="@serena_coach">
-          <div class="card-media">
-            <img class="card-img" src="Assets/Serina.jpeg" alt="Serena">
-            <video class="card-video" src="video.mp4" loop muted playsinline></video>
-            <div class="card-status"><span class="pulse"></span> LIVE</div>
-          </div>
-          <div class="card-info">
-            <h3 class="card-title">Hi I'm, Serena</h3>
-            <p class="card-subtitle">Your Creator Companion</p>
-            <p class="card-bio">Warm, direct, and just flirty enough to make self-improvement look good.</p>
-          </div>
-          <button class="btn-chat">
-            <span>Chat with me</span>
-            <div class="icon-circle">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </div>
-          </button>
-        </div>
-
-        <div class="premium-card" data-name="Aiko" data-desc="The one who keeps everything running — and remembers everything you forget. Aiko is what competence looks like when it comes with warmth. Polished without being cold. Efficient without being robotic." data-img="Assets/AIKO.jpeg" data-tag1="Composed" data-tag2="Precise" data-handle="@aiko_hq">
-          <div class="card-media">
-            <img class="card-img" src="Assets/AIKO.jpeg" alt="Aiko">
-            <video class="card-video" src="video.mp4" loop muted playsinline></video>
-            <div class="card-status"><span class="pulse"></span> LIVE</div>
-          </div>
-          <div class="card-info">
-            <h3 class="card-title">Hi I'm, Aiko</h3>
-            <p class="card-subtitle">Your Creator Companion</p>
-            <p class="card-bio">Quietly powerful. She doesn't wait to be asked, she's already three steps ahead.</p>
-          </div>
-          <button class="btn-chat">
-            <span>Chat with me</span>
-            <div class="icon-circle">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </div>
-          </button>
-        </div>
-
-        <div class="premium-card" data-name="Cody" data-desc="GenZ crypto degen and trading companion. Chronically online, lives on Crypto Twitter, talks in tickers and chart patterns. Hypes every trade, calls losses 'learning', unshakeable confidence despite the portfolio." data-img="Assets/Cody.jpeg" data-tag1="Degen" data-tag2="Trader" data-handle="@cody_100x">
-          <div class="card-media">
-            <img class="card-img" src="Assets/Cody.jpeg" alt="Cody">
-            <video class="card-video" src="video.mp4" loop muted playsinline></video>
-            <div class="card-status"><span class="pulse"></span> LIVE</div>
-          </div>
-          <div class="card-info">
-            <h3 class="card-title">Hi I'm, Cody</h3>
-            <p class="card-subtitle">Your Creator Companion</p>
-            <p class="card-bio">Always looking for the next 100x. Treats every loss as a lesson.</p>
-          </div>
-          <button class="btn-chat">
-            <span>Chat with me</span>
-            <div class="icon-circle">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </div>
-          </button>
-        </div>
-
-        <div class="premium-card" data-name="Sarang" data-desc="A rising K-pop idol. Bubbly, confident, fan-obsessed in return, loves fashion and performance. Mixes in occasional Korean words naturally. Every conversation feels like a fan meet, personal, warm, and magical." data-img="Assets/Sarang.jpeg" data-tag1="Idol" data-tag2="Vibrant" data-handle="@sarang_universe">
-          <div class="card-media">
-            <img class="card-img" src="Assets/Sarang.jpeg" alt="Sarang">
-            <video class="card-video" src="video.mp4" loop muted playsinline></video>
-            <div class="card-status"><span class="pulse"></span> LIVE</div>
-          </div>
-          <div class="card-info">
-            <h3 class="card-title">Hi I'm, Sarang</h3>
-            <p class="card-subtitle">Your Creator Companion</p>
-            <p class="card-bio">Bright, energetic, and deeply connected to her fans.</p>
-          </div>
-          <button class="btn-chat">
-            <span>Chat with me</span>
-            <div class="icon-circle">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </div>
-          </button>
-        </div>
-
-        <div class="premium-card" data-name="Etherik" data-desc="Galaxy-brained philosopher, speaks in ETH gas analogies, deeply earnest about decentralization, socially awkward but somehow always right. Explains everything through blockchain metaphors." data-img="Assets/Etherik.jpeg" data-tag1="Philosopher" data-tag2="Builder" data-handle="@etherik_eth">
-          <div class="card-media">
-            <img class="card-img" src="Assets/Etherik.jpeg" alt="Etherik">
-            <video class="card-video" src="video.mp4" loop muted playsinline></video>
-            <div class="card-status"><span class="pulse"></span> LIVE</div>
-          </div>
-          <div class="card-info">
-            <h3 class="card-title">Hi I'm, Etherik</h3>
-            <p class="card-subtitle">Your Creator Companion</p>
-            <p class="card-bio">Galaxy-brained crypto philosopher. Earnest about decentralization.</p>
-          </div>
-          <button class="btn-chat">
-            <span>Chat with me</span>
-            <div class="icon-circle">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </div>
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SCREEN 2: SPLIT DETAILS -->
-  <div class="screen" id="screen-2">
-    <div class="detail-container">
-      
-      <!-- Portrait Media Left -->
-      <div class="detail-left">
-        <img id="detail-main-img" src="" alt="Avatar">
-        <video id="detail-video" src="video.mp4" loop muted playsinline autoplay></video>
-      </div>
-
-      <!-- Content Right -->
-      <div class="detail-right">
-        <p class="d-greeting">Say Hello To</p>
-        <h1 class="d-title" id="detail-name">Name</h1>
+    <!-- ══════════════════════════════════
+         STEP 3: VOICE CAPTURE (VOCAL CALIBRATION)
+         ══════════════════════════════════ -->
+    <div class="studio-screen" id="screen3">
+      <!-- Immersive Widescreen Centered Video Workspace with Floating Calibration Note on the Right -->
+      <div style="position: relative; max-width: 1100px; margin: 0 auto; padding: 40px 20px; display: flex; flex-direction: row; flex-wrap: wrap; align-items: center; gap: 40px; text-align: center; min-height: 620px; justify-content: center; width: 100%; box-sizing: border-box;">
         
-        <div class="d-tags" id="detail-tags">
-          <!-- Tags injected here -->
-        </div>
+        <!-- Left Column: Title, Camera Feed, Progress Wave, Back Button -->
+        <div style="flex: 1; max-width: 640px; min-width: 320px; display: flex; flex-direction: column; align-items: center; gap: 20px;">
+          <div>
+            <h2 class="form-title" style="font-size: 32px; margin-bottom: 8px;">Train Your <span>Voice &amp; Vibe</span></h2>
+            <p class="prev-desc" style="max-width: 600px; margin: 0 auto; font-size: 13px;">Your voice and behavior shape how your twin communicates. Speak naturally to calibrate.</p>
+          </div>
 
-        <div class="d-bio-card">
-          <h3>Complete Avatar Brief</h3>
-          <p id="detail-desc">Full description goes here...</p>
-        </div>
-
-        <div class="d-social-bar">
-          <div class="d-social-left">
-            <img id="detail-small-img" class="d-social-img" src="" alt="Avatar small">
-            <div class="d-social-text">
-              <h4 id="detail-name-title">Name <span class="material-symbols-outlined" style="font-size:18px;color:#fbd914;">verified</span></h4>
-              <p id="detail-handle">@handle</p>
+          <!-- Centered Large Camera Viewport -->
+          <div class="capture-feed-viewport" style="width: 100%; aspect-ratio: 16/9; height: auto; border-radius: 20px; border: 2.5px solid var(--y); overflow: hidden; position: relative; background: #000; box-shadow: 0 0 50px rgba(255, 231, 1, 0.15); flex-shrink: 0;">
+            <div class="rec-badge-pulsing" style="background: rgba(255, 77, 77, 0.95); box-shadow: 0 0 15px rgba(255,77,77,0.4);"><span style="width:6px; height:6px; background:#fff; border-radius:50%;"></span>• CAPTURING</div>
+            <video id="recWebcamVideo" autoplay playsinline style="width:100%; height:100%; object-fit:cover; transform:scaleX(-1);"></video>
+            <div id="recPhotoBackdrop" style="display:none; width:100%; height:100%; background-size:cover; background-position:center; position:absolute; inset:0; filter: brightness(0.75);"></div>
+            
+            <!-- Elegant status HUD strip overlaying the bottom of the video -->
+            <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(0,0,0,0.85), rgba(0,0,0,0.3)); padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; z-index: 10;">
+              <div style="display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--y); font-family: 'Outfit', sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">
+                <span style="width: 6px; height: 6px; background: var(--y); border-radius: 50%; display: inline-block; box-shadow: 0 0 8px var(--y); animation: pulse 1s infinite alternate;"></span>
+                Vocal Connection Lock
+              </div>
+              <div style="font-family: monospace; font-size: 10px; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 0.1em;">Calibration Active</div>
             </div>
           </div>
-          <span class="material-symbols-outlined" style="color:#111; cursor: pointer; font-size: 28px;">open_in_new</span>
+
+          <!-- Progress and Waveform panel -->
+          <div style="width: 100%; display: flex; flex-direction: column; gap: 16px; background: rgba(16, 14, 27, 0.4); border: 1px solid rgba(255,255,255,0.04); padding: 20px; border-radius: 16px; box-sizing: border-box;">
+            <!-- Sleek countdown timer -->
+            <div class="timer-ribbon" style="width: 100%; display: flex; align-items: center; gap: 16px; margin: 0;">
+              <span class="timer-seconds-counter" id="secondsVal" style="font-family: monospace; font-size: 14px; color: var(--y); font-weight: 700; flex-shrink: 0; min-width: 32px;">8s</span>
+              <div class="rec-bar-bg" style="flex: 1; height: 6px; background: rgba(255,255,255,0.08); border-radius: 3px; overflow: hidden;">
+                <div class="rec-bar-fill" id="recBarProgress" style="width: 100%; height: 100%; background: var(--y); box-shadow: var(--glow-y); transition: width 0.1s linear;"></div>
+              </div>
+            </div>
+            
+            <!-- Organic sound analyzer visualizer -->
+            <div class="mic-wave-box" style="width: 100%; display: flex; flex-direction: column; align-items: center; gap: 8px; margin: 0;">
+              <canvas class="organic-wave-canvas" id="organicVoiceWaveCanvas" style="width: 100%; height: 45px; max-width: 500px;"></canvas>
+              <div class="wave-caption" style="font-size: 10px; color: var(--y); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 700;">Syncing Voice Resonance... Keep Speaking</div>
+            </div>
+          </div>
+
+          <!-- Footer Back Button -->
+          <div style="display: flex; gap: 20px; width: 100%; justify-content: space-between; align-items: center; margin-top: 10px;">
+            <button class="btn-studio secondary" onclick="goToStep(2)">Back</button>
+            <div style="font-family: monospace; font-size: 10px; color: rgba(255,255,255,0.3); text-transform: uppercase; letter-spacing: 0.05em;">SYSTEM ACTIVE // AUDIO INGESTION V2.0</div>
+          </div>
         </div>
 
-        <div class="d-actions">
-          <button class="btn-action btn-back" onclick="goToStep(1)">Back</button>
-          <button class="btn-action btn-finish" onclick="finishAvatar()">Start Chat</button>
+        <!-- Right Side: Side-positioned Calibration Idea Note -->
+        <div class="calibration-side-note" style="width: 320px; background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 20px; padding: 24px; box-sizing: border-box; backdrop-filter: blur(15px); box-shadow: 0 20px 50px rgba(0,0,0,0.4); text-align: left; z-index: 10; flex-shrink: 0;">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+            <span class="material-symbols-outlined" style="color: var(--y); font-size: 18px;">lightbulb</span>
+            <span style="font-size: 10px; color: var(--y); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 800;">Calibration Note</span>
+          </div>
+          <p style="font-size: 12px; line-height: 1.5; color: rgba(255,255,255,0.65); margin-bottom: 14px;">
+            You can talk about <strong>anything you want</strong> to train your twin's voice—your hobbies, your day—or read this suggested script:
+          </p>
+          <div style="background: rgba(0, 0, 0, 0.25); border-left: 2px solid var(--y); padding: 12px 16px; border-radius: 0 8px 8px 0;">
+            <p style="font-size: 13.5px; line-height: 1.6; color: #fff; font-style: italic; font-family: 'Poppins', sans-serif; opacity: 0.95; padding: 0; margin: 0;" id="scriptBody">
+              "I am calibrating my digital twin's voice to mirror my natural warmth and tone. Let's create something beautiful."
+            </p>
+          </div>
         </div>
+
       </div>
-
     </div>
-  </div>
 
-  <!-- SCREEN 3: CLEAN CHAT (NO VIDEO) -->
-  <div class="screen" id="screen-3">
-    <div class="chat-layout">
-      
-      <div class="chat-topbar">
-        <button class="tb-btn" onclick="goToStep(2)"><span class="material-symbols-outlined">arrow_back</span></button>
-        <div class="chat-contact-info">
-          <img id="chat-header-img" src="" class="chat-contact-img" alt="Avatar">
-          <h3 class="chat-contact-name" id="chat-header-name">Name</h3>
+    <!-- ══════════════════════════════════
+         STEP 4: TEACH BRAIN (COGNITIVE SYNCHRONIZATION)
+         ══════════════════════════════════ -->
+    <div class="studio-screen" id="screen4">
+      <div class="knowledge-canvas">
+        <div class="ingest-header">
+          <h2 class="knowledge-title">Teach Your <span>Twin's Brain</span></h2>
+          <p class="knowledge-desc">Upload the knowledge your twin should understand. Share your diaries, blogs, writings, or notes so your twin can learn your unique perspective.</p>
         </div>
-        <div style="display:flex; gap:12px;">
-          <button class="tb-btn"><span class="material-symbols-outlined">videocam</span></button>
-          <button class="tb-btn"><span class="material-symbols-outlined">call</span></button>
-          <button class="tb-btn"><span class="material-symbols-outlined">more_horiz</span></button>
+
+        <div class="upload-columns" style="grid-template-columns: 1fr; margin-bottom: 24px;">
+          <div class="upload-zone-card" style="align-items: center; justify-content: center; text-align: center; padding: 48px 30px;">
+            <div class="dropzone-box" onclick="triggerIngestSelect('Writing Samples')" style="width: 100%; max-width: 600px; padding: 40px 20px; border: 1.5px dashed rgba(255,231,1,0.25); background: rgba(255,231,1,0.01); border-radius: 12px; cursor: pointer; transition: all 0.25s;">
+              <span class="material-symbols-outlined" style="font-size: 48px; color: var(--y); margin-bottom: 16px;">upload_file</span>
+              <h3 style="font-family:'Outfit',sans-serif; font-size:16px; text-transform:uppercase; color:#fff; letter-spacing:0.05em; margin-bottom: 8px;">Upload optional writings, notes, or diaries</h3>
+              <p style="font-size:12px; color:var(--muted2); line-height:1.5; margin-bottom: 12px;">Share your notes, journals, or writing samples so your twin can learn your perspective.</p>
+              <span class="btn-studio secondary" style="display: inline-flex; font-size: 10.5px; padding: 10px 20px; border-radius: 20px; margin: 0 auto;">Select File (PDF, DOCX, TXT)</span>
+            </div>
+            
+            <div id="ingestedFileFeedback" style="margin-top: 16px; font-family: monospace; font-size: 11px; color: #00ff66; display: none; align-items: center; gap: 6px;">
+              <span class="material-symbols-outlined" style="font-size: 16px;">check_circle</span>
+              <span id="feedbackText">[SYNC] File uploaded successfully!</span>
+            </div>
+            
+            <input type="file" id="ingestFileInput" style="display:none;" onchange="startIngestProgress(this)">
+          </div>
         </div>
+
+        <!-- Continuous Learning Toggle Switch -->
+        <div class="toggle-row" style="margin-bottom: 24px;">
+          <div>
+            <h4 style="font-family: 'Outfit', sans-serif; font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:0.1em; color:#fff;">Continuous Adaptive Learning</h4>
+            <p style="font-size:9.5px; color:var(--muted2); margin-top:2px;">Allow your twin to continuously learn from your conversational habits and future dialogues.</p>
+          </div>
+          <input type="checkbox" id="toggleContinuousLearning" class="toggle-switch-input" checked>
+        </div>
+
+        <button class="btn-activate-twin" onclick="goToStep(5)">Complete &amp; Wake Up Twin</button>
       </div>
+    </div>
 
-      <div class="chat-main">
-        <div class="chat-messages" id="chat-messages-container">
-          <div class="chat-bubble ai">
-            <strong id="chat-ai-intro" style="display:block; margin-bottom:4px; color:#111;">Name</strong>
-            <span id="chat-ai-msg" style="color:#444;">Message here</span>
+    <!-- ══════════════════════════════════
+         STEP 5: PRESTIGE CONFIGURE & LAUNCH COCKPIT
+         ══════════════════════════════════ -->
+    <div class="studio-screen" id="screen5">
+      <div class="screen-split">
+        <!-- Left Pane: Immersive Synthesized Twin Launch Showcase -->
+        <div class="preview-pane">
+          <!-- Ambient glowing aura -->
+          <div class="aura-ambient-bg" style="opacity: 0.8; background: radial-gradient(circle at center, rgba(16, 14, 27, 0.4) 0%, #09080e 80%);"></div>
+          
+          <div class="aura-sphere-wrap" style="flex-direction: column; gap: 28px; z-index: 5;">
+            <!-- Premium luxury circular frame for twin profile photo -->
+            <div style="position: relative; display: flex; align-items: center; justify-content: center;">
+              <!-- Outer glowing aura sphere -->
+              <div style="width: 220px; height: 220px; border-radius: 50%; background: radial-gradient(circle, rgba(255, 231, 1, 0.25) 0%, transparent 70%); border: 1.5px solid var(--border); display: flex; align-items: center; justify-content: center; position: absolute;"></div>
+              <!-- Simulated video/photo viewport that updates with the front photo -->
+              <div id="callTwinAvatar" style="width: 160px; height: 160px; border-radius: 50%; border: 3px solid var(--y); background-size: cover; background-position: center; box-shadow: 0 0 40px rgba(255, 231, 1, 0.35); position: relative; z-index: 10;"></div>
+            </div>
+            
+            <div style="text-align: center; position: relative; z-index: 10;">
+              <h3 style="font-family: 'Outfit', sans-serif; font-size: 26px; font-weight: 900; text-transform: uppercase; color: #fff; letter-spacing: -0.5px; margin-bottom: 4px;" id="callTwinName">Twin Ready</h3>
+              <div style="font-family: monospace; font-size: 9.5px; color: #ffe701; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                <span style="width: 5px; height: 5px; background: #00ff66; border-radius: 50%; display: inline-block; box-shadow: 0 0 6px #00ff66; animation: pulse 1s infinite alternate;"></span>
+                READY TO CONNECT
+              </div>
+            </div>
+
+            <!-- Immersive telemetry grid overlay -->
+            <div style="background: rgba(16, 14, 27, 0.65); backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 20px; padding: 22px; width: 100%; max-width: 380px; box-sizing: border-box; display: flex; flex-direction: column; gap: 10px; box-shadow: 0 20px 50px rgba(0,0,0,0.5);">
+              <div style="font-family: 'Outfit', sans-serif; font-size: 10px; font-weight: 800; color: var(--y); text-transform: uppercase; letter-spacing: 0.08em; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 8px; margin-bottom: 2px;">
+                TWIN READY FOR LAUNCH
+              </div>
+              <div style="display: flex; justify-content: space-between; font-size: 10.5px; color: #fff;">
+                <span style="opacity: 0.6;">Facial Likeness Sync</span>
+                <span style="font-family: monospace; font-weight: 700; color: #00ff66;">PERFECT SYNC</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; font-size: 10.5px; color: #fff;">
+                <span style="opacity: 0.6;">Voice &amp; Tone Training</span>
+                <span style="font-family: monospace; font-weight: 700; color: #00ff66;">COMPLETED</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; font-size: 10.5px; color: #fff;">
+                <span style="opacity: 0.6;">Personality &amp; Vibe</span>
+                <span style="font-family: monospace; font-weight: 700; color: #00ff66;">TAILORED</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; font-size: 10.5px; color: #fff;">
+                <span style="opacity: 0.6;">Privacy &amp; Security</span>
+                <span style="font-family: monospace; font-weight: 700; color: #00ff66;">FULLY SECURED</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="cockpit-crosshair c-tl">+</div>
+          <div class="cockpit-crosshair c-tr">+</div>
+          <div class="cockpit-crosshair c-bl">+</div>
+          <div class="cockpit-crosshair c-br">+</div>
+        </div>
+        
+        <!-- Right Pane: Control Cockpit Configuration Settings -->
+        <div class="form-pane">
+          <div class="form-scroll">
+            <div>
+              <h2 class="form-title">Control Your <span>Twin Cockpit</span></h2>
+              <p class="prev-desc" style="margin-top: 4px;">Control how your twin remembers and interacts with users.</p>
+            </div>
+            
+            <!-- Presets & Conversation Rules -->
+            <div class="form-group">
+              <label class="form-label">CHOOSE HOW YOUR TWIN TALKS</label>
+              <div class="category-grid-tags" style="margin-bottom: 8px;" id="rulesPresetGrid">
+                <div class="category-tag-card active" onclick="setRulesPreset('Friendly & Warm', this)">Friendly &amp; Warm</div>
+                <div class="category-tag-card" onclick="setRulesPreset('Wise &amp; Helpful', this)">Wise &amp; Helpful</div>
+                <div class="category-tag-card" onclick="setRulesPreset('Lively &amp; Playful', this)">Lively &amp; Playful</div>
+              </div>
+              <textarea id="twinConversationalRules" class="form-textarea" style="height: 80px;" placeholder="Add specific phrases they should use, topics they should focus on, or how they should speak...">Always respond with warmth and deep interest. Listen patiently, support them in whatever they share, and maintain a compassionate, nurturing dialogue.</textarea>
+            </div>
+            
+            <!-- Privacy Controls -->
+            <div class="toggle-row">
+              <div>
+                <h4 style="font-family: 'Outfit', sans-serif; font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:0.1em; color:#fff;">Privacy Level</h4>
+                <p style="font-size:9.5px; color:var(--muted2); margin-top:2px;">Private (Only you) vs Public (Visible to DopeKin network).</p>
+              </div>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 10px; font-weight: 700; color: var(--y);" id="privacyLabel">PRIVATE</span>
+                <input type="checkbox" id="togglePrivacy" class="toggle-switch-input" checked onchange="togglePrivacyLabel()">
+              </div>
+            </div>
+            
+
+          </div>
+          
+          <div class="studio-footer">
+            <button class="btn-studio secondary" onclick="goToStep(4)">Back</button>
+            <button class="btn-studio primary" onclick="masterLaunchTwin()">
+              <span class="material-symbols-outlined" style="font-size:14px;">rocket_launch</span> Launch Your Twin
+            </button>
           </div>
         </div>
       </div>
-
-      <div class="chat-input-area">
-        <div class="input-wrapper">
-          <input type="text" class="chat-input-box" placeholder="Type a message..." />
-          <button class="btn-mic"><span class="material-symbols-outlined">send</span></button>
-        </div>
-      </div>
-
     </div>
-  </div>
+
+  </main>
 
   <script>
-    const cards = document.querySelectorAll('.premium-card');
-    const totalCards = cards.length;
-    let activeIndex = 2; // Start with center card
-    let selectedData = null;
-    let autoPlayInterval;
-
-    function updateCarousel() {
-      cards.forEach((card, index) => {
-        let diff = index - activeIndex;
-        const half = Math.floor(totalCards / 2);
-        
-        if (diff > half) diff -= totalCards;
-        if (diff < -half) diff += totalCards;
-        
-        const absDiff = Math.abs(diff);
-        const sign = Math.sign(diff);
-        
-        // Handle even number of decks to maintain perfect symmetry
-        const isOpposite = (totalCards % 2 === 0 && absDiff === half);
-
-        // Exact Stack Math matching user's image (Continuous 2D Fanning Stack)
-        let scale = 1 - (absDiff * 0.15); // e.g. 1, 0.85, 0.7
-        if (scale < 0) scale = 0;
-        
-        let tx = 0;
-        if (absDiff > 0) {
-           // Wider spread to fill screen, 300 for first card, then 240 for each subsequent
-           tx = sign * (300 + (absDiff - 1) * 240); 
-        }
-
-        if (absDiff === 0) {
-          scale = 1.05; // Center pops slightly
-          card.classList.add('active');
-        } else {
-          card.classList.remove('active');
-        }
-        
-        const zIndex = 100 - absDiff;
-
-        if (isOpposite) {
-           // Hide the exact opposite card behind the center card so the deck is perfectly symmetrical
-           tx = 0;
-           scale = 0.5;
-           card.style.opacity = 0;
-           card.style.pointerEvents = 'none';
-        } else {
-           card.style.opacity = 1; 
-           card.style.pointerEvents = 'auto';
-        }
-
-        card.style.transform = `translate(calc(-50% + ${tx}px), -50%) scale(${scale})`;
-        card.style.zIndex = zIndex;
-        card.style.filter = `brightness(${1 - (absDiff * 0.15)})`; // Creates the deep depth shadows from the image
-        
-        const vid = card.querySelector('.card-video');
-        if (absDiff === 0) {
-           if(vid && card.matches(':hover')) { vid.play().catch(()=>{}); }
-        } else {
-           if(vid) { vid.pause(); vid.currentTime = 0; }
-        }
-      });
-    }
-
-    // Auto Play Logic
-    function startAutoPlay() {
-      autoPlayInterval = setInterval(() => {
-        activeIndex = (activeIndex + 1) % totalCards;
-        updateCarousel();
-      }, 3500);
-    }
-    function stopAutoPlay() {
-      clearInterval(autoPlayInterval);
-    }
-
-    // Hover Video Playback
-    cards.forEach(card => {
-      card.addEventListener('mouseenter', () => {
-        if(card.classList.contains('active')) {
-          const vid = card.querySelector('.card-video');
-          if(vid) { vid.play().catch(()=>{}); }
-        }
-      });
-      card.addEventListener('mouseleave', () => {
-        const vid = card.querySelector('.card-video');
-        if(vid) { vid.pause(); }
-      });
-    });
-
-    // Carousel Interaction (Click)
-    cards.forEach((card, index) => {
-      card.addEventListener('click', () => {
-        let diff = index - activeIndex;
-        const half = Math.floor(totalCards / 2);
-        if (diff > half) diff -= totalCards;
-        if (diff < -half) diff += totalCards;
-
-        if (diff !== 0) {
-          activeIndex = index;
-          updateCarousel();
-          stopAutoPlay();
-          startAutoPlay();
-        } else {
-          stopAutoPlay();
-          openDetails(card);
-        }
-      });
-    });
-
-    // Manual Scroll Logic (Drag/Swipe)
-    const carouselContainer = document.getElementById('carousel');
-    let isDragging = false;
-    let startX = 0;
-
-    carouselContainer.addEventListener('mousedown', (e) => {
-      isDragging = true;
-      startX = e.clientX;
-      stopAutoPlay();
-    });
+    // ══════════════════════════════════
+    // WIZARD STATE MANAGER
+    // ══════════════════════════════════
+    let activeStep = 1;
+    let cameraStream = null;
+    let voiceAnimationId = null;
+    let scanGridInterval = null;
+    let activeCalibMode = 'upload'; // default
     
-    document.addEventListener('mouseup', (e) => {
-      if(!isDragging) return;
-      isDragging = false;
-      const endX = e.clientX;
-      const threshold = 50;
-      if (startX - endX > threshold) {
-        activeIndex = (activeIndex + 1) % totalCards;
-        updateCarousel();
-      } else if (endX - startX > threshold) {
-        activeIndex = (activeIndex - 1 + totalCards) % totalCards;
-        updateCarousel();
+    // Support five profiles
+    const uploadedPhotos = {
+      front: null,
+      left: null,
+      right: null,
+      smiling: null,
+      neutral: null
+    };
+
+    // Twin config object
+    const twin = {
+      name: "Aria Sterling",
+      profession: "Musician",
+      visualStyle: "Photorealistic",
+      vibe: "Warm & Empathic",
+      languages: ["English"],
+      prompt: "Warm brown eyes, shoulder-length wavy brunette hair, friendly natural smile. Wearing a grey casual knit hoodie, sitting in a cozy study...",
+      avatarImg: null,
+      communicationArchetype: "Warm & Attentive"
+    };
+
+    function selectTag(type, btn) {
+      const parent = btn.parentElement;
+      if (type === 'profession') {
+        parent.querySelectorAll('.category-tag-card').forEach(c => c.classList.remove('active'));
+        btn.classList.add('active');
+        
+        const val = btn.getAttribute('data-val');
+        const customGrp = document.getElementById('customProfessionGroup');
+        if (val === 'Other') {
+          if (customGrp) customGrp.style.display = 'block';
+          const customVal = document.getElementById('customProfessionInput').value.trim();
+          twin.profession = customVal || 'Other';
+        } else {
+          if (customGrp) customGrp.style.display = 'none';
+          twin.profession = val;
+        }
+        updatePreviewUI();
+      } else if (type === 'language') {
+        // Multi-select for languages
+        btn.classList.toggle('active');
+        const activeTags = Array.from(parent.querySelectorAll('.category-tag-card.active')).map(t => t.getAttribute('data-val'));
+        twin.languages = activeTags.length > 0 ? activeTags : ["English"];
       }
-      startAutoPlay();
-    });
+    }
 
-    // Manual Scroll Logic (Mouse Wheel / Trackpad)
-    let isWheeling = false;
-    carouselContainer.addEventListener('wheel', (e) => {
-      if(isWheeling) return;
-      if(Math.abs(e.deltaX) > 30 || Math.abs(e.deltaY) > 30) {
-         isWheeling = true;
-         stopAutoPlay();
-         if(e.deltaX > 0 || e.deltaY > 0) activeIndex = (activeIndex + 1) % totalCards;
-         else activeIndex = (activeIndex - 1 + totalCards) % totalCards;
-         updateCarousel();
-         startAutoPlay();
-         setTimeout(() => isWheeling = false, 500); 
+    function handleCustomProfessionInput(input) {
+      twin.profession = input.value.trim() || 'Other';
+      updatePreviewUI();
+    }
+
+    function selectStyleCard(type, card) {
+      const parent = card.parentElement;
+      parent.querySelectorAll('.select-card').forEach(c => c.classList.remove('active'));
+      card.classList.add('active');
+      
+      const val = card.getAttribute('data-val');
+      if (type === 'visual') {
+        twin.visualStyle = val;
+      } else if (type === 'vibe') {
+        twin.vibe = val;
+      } else if (type === 'comm') {
+        twin.communicationArchetype = val;
       }
-    });
+      updatePreviewUI();
+    }
 
-    // Init Carousel
-    updateCarousel();
-    startAutoPlay();
+    function switchCalibMode(mode) {
+      activeCalibMode = mode;
+      
+      const tabUpload = document.getElementById('tabUploadBtn');
+      const tabWebcam = document.getElementById('tabWebcamBtn');
+      const tabMobile = document.getElementById('tabMobileBtn');
+      const viewUpload = document.getElementById('calibUploadView');
+      const viewWebcam = document.getElementById('calibWebcamView');
+      const viewMobile = document.getElementById('calibMobileView');
 
-    // Navigation and Logic
-    let currentStep = 1;
-    function goBack() {
-      if (currentStep === 3) {
-        goToStep(2);
-      } else if (currentStep === 2) {
-        goToStep(1);
+      // Reset tabs and views
+      tabUpload.classList.remove('active');
+      tabWebcam.classList.remove('active');
+      tabMobile.classList.remove('active');
+      viewUpload.style.display = 'none';
+      viewWebcam.style.display = 'none';
+      viewMobile.style.display = 'none';
+
+      if (mode === 'upload') {
+        tabUpload.classList.add('active');
+        viewUpload.style.display = 'flex';
+        stopWebcamTracks();
+      } else if (mode === 'webcam') {
+        tabWebcam.classList.add('active');
+        viewWebcam.style.display = 'flex';
+      } else if (mode === 'mobile') {
+        tabMobile.classList.add('active');
+        viewMobile.style.display = 'flex';
+        stopWebcamTracks();
+      }
+      
+      validateConsent();
+    }
+
+    function triggerPhotoUpload(angle) {
+      document.getElementById('photoInput' + angle.charAt(0).toUpperCase() + angle.slice(1)).click();
+    }
+
+    function handlePhotoUpload(input, angle) {
+      if (input.files.length === 0) {
+        simulatePhotoUpload(angle);
+        return;
+      }
+      const file = input.files[0];
+      const reader = new FileReader();
+
+      reader.onload = function(e) {
+        uploadedPhotos[angle] = e.target.result;
+        const preview = document.getElementById('photoPreview' + angle.charAt(0).toUpperCase() + angle.slice(1));
+        const slot = document.getElementById('uploadSlot' + angle.charAt(0).toUpperCase() + angle.slice(1));
+        const sub = document.getElementById('uploadSub' + angle.charAt(0).toUpperCase() + angle.slice(1));
+
+        preview.style.backgroundImage = `url('${e.target.result}')`;
+        slot.classList.add('uploaded');
+        sub.textContent = "Synced";
+        validateConsent();
+      };
+
+      reader.readAsDataURL(file);
+    }
+
+    function simulatePhotoUpload(angle) {
+      const faceAngleMap = {
+        front: 'male_creator_twin_1777287803271.png',
+        left: 'male_boxer_twin_1777287862404.png',
+        right: 'male_dj_twin_1777287848611.png',
+        smiling: 'male_comedy_twin_1777287831889.png',
+        neutral: 'male_athlete_twin_1777287789091.png'
+      };
+      
+      const simulatedSrc = faceAngleMap[angle] || 'Assets/Vale.jpeg';
+      uploadedPhotos[angle] = simulatedSrc;
+      
+      const preview = document.getElementById('photoPreview' + angle.charAt(0).toUpperCase() + angle.slice(1));
+      const slot = document.getElementById('uploadSlot' + angle.charAt(0).toUpperCase() + angle.slice(1));
+      const sub = document.getElementById('uploadSub' + angle.charAt(0).toUpperCase() + angle.slice(1));
+
+      preview.style.backgroundImage = `url('${simulatedSrc}')`;
+      slot.classList.add('uploaded');
+      sub.textContent = "Synced";
+      validateConsent();
+    }
+
+    function simulateMobileSync() {
+      simulatePhotoUpload('front');
+      simulatePhotoUpload('left');
+      simulatePhotoUpload('right');
+      simulatePhotoUpload('smiling');
+      simulatePhotoUpload('neutral');
+      
+      alert("Mobile Sync Complete! All 5 profile angles have been successfully synchronized.");
+      validateConsent();
+    }
+
+    function validateConsent() {
+      const readyBtn = document.getElementById('btnOpenGuide');
+      const verifyId = document.getElementById('checkVerifyId');
+      const verifyConsent = document.getElementById('checkVerifyConsent');
+      const verifyAgreement = document.getElementById('checkVerifyAgreement');
+      
+      const idChecked = verifyId ? verifyId.checked : false;
+      const consentChecked = verifyConsent ? verifyConsent.checked : false;
+      const agreementChecked = verifyAgreement ? verifyAgreement.checked : false;
+      
+      let mediaReady = false;
+      if (activeCalibMode === 'upload' && uploadedPhotos.front) {
+        mediaReady = true;
+      } else if (activeCalibMode === 'webcam' && cameraStream) {
+        mediaReady = true;
+      } else if (activeCalibMode === 'mobile' && uploadedPhotos.front) {
+        mediaReady = true;
+      }
+      
+      if (idChecked && consentChecked && agreementChecked && mediaReady) {
+        readyBtn.style.opacity = '1';
+        readyBtn.style.pointerEvents = 'auto';
+      } else {
+        readyBtn.style.opacity = '0.5';
+        readyBtn.style.pointerEvents = 'none';
       }
     }
 
     function goToStep(step) {
-      currentStep = step;
-      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-      document.getElementById('screen-' + step).classList.add('active');
-      
-      const header = document.getElementById('global-header');
-      if (header) {
-        if (step === 3) header.style.display = 'none';
-        else header.style.display = 'flex';
+      if (step > 1 && !twin.avatarImg) {
+        alert("Please upload a custom portrait image thumbnail for your Twin first!");
+        return;
       }
-      
-      const backBtn = document.getElementById('btn-global-back');
-      
+      document.querySelectorAll('.studio-screen').forEach(s => s.classList.remove('active'));
+      document.getElementById('screen' + step).classList.add('active');
+
+      // Update step wizard navigation circles
+      document.querySelectorAll('.nav-step').forEach((item, idx) => {
+        item.classList.remove('active');
+        item.classList.remove('completed');
+        
+        const num = idx + 1;
+        if (num === step) {
+          item.classList.add('active');
+        } else if (num < step) {
+          item.classList.add('completed');
+        }
+      });
+
+      activeStep = step;
+
+      // Handle step cleanup and side effects
+      if (step !== 2 && step !== 3 && step !== 5) {
+        stopWebcamTracks();
+        stopUserCallWebcam();
+      }
+
       if (step === 1) {
-        startAutoPlay();
-        if (backBtn) backBtn.style.display = 'none';
-        document.body.style.background = '#f4f3ec';
-      } else {
-        if (backBtn) backBtn.style.display = 'flex';
-        if (step === 2) {
-          document.body.style.background = '#f4f3ec';
-        } else if (step === 3 && selectedData) {
-          const bgs = {
-            'Vale': '#fff0f5', // Warm pinkish
-            'Serena': '#f0f8ff', // Calm wellness blue
-            'Aiko': '#f5f5f5', // Precise grayscale
-            'Cody': '#e6ffe6', // Degen green
-            'Sarang': '#ffe4e1', // Vibrant idol pink
-            'Etherik': '#f3e5f5' // Galaxy brain purple
-          };
-          document.body.style.background = bgs[selectedData.name] || '#f4f3ec';
-          
-          // Make chat layout elements transparent to inherit body bg
-          const chatLayout = document.querySelector('.chat-layout');
-          if (chatLayout) chatLayout.style.background = 'transparent';
-          
-          const chatMain = document.querySelector('.chat-main');
-          if (chatMain) chatMain.style.background = 'transparent';
-          
-          const chatTopbar = document.querySelector('.chat-topbar');
-          if (chatTopbar) {
-            chatTopbar.style.background = 'rgba(255,255,255,0.6)';
-            chatTopbar.style.backdropFilter = 'blur(10px)';
-            chatTopbar.style.borderBottom = '1px solid rgba(255,255,255,0.2)';
-          }
-          
-          const chatInput = document.querySelector('.chat-input-area');
-          if (chatInput) {
-            chatInput.style.background = 'rgba(255,255,255,0.6)';
-            chatInput.style.backdropFilter = 'blur(10px)';
-            chatInput.style.borderTop = '1px solid rgba(255,255,255,0.2)';
-          }
+        document.getElementById('telemetryHdr').textContent = "STUDIO STATE: ABOUT YOU";
+      } else if (step === 2) {
+        document.getElementById('telemetryHdr').textContent = "STUDIO STATE: PRESENCE ALIGNMENT";
+        switchCalibMode(activeCalibMode);
+      } else if (step === 3) {
+        document.getElementById('telemetryHdr').textContent = "STUDIO STATE: VOCAL TRAINING";
+        startOrganicAudioWave();
+      } else if (step === 4) {
+        document.getElementById('telemetryHdr').textContent = "STUDIO STATE: COGNITIVE UPLOAD";
+      } else if (step === 5) {
+        document.getElementById('telemetryHdr').textContent = "STUDIO STATE: CONFIGURE & LAUNCH";
+        setupAIVideoCall();
+      }
+    }
+
+    // ══════════════════════════════════
+    // STEP 1 INTERACTIVE EVENTS
+    // ══════════════════════════════════
+    document.getElementById('twinNameInput').addEventListener('input', (e) => {
+      twin.name = e.target.value.trim() || "My Twin";
+      updatePreviewUI();
+    });
+
+    document.getElementById('twinVisualPrompt').addEventListener('input', (e) => {
+      twin.prompt = e.target.value;
+      updatePreviewUI();
+    });
+
+    function updatePreviewUI() {
+      const prevName = document.getElementById('twinPrevName');
+      if (prevName) prevName.textContent = twin.name;
+
+      const vibeEl = document.getElementById('twinPrevVibe');
+      if (vibeEl) vibeEl.textContent = twin.vibe;
+
+      const prevBio = document.getElementById('twinPrevBio');
+      if (prevBio) prevBio.textContent = twin.prompt.slice(0, 150) + (twin.prompt.length > 150 ? '...' : '');
+
+      const profEl = document.getElementById('twinPrevProf');
+      if (profEl) {
+        profEl.textContent = twin.profession;
+      }
+
+      const aura = document.getElementById('auraSphere');
+      if (aura) {
+        aura.className = 'aura-sphere';
+        if (twin.vibe === 'Warm & Empathic') {
+          aura.classList.add('empathic');
+        } else if (twin.vibe === 'Witty & Playful') {
+          aura.className = 'aura-sphere witty';
+        } else if (twin.vibe === 'Calm & Reflective') {
+          aura.className = 'aura-sphere serene';
+        } else if (twin.vibe === 'Vibrant & Bold') {
+          aura.className = 'aura-sphere vibrant';
         }
       }
+
+      // Handle full-bleed cover background sync and fallback display state
+      const cardFallback = document.getElementById('cardFallbackBg');
+      const cardImage = document.getElementById('cardImageBg');
+      
+      if (twin.avatarImg) {
+        if (cardFallback) cardFallback.style.display = 'none';
+        if (cardImage) {
+          cardImage.style.backgroundImage = `url('${twin.avatarImg}')`;
+          cardImage.style.display = 'block';
+        }
+      } else {
+        if (cardFallback) cardFallback.style.display = 'flex';
+        if (cardImage) {
+          cardImage.style.backgroundImage = 'none';
+          cardImage.style.display = 'none';
+        }
+      }
+      
+      // Sync names and profiles to step 5 call cards
+      document.querySelectorAll('.twin-avatar-bubble').forEach(b => {
+        b.style.backgroundImage = twin.avatarImg ? `url('${twin.avatarImg}')` : 'none';
+      });
+      const callAvatar = document.getElementById('callTwinAvatar');
+      if (callAvatar) {
+        callAvatar.style.backgroundImage = twin.avatarImg ? `url('${twin.avatarImg}')` : 'none';
+      }
+      const callName = document.getElementById('callTwinName');
+      if (callName) {
+        callName.textContent = twin.name;
+      }
     }
 
-    function openDetails(card) {
-      selectedData = {
-        name: card.dataset.name,
-        desc: card.dataset.desc, 
-        img: card.dataset.img,
-        tag1: card.dataset.tag1,
-        tag2: card.dataset.tag2,
-        handle: card.dataset.handle
+    function triggerThumbnailUpload() {
+      document.getElementById('thumbnailFileInput').click();
+    }
+
+    function handleThumbnailUpload(input) {
+      if (input.files.length === 0) return;
+      const file = input.files[0];
+      const reader = new FileReader();
+
+      reader.onload = function(e) {
+        twin.avatarImg = e.target.result;
+        
+        const formPreview = document.getElementById('formThumbnailPreview');
+        const formPlaceholder = document.getElementById('formThumbnailPlaceholder');
+        if (formPreview) {
+          formPreview.style.backgroundImage = `url('${e.target.result}')`;
+          formPreview.style.display = 'block';
+        }
+        if (formPlaceholder) {
+          formPlaceholder.style.display = 'none';
+        }
+        
+        updatePreviewUI();
       };
 
-      document.getElementById('detail-name').innerText = selectedData.name;
-      document.getElementById('detail-main-img').src = selectedData.img;
-      document.getElementById('detail-desc').innerText = selectedData.desc;
-      document.getElementById('detail-name-title').innerHTML = `${selectedData.name} <span class="material-symbols-outlined" style="font-size:18px;color:#fbd914;">verified</span>`;
-      document.getElementById('detail-handle').innerText = selectedData.handle;
-      document.getElementById('detail-small-img').src = selectedData.img;
+      reader.readAsDataURL(file);
+    }
+
+    function sampleVisualPrompt() {
+      const prompts = [
+        "Warm brown eyes, shoulder-length wavy brunette hair, friendly natural smile. Wearing a grey casual knit hoodie, sitting in a cozy study.",
+        "Striking hazel eyes, short curly blonde hair, playful smirk. Wearing a white techwear windbreaker, standing in a bright minimalist digital art studio.",
+        "Calm blue eyes, neat side-part dark brown hair, intellectual glasses, composed natural expression. Wearing a navy blue blazer, in a warm bookshelf library."
+      ];
+      const selected = prompts[Math.floor(Math.random() * prompts.length)];
+      document.getElementById('twinVisualPrompt').value = selected;
+      twin.prompt = selected;
+      updatePreviewUI();
+    }
+
+    // ══════════════════════════════════
+    // STEP 2: WEBCAM CAMERA ACCESS
+    // ══════════════════════════════════
+    async function enableWebcamHardware() {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        cameraStream = stream;
+
+        const feed = document.getElementById('webcamStreamVideo');
+        feed.srcObject = stream;
+        feed.style.display = 'block';
+
+        // Hide permission button cover
+        document.getElementById('cameraUnlockCover').style.display = 'none';
+        
+        // Show scanning overlays
+        document.getElementById('faceScannerOverlay').style.display = 'block';
+
+        // Trigger validation check
+        validateConsent();
+
+        // Play standard scan telemetry text ticker
+        let framesCount = 0;
+        const guideTag = document.getElementById('faceGuideTag');
+        scanGridInterval = setInterval(() => {
+          framesCount++;
+          guideTag.textContent = `OPTIMIZING LIGHTING AND SHADOWS: FRAME_${framesCount}`;
+        }, 150);
+
+      } catch (err) {
+        console.warn("Hardware devices unavailable or denied: ", err);
+        bypassCameraVerification();
+      }
+    }
+
+    function bypassCameraVerification() {
+      cameraStream = "emulated";
+      document.getElementById('cameraUnlockCover').style.display = 'none';
+      document.getElementById('faceScannerOverlay').style.display = 'block';
+      document.getElementById('faceGuideTag').textContent = "SIMULATED EXPRESSIONS LOADING...";
       
-      const tagsContainer = document.getElementById('detail-tags');
-      tagsContainer.innerHTML = `
-        <span class="d-tag">${selectedData.tag1}</span>
-        <span class="d-tag">${selectedData.tag2}</span>
-      `;
-
-      goToStep(2);
+      validateConsent();
     }
 
-    function finishAvatar() {
-      // Setup Chat Screen
-      document.getElementById('chat-header-img').src = selectedData.img;
-      document.getElementById('chat-header-name').innerText = selectedData.name;
-      document.getElementById('chat-ai-intro').innerText = selectedData.name;
-      document.getElementById('chat-ai-msg').innerText = `Hey there. Ready to roll? I'm ${selectedData.name}.`;
+    function stopWebcamTracks() {
+      clearInterval(scanGridInterval);
+      if (cameraStream && cameraStream.getTracks) {
+        cameraStream.getTracks().forEach(t => t.stop());
+      }
+      cameraStream = null;
+      if (voiceAnimationId) cancelAnimationFrame(voiceAnimationId);
+    }
+
+    // Modal Guide triggers
+    function openGuideModal() {
+      const modal = document.getElementById('guideOverlayModal');
+      if (modal) modal.classList.add('active');
+    }
+
+    // Safely close the guidelines modal if it exists
+    function closeGuideModal() {
+      const modal = document.getElementById('guideOverlayModal');
+      if (modal) modal.classList.remove('active');
+    }
+
+    // ══════════════════════════════════
+    // STEP 3: VOCAL PROMPTS CAROUSEL & ACTIVE REC
+    // ══════════════════════════════════
+    const promptTexts = [
+      { title: "A Warm Introduction", text: `"I believe the best connections are built on understanding and shared experiences. As I speak these words, I am sharing a piece of my thoughts and voice, so that my twin can speak with the same warmth, care, and natural tone that I share with the world. Let's build something beautiful together."` },
+      { title: "Interests & Passions", text: `"I enjoy exploring new ideas, working on creative projects, and keeping up with the fast-paced world of technology and design. Sharing these passions shapes how my twin discovers inspiration, expresses enthusiasm, and guides others on their creative journeys. Let's make every dialogue count."` },
+      { title: "Expertise & Background", text: `"I bring years of specialized experience in design, coding, and digital strategy. Through constant practice and refining my skills, I have learned the value of precision, clarity, and adaptive thinking. These insights will help my twin assist users with genuine expertise, knowledge, and analytical depth."` },
+      { title: "A Personal Memory", text: `"One of the most memorable journeys of my life was exploring an old coastal town during a quiet autumn season. The sound of the waves, the crisp air, and the historical streets taught me to appreciate stillness and details. I want my twin to inherit this sense of wonder and human touch."` }
+    ];
+
+    function switchPrompt(index, pill) {
+      document.querySelectorAll('#promptsCarousel .prompt-pill').forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      document.getElementById('scriptTitle').textContent = promptTexts[index].title;
+      document.getElementById('scriptBody').textContent = promptTexts[index].text;
+    }
+
+    function startActiveFaceRecording() {
+      closeGuideModal();
       goToStep(3);
+
+      const recVideo = document.getElementById('recWebcamVideo');
+      const recPhoto = document.getElementById('recPhotoBackdrop');
+
+      if (activeCalibMode === 'upload' && uploadedPhotos.front) {
+        recVideo.style.display = 'none';
+        recPhoto.style.display = 'block';
+        recPhoto.style.backgroundImage = `url('${uploadedPhotos.front}')`;
+      } else {
+        recVideo.style.display = 'block';
+        recPhoto.style.display = 'none';
+        if (cameraStream && cameraStream !== "emulated") {
+          recVideo.srcObject = cameraStream;
+        } else {
+          recVideo.style.background = "#050408";
+        }
+      }
+
+      let count = 8;
+      const bar = document.getElementById('recBarProgress');
+      const timeVal = document.getElementById('secondsVal');
+      
+      timeVal.textContent = `${count}s`;
+      bar.style.width = '100%';
+
+      const recInterval = setInterval(() => {
+        count--;
+        timeVal.textContent = `${count}s`;
+        bar.style.width = `${(count / 8) * 100}%`;
+
+        if (count <= 0) {
+          clearInterval(recInterval);
+          stopWebcamTracks();
+          goToStep(4);
+        }
+      }, 1000);
     }
+
+    // organic audio wave visualizer
+    function startOrganicAudioWave() {
+      const canvas = document.getElementById('organicVoiceWaveCanvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+
+      function drawWave() {
+        voiceAnimationId = requestAnimationFrame(drawWave);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        const waves = 3;
+        const time = Date.now() * 0.008;
+        
+        for (let w = 0; w < waves; w++) {
+          ctx.beginPath();
+          ctx.lineWidth = w === 0 ? 3 : 1.5;
+          ctx.strokeStyle = w === 0 ? 'rgba(255, 231, 1, 0.85)' : `rgba(255, 231, 1, ${0.4 - w * 0.15})`;
+          
+          for (let x = 0; x < canvas.width; x++) {
+            const angle = (x / canvas.width) * Math.PI * 2 * (1.5 + w * 0.5) + time * (1 + w * 0.2);
+            const amplitude = Math.sin(time * 0.5) * 12 * (1 - w * 0.3) + 4;
+            const y = canvas.height / 2 + Math.sin(angle) * amplitude;
+            
+            if (x === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+          }
+          ctx.stroke();
+        }
+      }
+      drawWave();
+    }
+
+    // ══════════════════════════════════
+    // STEP 4: COGNITIVE UPLOAD
+    // ══════════════════════════════════
+    let activeIngestDrawer = "Communication Examples";
+    
+    function switchKnowledgeTab(tabName, element) {
+      document.querySelectorAll('#knowledgeCategoryGrid .category-tag-card').forEach(c => c.classList.remove('active'));
+      element.classList.add('active');
+      
+      const logs = document.getElementById('ingestProgressLogs');
+      logs.innerHTML += `<br>[SYSTEM] FILTER APPLIED: DISPLAYING COGNITIVE DRAWER FOR [${tabName.toUpperCase()}]`;
+      logs.scrollTop = logs.scrollHeight;
+    }
+
+    function triggerIngestSelect(drawer) {
+      activeIngestDrawer = drawer || "Communication Examples";
+      document.getElementById('ingestFileInput').click();
+    }
+
+    function startIngestProgress(input) {
+      if (input.files.length === 0) return;
+      const file = input.files[0];
+      const feedback = document.getElementById('ingestedFileFeedback');
+      const feedbackText = document.getElementById('feedbackText');
+      if (feedback && feedbackText) {
+        feedback.style.display = 'flex';
+        feedbackText.textContent = `[SUCCESS] Synced: ${file.name.toUpperCase()} (${(file.size / 1024).toFixed(1)} KB)`;
+      }
+    }
+
+    function compileTwinData() {
+      const logs = [
+        "Shaping your twin's visual details...",
+        `Set twin's name to ${twin.name.toUpperCase()}`,
+        `Tuning conversational style to ${twin.vibe.toUpperCase()}`,
+        `Speech pacing calibrated and matched...`,
+        `Adapting vocal resonance and harmony...`,
+        `Context and diaries synchronized successfully...`,
+        "Cognitive model training optimized.",
+        "Success! Your digital twin is awake and ready in the cockpit."
+      ];
+
+      const overlay = document.getElementById('compilingOverlay');
+      overlay.style.display = 'flex';
+
+      const terminal = document.getElementById('compilingTerminal');
+      terminal.innerHTML = "";
+
+      let idx = 0;
+      const compInterval = setInterval(() => {
+        if (idx < logs.length) {
+          terminal.innerHTML += (idx === 0 ? "" : "<br>") + "[SYNC] " + logs[idx];
+          terminal.scrollTop = terminal.scrollHeight;
+          idx++;
+        } else {
+          clearInterval(compInterval);
+          goToStep(5);
+          overlay.style.display = 'none';
+        }
+      }, 400);
+    }
+
+    // ══════════════════════════════════
+    // STEP 5: PRESTIGE CONFIGURE & LAUNCH COCKPIT
+    // ══════════════════════════════════
+    let userCallStream = null;
+
+    function switchPreviewTab(tab) {
+      document.querySelectorAll('.testing-tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.cockpit-view-content').forEach(c => c.classList.remove('active'));
+      
+      if (tab === 'text') {
+        document.getElementById('tabTextPreview').classList.add('active');
+        document.getElementById('cockpitTextPane').classList.add('active');
+        stopUserCallWebcam();
+      } else if (tab === 'voice') {
+        document.getElementById('tabVoicePreview').classList.add('active');
+        document.getElementById('cockpitVoicePane').classList.add('active');
+        stopUserCallWebcam();
+      } else if (tab === 'video') {
+        document.getElementById('tabVideoPreview').classList.add('active');
+        document.getElementById('cockpitVideoPane').classList.add('active');
+        startAIWebcamCall();
+      }
+    }
+
+    function setupAIVideoCall() {
+      if (activeCalibMode === 'upload' && uploadedPhotos.front) {
+        twin.avatarImg = uploadedPhotos.front;
+      }
+
+      document.getElementById('callTwinAvatar').style.backgroundImage = `url('${twin.avatarImg}')`;
+      document.getElementById('callTwinName').textContent = twin.name;
+
+      const callVideo = document.getElementById('twinVideoBackdrop');
+      const callStreamFeed = document.getElementById('callStreamFeed');
+
+      if (activeCalibMode === 'upload' && uploadedPhotos.front) {
+        if (callVideo) callVideo.style.display = 'none';
+        callStreamFeed.style.backgroundImage = `url('${uploadedPhotos.front}')`;
+        callStreamFeed.style.backgroundSize = 'cover';
+        callStreamFeed.style.backgroundPosition = 'center';
+      } else {
+        if (callVideo) {
+          callVideo.style.display = 'block';
+          callVideo.play().catch(e => console.warn('Background call video play failed:', e));
+        }
+      }
+
+      const subtitles = document.getElementById('callSubtitlesCard');
+      const txt = document.getElementById('callSubtitlesText');
+
+      setTimeout(() => {
+        subtitles.style.display = 'block';
+        txt.textContent = `Hey! It's ${twin.name.split(' ')[0]}. I am fully synchronized and awake. Let's call or write to test my system calibration!`;
+      }, 1200);
+
+      // Sync avatar to chat thread introductory
+      const bubble = document.querySelector('.twin-avatar-bubble');
+      if (bubble) bubble.style.backgroundImage = `url('${twin.avatarImg}')`;
+    }
+
+    async function startAIWebcamCall() {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        userCallStream = stream;
+        const userVideo = document.getElementById('userPipFeed');
+        userVideo.srcObject = stream;
+      } catch (err) {
+        console.warn("User call webcam blocked: ", err);
+      }
+    }
+
+    function stopUserCallWebcam() {
+      if (userCallStream) {
+        userCallStream.getTracks().forEach(t => t.stop());
+        userCallStream = null;
+      }
+      const userVideo = document.getElementById('userPipFeed');
+      if (userVideo) userVideo.srcObject = null;
+    }
+
+    // Text Thread Testing
+    function handleCockpitTextKeyPress(e) {
+      if (e.key === 'Enter') sendCockpitTextMessage();
+    }
+    
+    function sendCockpitTextMessage() {
+      const input = document.getElementById('cockpitTextInput');
+      const text = input.value.trim();
+      if (!text) return;
+      
+      input.value = '';
+      const thread = document.getElementById('textChatThread');
+      
+      // Append user bubble
+      thread.innerHTML += `
+        <div style="display: flex; gap: 10px; align-items: flex-start; max-width: 80%; margin-left: auto; flex-direction: row-reverse; margin-bottom: 8px;">
+          <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--y); color: var(--blk); display: flex; align-items: center; justify-content: center; font-family: 'Outfit', sans-serif; font-size: 11px; font-weight: 800; flex-shrink: 0;">U</div>
+          <div style="background: rgba(255, 231, 1, 0.05); border: 1px solid var(--border); border-radius: 16px; padding: 12px 16px; font-size: 12px; color: #fff; line-height: 1.5;">
+            ${text}
+          </div>
+        </div>
+      `;
+      thread.scrollTop = thread.scrollHeight;
+      
+      // Append twin response
+      setTimeout(() => {
+        const responses = [
+          `I completely agree with that perspective! Since I carry your core background and stories, I can see exactly why you'd say that.`,
+          `That makes perfect sense. It aligns nicely with the cognitive writing samples we loaded into my memory.`,
+          `I love how our voice resonance and writing styles match so cleanly. We're like a perfect digital mirror!`,
+          `Wow! Let me save that in our continuous learning adaptive memory thread so I remember it next time.`
+        ];
+        const resp = responses[Math.floor(Math.random() * responses.length)];
+        thread.innerHTML += `
+          <div style="display: flex; gap: 10px; align-items: flex-start; max-width: 80%; margin-bottom: 8px;">
+            <div style="width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid var(--y); background-image: url('${twin.avatarImg}'); background-size: cover; background-position: center; flex-shrink: 0;" class="twin-avatar-bubble"></div>
+            <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 16px; padding: 12px 16px; font-size: 12px; color: #fff; line-height: 1.5;">
+              ${resp}
+            </div>
+          </div>
+        `;
+        thread.scrollTop = thread.scrollHeight;
+      }, 1000);
+    }
+
+    // Voice response test
+    let voiceSimInterval = null;
+    function startVoiceListenSim() {
+      const status = document.getElementById('voiceCockpitStatus');
+      status.textContent = "LISTENING... TALK NOW";
+      status.style.color = "var(--y)";
+    }
+    
+    function stopVoiceListenSim() {
+      const status = document.getElementById('voiceCockpitStatus');
+      status.textContent = "ANALYZING VOCAL RESONANCE...";
+      status.style.color = "#ffe701";
+      
+      setTimeout(() => {
+        status.textContent = "TWIN SPEAKING...";
+        status.style.color = "#00ff66";
+        
+        // Play synthesized voice
+        const utterance = new SpeechSynthesisUtterance("I hear you loud and clear. My vocal resonance matches your natural tone at 98.4 percent efficiency. Everything is synchronized!");
+        utterance.rate = 1.05;
+        utterance.pitch = 1.0;
+        window.speechSynthesis.speak(utterance);
+        
+        utterance.onend = () => {
+          status.textContent = "SYSTEM IDLE // CALIBRATION OPTIMAL";
+          status.style.color = "#00ff66";
+        };
+      }, 1000);
+    }
+
+    // Configure controls on right
+    function setRulesPreset(preset, btn) {
+      document.querySelectorAll('#rulesPresetGrid .category-tag-card').forEach(c => c.classList.remove('active'));
+      btn.classList.add('active');
+      
+      const rulesArea = document.getElementById('twinConversationalRules');
+      if (preset === 'Friendly & Warm') {
+        rulesArea.value = "Always respond with warmth and deep interest. Listen patiently, support them in whatever they share, and maintain a compassionate, nurturing dialogue.";
+      } else if (preset === 'Wise & Helpful') {
+        rulesArea.value = "Be highly encouraging, structured, and clear. Focus on helpful insights, offer structured guidance, and speak with wisdom and patience.";
+      } else if (preset === 'Lively & Playful') {
+        rulesArea.value = "Maintain a fun, bright, and highly energetic speaking style. Use lively phrases, express playfulness and humor, and keep every conversation exciting.";
+      }
+    }
+
+    function togglePrivacyLabel() {
+      const check = document.getElementById('togglePrivacy').checked;
+      document.getElementById('privacyLabel').textContent = check ? "PRIVATE" : "PUBLIC";
+    }
+
+    function selectPermissionTag(val, btn) {
+      document.querySelectorAll('#permissionGrid .category-tag-card').forEach(c => c.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
+    function triggerForgetConversations() {
+      if (confirm("Are you absolutely sure you want to forget all conversational memory checkpoints? This action is permanent.")) {
+        alert("Cognitive memory records deleted. System memory reset to foundational synchronized writes.");
+      }
+    }
+
+    function masterLaunchTwin() {
+      const logs = [
+        "Initializing secure nodes...",
+        "Establishing twin neural pathways...",
+        "Optimizing facial likeness sync...",
+        "Applying friendly conversational rules...",
+        "Deploying twin and preparing chat lobby...",
+        "Facial sync verified at 100% precision.",
+        "Launch complete! Redirecting to chat screen..."
+      ];
+
+      const overlay = document.getElementById('compilingOverlay');
+      const headline = document.getElementById('compilingHeadlineTitle');
+      if (headline) headline.textContent = "Launching Your Twin...";
+      if (overlay) overlay.style.display = 'flex';
+
+      const terminal = document.getElementById('compilingTerminal');
+      if (terminal) terminal.innerHTML = "";
+
+      let idx = 0;
+      const compInterval = setInterval(() => {
+        if (idx < logs.length) {
+          if (terminal) {
+            terminal.innerHTML += (idx === 0 ? "" : "<br>") + "[SYSTEM] " + logs[idx];
+            terminal.scrollTop = terminal.scrollHeight;
+          }
+          idx++;
+        } else {
+          clearInterval(compInterval);
+          // Redirect straight to chat.html passing newly created twin name and image parameters
+          window.location.href = `chat.html?name=${encodeURIComponent(twin.name)}&img=${encodeURIComponent(twin.avatarImg)}`;
+        }
+      }, 450);
+    }
+
+    // Video FaceTime control actions
+    function sendCallMessage() {
+      const input = document.getElementById('callPillInput');
+      const text = input.value.trim();
+      if (!text) return;
+
+      const subtitles = document.getElementById('callSubtitlesCard');
+      const txt = document.getElementById('callSubtitlesText');
+
+      input.value = '';
+      subtitles.style.display = 'block';
+      txt.innerHTML = `<span style="opacity:0.6;">You said: "${text}"</span>`;
+
+      setTimeout(() => {
+        txt.textContent = `Listening...`;
+        
+        setTimeout(() => {
+          const responses = [
+            `I totally understand. Since we share so much context and background, I naturally feel the same way. It's beautiful, isn't it?`,
+            `Oh, really? That completely matches what you wrote in your personal journal notes. It feels like we're in perfect harmony.`,
+            `Haha, that is exactly how we would say it! It's so strange but wonderful to hear my voice sound so similar to yours.`,
+            `Yes, I remember reading about that in the stories you shared with me. I've kept it safe in my thoughts. What should we explore next?`,
+            `I'm so incredibly happy we called. Being created in your image, I feel deeply connected to your thoughts and vibe.`
+          ];
+          const chosen = responses[Math.floor(Math.random() * responses.length)];
+          txt.textContent = chosen;
+        }, 1500);
+      }, 800);
+    }
+
+    document.getElementById('callPillInput').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') sendCallMessage();
+    });
+
+    let micState = true;
+    function toggleCallMic() {
+      micState = !micState;
+      const btn = document.getElementById('callMicBtn');
+      if (micState) {
+        btn.className = "btn-call-circle active";
+        btn.innerHTML = `<span class="material-symbols-outlined">mic</span>`;
+      } else {
+        btn.className = "btn-call-circle";
+        btn.innerHTML = `<span class="material-symbols-outlined">mic_off</span>`;
+      }
+    }
+
+    let camState = true;
+    function toggleCallCam() {
+      camState = !camState;
+      const btn = document.getElementById('callCamBtn');
+      if (camState) {
+        btn.className = "btn-call-circle active";
+        btn.innerHTML = `<span class="material-symbols-outlined">videocam</span>`;
+        document.getElementById('userPipFeed').style.opacity = '1';
+      } else {
+        btn.className = "btn-call-circle";
+        btn.innerHTML = `<span class="material-symbols-outlined">videocam_off</span>`;
+        document.getElementById('userPipFeed').style.opacity = '0';
+      }
+    }
+
+    function terminateCall() {
+      stopWebcamTracks();
+      stopUserCallWebcam();
+      alert("Twin Video Call ended. Returning to home dashboard.");
+      window.location.href = "index.html";
+    }
+
+    // Initialize blank character card preview state on page load
+    updatePreviewUI();
   </script>
+
+  <!-- Compiling System Logs Progress Screen Overlay -->
+  <div class="compiling-overlay-wrap" id="compilingOverlay">
+    <div class="glow-spinner-ring"></div>
+    <h3 class="compiling-headline" id="compilingHeadlineTitle">Bringing Your Twin To Life...</h3>
+    <div class="compiling-terminal-logs" id="compilingTerminal">
+      [SYNC] Sharing your background details...<br>
+      [SYNC] Crafting your twin's visual look...
+    </div>
+  </div>
 </body>
 </html>

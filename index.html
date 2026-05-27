@@ -55,6 +55,7 @@
       --muted: rgba(255, 255, 255, 0.38);
       --muted2: rgba(255, 255, 255, 0.55);
       --sidebar: 220px;
+      --sb-width: var(--sidebar, 220px);
       --glow-y: 0 0 20px rgba(255, 231, 1, 0.55), 0 0 50px rgba(255, 231, 1, 0.25);
       --brutal: 3px 3px 0px var(--y);
     }
@@ -2911,7 +2912,7 @@
       </div>
 
       <div class="live-grid">
-        <div class="live-card" onclick="openProfile('Vale', 'Magnetic', 'Assets/Vale.jpeg')">
+        <div class="live-card" onclick="window.location.href='stream.html?name=Vale&img=Assets/Vale.jpeg'">
           <div class="live-tag"><span class="live-dot"></span>Live</div>
           <div class="live-viewers">12.4K Viewing</div>
           <div class="live-video-preview" style="background-image: url('Assets/Vale.jpeg');"></div>
@@ -2926,7 +2927,7 @@
           </div>
         </div>
 
-        <div class="live-card" onclick="openProfile('Serena', 'Wellness Coach', 'Assets/Serina.jpeg')">
+        <div class="live-card" onclick="window.location.href='stream.html?name=Serena&img=Assets/Serina.jpeg'">
           <div class="live-tag"><span class="live-dot"></span>Live</div>
           <div class="live-viewers">8.1K Viewing</div>
           <div class="live-video-preview" style="background-image: url('Assets/Serina.jpeg');"></div>
@@ -2941,7 +2942,7 @@
           </div>
         </div>
 
-        <div class="live-card" onclick="openProfile('Rina L.', 'DJ', 'Assets/Vale.jpeg')">
+        <div class="live-card" onclick="window.location.href='stream.html?name=Rina L.&img=Assets/Vale.jpeg'">
           <div class="live-tag"><span class="live-dot"></span>Live</div>
           <div class="live-viewers">45.2K Viewing</div>
           <div class="live-video-preview" style="background-image: url('Assets/Vale.jpeg');"></div>
@@ -3163,8 +3164,7 @@
       <h2>CREATORS. INFLUENCERS. CELEBRITIES.<br>TIME TO TWIN YOUR <span>AURA.</span></h2>
       <p>Launch companions that interact, engage, <br>and evolve with your audience.</p>
       <div class="hero-ctas">
-        <a href="#" class="cta-main"
-          onclick="document.getElementById('creationModal').classList.add('active'); return false;">
+        <a href="create-avatar.html" class="cta-main">
           <span class="material-symbols-outlined" style="font-size:15px;">rocket_launch</span>
           Launch Your Twin
         </a>
@@ -3699,8 +3699,7 @@
       <div class="hero-badge" style="margin: 0 auto 24px;"><span class="badge-dot"></span>Join the revolution</div>
       <h2>Ready to bridge <br><span>the gap?</span></h2>
       <p>Join 10,000+ creators building the next generation of social connection on DopeKin.</p>
-      <a href="#" class="closing-cta-btn"
-        onclick="document.getElementById('creationModal').classList.add('active'); return false;">
+      <a href="create-avatar.html" class="closing-cta-btn">
         <span class="material-symbols-outlined">bolt</span>
         Create Your Twin Now
       </a>
@@ -4045,7 +4044,7 @@
           
           if (label === 'collection') { window.location.href = 'create-avatar.html'; }
           if (label === 'create character') {
-            document.getElementById('creationModal').classList.add('active');
+            window.location.href = 'create-avatar.html';
           }
         }
       });
@@ -4116,9 +4115,8 @@
       card.addEventListener('click', () => {
         const name = card.getAttribute('data-name');
         const role = card.getAttribute('data-role');
-        const cardImg = window.getComputedStyle(card.querySelector('.pcard-img')).backgroundImage;
-        const imgUrl = cardImg.replace('url("', '').replace('")', '');
-        openProfile(name, role, imgUrl);
+        const imgUrl = card.getAttribute('data-img') || 'Assets/Vale.jpeg';
+        window.location.href = `chat.html?name=${encodeURIComponent(name)}&img=${encodeURIComponent(imgUrl)}`;
       });
     });
 
@@ -4312,12 +4310,8 @@
               clone.addEventListener('click', () => {
                 const name = clone.getAttribute('data-name');
                 const role = clone.getAttribute('data-role');
-                const cardImg = window.getComputedStyle(clone.querySelector('.pcard-img')).backgroundImage;
-                document.getElementById('modalName').textContent = name;
-                document.getElementById('modalRole').textContent = role;
-                document.getElementById('modalAvatar').style.backgroundImage = cardImg;
-                document.getElementById('chatBody').innerHTML = `<div class="msg ai">Hey! I'm ${name.split(' ')[0]}. I'm so glad you're here. What's on your mind today?</div>`;
-                document.getElementById('chatModal').classList.add('active');
+                const imgUrl = clone.getAttribute('data-img') || 'Assets/Vale.jpeg';
+                window.location.href = `chat.html?name=${encodeURIComponent(name)}&img=${encodeURIComponent(imgUrl)}`;
               });
               cardGrid.appendChild(clone);
             });
@@ -4333,6 +4327,26 @@
 
         if (loadMoreBtnTop) loadMoreBtnTop.addEventListener('click', loadMore);
         if (loadMoreBtnBottom) loadMoreBtnBottom.addEventListener('click', loadMore);
+      }
+
+      // Query parameter handling for safe cross-page routing from stream/chat back to index
+      const params = new URLSearchParams(window.location.search);
+      const section = params.get('section');
+      if (section) {
+        setTimeout(() => {
+          if (section === 'feed') {
+            const feedItem = Array.from(document.querySelectorAll('.sb-item')).find(i => i.querySelector('span:not(.sb-icon):not(.sb-badge)')?.textContent.toLowerCase() === 'feed');
+            if (feedItem) feedItem.click();
+          } else if (section === 'chat') {
+            const chatItem = Array.from(document.querySelectorAll('.sb-item')).find(i => i.querySelector('span:not(.sb-icon):not(.sb-badge)')?.textContent.toLowerCase() === 'chat');
+            if (chatItem) chatItem.click();
+          } else if (section === 'live') {
+            const liveItem = document.getElementById('sbLive');
+            if (liveItem) liveItem.click();
+          } else if (section === 'create') {
+            window.location.href = 'create-avatar.html';
+          }
+        }, 100);
       }
   </script>
 
