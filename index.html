@@ -2865,8 +2865,8 @@
         <p class="hero-sub">Every companion brings a different energy. Pick one and start interacting. Its all about
           what feels right to you.</p>
         <div class="hero-ctas">
-          <a href="#" class="cta-main">Join Waitlist</a>
-          <a href="#" class="cta-ghost">Explore</a>
+          <a href="create-avatar.html" class="cta-main">Launch Your Twin</a>
+          <a href="create-avatar.html" class="cta-ghost">Explore</a>
         </div>
       </div>
 
@@ -2896,7 +2896,7 @@
         <a href="#" class="btn-login"
           style="padding: 8px 16px; border: 1px solid var(--border); font-family: 'Poppins', sans-serif; font-size: 12px; font-weight: 600; text-transform: uppercase; color: var(--muted2); transition: all 0.2s;">Log
           in</a>
-        <a href="#" class="btn-get-started"
+        <a href="create-avatar.html" class="btn-get-started"
           style="padding: 8px 16px; background: var(--y); border: 1px solid var(--y); font-family: 'Poppins', sans-serif; font-size: 12px; font-weight: 600; text-transform: uppercase; color: var(--blk); display: flex; align-items: center; gap: 6px; transition: all 0.2s;">
           <span class="material-symbols-outlined" style="font-size:14px;">bolt</span>
           Get Started
@@ -3992,7 +3992,36 @@
   </div>
 
   <script>
-
+    // Load custom user twins from localStorage
+    (function loadUserTwins() {
+      try {
+        const userTwins = JSON.parse(localStorage.getItem('userTwins') || '[]');
+        const cardGrid = document.querySelector('.card-grid');
+        if (cardGrid && userTwins.length > 0) {
+          userTwins.forEach(twin => {
+            const cardHtml = `
+              <div class="pcard" data-name="${twin.name}" data-role="${twin.profession} · Digital Twin" data-img="${twin.img || ''}">
+                <div class="pcard-img" style="background-image: url('${twin.img || 'Assets/Vale.jpeg'}')"></div>
+                <div class="pcard-badge">NEW</div>
+                <div class="pcard-glow"></div>
+                <div class="pcard-overlay">
+                  <div class="pcard-name">${twin.name}</div>
+                  <div class="pcard-role">${twin.profession} · Digital Twin</div>
+                  <div class="pcard-description">${twin.prompt || 'Your custom digital twin companion.'}</div>
+                  <div class="pcard-meta">${twin.fans || '0 FANS'}</div>
+                </div>
+                <div class="pcard-hover-cta">
+                  <div class="pcard-cta-btn">Chat with Twin →</div>
+                </div>
+              </div>
+            `;
+            cardGrid.insertAdjacentHTML('afterbegin', cardHtml);
+          });
+        }
+      } catch (e) {
+        console.error("Failed to load user twins:", e);
+      }
+    })();
 
     // Sidebar
     document.querySelectorAll('.sb-item').forEach(item => {

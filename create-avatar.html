@@ -3551,6 +3551,23 @@
           idx++;
         } else {
           clearInterval(compInterval);
+          
+          // Save twin details to localStorage so it can be listed in the featured grid
+          try {
+            const userTwins = JSON.parse(localStorage.getItem('userTwins') || '[]');
+            userTwins.unshift({
+              name: twin.name,
+              profession: twin.profession,
+              vibe: twin.vibe,
+              img: twin.avatarImg,
+              prompt: twin.prompt,
+              fans: "0 FANS"
+            });
+            localStorage.setItem('userTwins', JSON.stringify(userTwins));
+          } catch (e) {
+            console.error("Failed to save user twin to localStorage:", e);
+          }
+
           // Redirect straight to chat.html passing newly created twin name and image parameters
           window.location.href = `chat.html?name=${encodeURIComponent(twin.name)}&img=${encodeURIComponent(twin.avatarImg)}`;
         }
