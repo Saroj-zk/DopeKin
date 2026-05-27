@@ -3712,12 +3712,20 @@
               fans: "0 FANS"
             });
             localStorage.setItem('userTwins', JSON.stringify(userTwins));
+            
+            // Also store it as the active chat twin to retrieve safely inside chat.html
+            localStorage.setItem('activeTwin', JSON.stringify({
+              name: twin.name,
+              img: twin.avatarImg,
+              profession: twin.profession,
+              vibe: twin.vibe
+            }));
           } catch (e) {
             console.error("Failed to save user twin to localStorage:", e);
           }
 
-          // Redirect straight to chat.html passing newly created twin name and image parameters
-          window.location.href = `chat.html?name=${encodeURIComponent(twin.name)}&img=${encodeURIComponent(twin.avatarImg)}`;
+          // Redirect straight to chat.html passing only newly created twin name safely
+          window.location.href = `chat.html?name=${encodeURIComponent(twin.name)}`;
         }
       }, 450);
     }
@@ -3805,35 +3813,22 @@
     </div>
   </div>
 
-  <!-- Base Network Wallet Modal (Coinbase Base Theme) -->
-  <div class="modal-overlay-bg" id="baseWalletModal" style="display: none; align-items: center; justify-content: center; position: fixed; inset: 0; background: rgba(8, 7, 13, 0.95); backdrop-filter: blur(12px); z-index: 1000; opacity: 0; transition: opacity 0.35s ease;">
-    <div class="guide-modal-box" style="width: 520px; background: #0c0a15; border: 1.5px solid rgba(0, 82, 255, 0.3); border-radius: 24px; padding: 36px; box-shadow: 0 25px 60px rgba(0,0,0,0.8), 0 0 30px rgba(0, 82, 255, 0.15); box-sizing: border-box; text-align: center; position: relative;">
+  <!-- Base Network Wallet Modal (Sleek Overlay) -->
+  <div class="modal-overlay-bg" id="baseWalletModal" style="display: none; align-items: center; justify-content: center; position: fixed; inset: 0; background: rgba(8, 7, 13, 0.65); backdrop-filter: blur(6px); z-index: 1000; opacity: 0; transition: opacity 0.35s ease;">
+    <div class="guide-modal-box" style="width: 440px; background: rgba(16, 14, 27, 0.98); border: 1.5px solid rgba(255, 255, 255, 0.08); border-radius: 20px; padding: 32px; box-shadow: 0 25px 60px rgba(0,0,0,0.8), 0 0 30px rgba(0, 82, 255, 0.1); box-sizing: border-box; text-align: center; position: relative;">
       
       <!-- Close Button -->
-      <span class="material-symbols-outlined" style="position: absolute; top: 20px; right: 20px; color: rgba(255,255,255,0.4); cursor: pointer; transition: color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.4)'" onclick="closeBaseWalletModal()">close</span>
-
-      <!-- Base Logo & Branding Header -->
-      <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 24px;">
-        <!-- Base Vibrant Blue Icon Circle -->
-        <div style="width: 44px; height: 44px; border-radius: 50%; background: #0052FF; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 15px rgba(0, 82, 255, 0.5); font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 20px; color: #fff;">B</div>
-        <div style="text-align: left;">
-          <h4 style="font-family: 'Outfit', sans-serif; font-size: 15px; font-weight: 900; color: #fff; text-transform: uppercase; letter-spacing: 0.1em; margin: 0; line-height: 1.2;">BASE NETWORK SYNC</h4>
-          <p style="font-size: 10px; color: #0052FF; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin: 0;">Securing Twin Digital Vibe</p>
-        </div>
-      </div>
+      <span class="material-symbols-outlined" style="position: absolute; top: 16px; right: 16px; color: rgba(255,255,255,0.4); cursor: pointer; transition: color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.4)'" onclick="closeBaseWalletModal()">close</span>
 
       <!-- State 1: Are you a Base User? -->
       <div id="baseStateQuestion" style="display: block;">
-        <h3 style="font-family: 'Outfit', sans-serif; font-size: 20px; font-weight: 900; color: #fff; text-transform: uppercase; letter-spacing: 0.02em; margin-bottom: 12px;">Are you a Base User?</h3>
-        <p style="font-size: 12.5px; color: var(--muted2); line-height: 1.6; margin-bottom: 28px; max-width: 400px; margin-left: auto; margin-right: auto;">
-          DopeKin twins are powered by the **Coinbase Base L2 Network** to guarantee unique cognitive vibes, proof of likeness, and secure metadata synchronization.
-        </p>
+        <h3 style="font-family: 'Outfit', sans-serif; font-size: 20px; font-weight: 900; color: #fff; text-transform: uppercase; letter-spacing: 0.02em; margin-bottom: 24px; margin-top: 10px;">Are you a Base User?</h3>
         
         <div style="display: flex; flex-direction: column; gap: 12px; max-width: 320px; margin: 0 auto;">
-          <button class="btn-studio primary" onclick="handleBaseChoice(true)" style="background: #0052FF; color: #fff; border: 1px solid #0052FF; box-shadow: 0 0 15px rgba(0, 82, 255, 0.25); justify-content: center; padding: 14px 0; font-size: 12px; border-radius: 30px; font-family: 'Outfit', sans-serif; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; cursor: pointer;" onmouseover="this.style.background='#2673ff'" onmouseout="this.style.background='#0052FF'">
+          <button class="btn-studio primary" onclick="handleBaseChoice(true)" style="background: #0052FF; color: #fff; border: 1px solid #0052FF; box-shadow: 0 0 15px rgba(0, 82, 255, 0.2); justify-content: center; padding: 14px 0; font-size: 11px; border-radius: 30px; font-family: 'Outfit', sans-serif; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; cursor: pointer;" onmouseover="this.style.background='#2673ff'" onmouseout="this.style.background='#0052FF'">
             Yes, I am a Base User
           </button>
-          <button class="btn-studio secondary" onclick="handleBaseChoice(false)" style="justify-content: center; padding: 14px 0; font-size: 12px; border-radius: 30px; font-family: 'Outfit', sans-serif; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; cursor: pointer;">
+          <button class="btn-studio secondary" onclick="handleBaseChoice(false)" style="justify-content: center; padding: 14px 0; font-size: 11px; border-radius: 30px; font-family: 'Outfit', sans-serif; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; cursor: pointer;">
             No, I don't have a Base Wallet
           </button>
         </div>
@@ -3841,35 +3836,32 @@
 
       <!-- State 2A: Connect Base Wallet -->
       <div id="baseStateConnect" style="display: none;">
-        <h3 style="font-family: 'Outfit', sans-serif; font-size: 20px; font-weight: 900; color: #fff; text-transform: uppercase; letter-spacing: 0.02em; margin-bottom: 12px;">Connect Base Wallet</h3>
-        <p style="font-size: 12.5px; color: var(--muted2); line-height: 1.6; margin-bottom: 24px;">
-          Choose your wallet provider to link your identity and secure your twin.
-        </p>
+        <h3 style="font-family: 'Outfit', sans-serif; font-size: 20px; font-weight: 900; color: #fff; text-transform: uppercase; letter-spacing: 0.02em; margin-bottom: 20px; margin-top: 10px;">Connect Base Wallet</h3>
 
-        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 24px; max-width: 380px; margin-left: auto; margin-right: auto;">
-          <div class="select-card" onclick="simulateWalletConnect('Coinbase Wallet')" style="align-items: center; justify-content: center; padding: 20px 10px; border-color: rgba(0, 82, 255, 0.15);">
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 24px; max-width: 320px; margin-left: auto; margin-right: auto;">
+          <div class="select-card" onclick="simulateWalletConnect('Coinbase Wallet')" style="align-items: center; justify-content: center; padding: 16px 10px; border-color: rgba(0, 82, 255, 0.15); border-radius: 12px; background: rgba(255,255,255,0.01);">
             <div style="width: 28px; height: 28px; border-radius: 6px; background: #0052FF; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:12px; margin-bottom: 6px;">C</div>
-            <span class="select-card-title" style="font-size: 11px;">Coinbase Wallet</span>
+            <span class="select-card-title" style="font-size: 10.5px;">Coinbase Wallet</span>
           </div>
-          <div class="select-card" onclick="simulateWalletConnect('MetaMask')" style="align-items: center; justify-content: center; padding: 20px 10px; border-color: rgba(255, 140, 0, 0.15);">
+          <div class="select-card" onclick="simulateWalletConnect('MetaMask')" style="align-items: center; justify-content: center; padding: 16px 10px; border-color: rgba(255, 140, 0, 0.15); border-radius: 12px; background: rgba(255,255,255,0.01);">
             <div style="width: 28px; height: 28px; border-radius: 6px; background: #ff8c00; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:12px; margin-bottom: 6px;">M</div>
-            <span class="select-card-title" style="font-size: 11px;">MetaMask</span>
+            <span class="select-card-title" style="font-size: 10.5px;">MetaMask</span>
           </div>
         </div>
 
         <!-- Connection Progress Loader -->
         <div id="walletConnectLoader" style="display: none; flex-direction: column; align-items: center; gap: 10px; margin-bottom: 24px;">
-          <div class="glow-spinner-ring" style="width: 32px; height: 32px; border-width: 2px; border-top-color: #0052FF; margin: 0; box-shadow: 0 0 10px rgba(0,82,255,0.25);"></div>
-          <span style="font-family: monospace; font-size: 10px; color: #ffe701; text-transform: uppercase; letter-spacing: 0.05em;" id="walletConnectText">Connecting to secure node...</span>
+          <div class="glow-spinner-ring" style="width: 28px; height: 28px; border-width: 2px; border-top-color: #0052FF; margin: 0; box-shadow: 0 0 10px rgba(0,82,255,0.25);"></div>
+          <span style="font-family: monospace; font-size: 10px; color: #ffe701; text-transform: uppercase; letter-spacing: 0.05em;" id="walletConnectText">Connecting...</span>
         </div>
 
         <!-- Connection Success Feedback -->
-        <div id="walletConnectSuccess" style="display: none; flex-direction: column; align-items: center; gap: 12px; background: rgba(0, 255, 102, 0.03); border: 1px solid rgba(0, 255, 102, 0.2); border-radius: 12px; padding: 16px; margin-bottom: 24px; max-width: 380px; margin-left: auto; margin-right: auto;">
-          <div style="display: flex; align-items: center; gap: 8px; color: #00ff66; font-size: 13.5px; font-weight: 700; text-transform: uppercase; font-family: 'Outfit', sans-serif;">
+        <div id="walletConnectSuccess" style="display: none; flex-direction: column; align-items: center; gap: 10px; background: rgba(0, 255, 102, 0.03); border: 1px solid rgba(0, 255, 102, 0.2); border-radius: 12px; padding: 16px; margin-bottom: 24px; max-width: 340px; margin-left: auto; margin-right: auto;">
+          <div style="display: flex; align-items: center; gap: 6px; color: #00ff66; font-size: 13px; font-weight: 700; text-transform: uppercase; font-family: 'Outfit', sans-serif;">
             <span class="material-symbols-outlined" style="font-size: 18px;">check_circle</span>
             Wallet Connected!
           </div>
-          <div style="font-family: monospace; font-size: 10.5px; color: rgba(255,255,255,0.7); display: flex; align-items: center; gap: 6px;">
+          <div style="font-family: monospace; font-size: 10px; color: rgba(255,255,255,0.7); display: flex; align-items: center; gap: 6px;">
             <span>Address:</span> <strong style="color: #fff;" id="walletConnectedAddress">0xBase...7c48</strong>
           </div>
         </div>
@@ -3882,32 +3874,28 @@
 
       <!-- State 2B: Create Base Wallet -->
       <div id="baseStateCreate" style="display: none;">
-        <h3 style="font-family: 'Outfit', sans-serif; font-size: 20px; font-weight: 900; color: #fff; text-transform: uppercase; letter-spacing: 0.02em; margin-bottom: 12px;">Create Base Wallet</h3>
-        <p style="font-size: 12.5px; color: var(--muted2); line-height: 1.6; margin-bottom: 24px; max-width: 420px; margin-left: auto; margin-right: auto;">
-          Create a **Smart Contract Wallet** instantly on Base. No seed phrases to manage, fully secured by your browser's cryptographic secure enclave.
-        </p>
+        <h3 style="font-family: 'Outfit', sans-serif; font-size: 20px; font-weight: 900; color: #fff; text-transform: uppercase; letter-spacing: 0.02em; margin-bottom: 20px; margin-top: 10px;">Create Base Wallet</h3>
 
         <!-- Create Button and Loader -->
         <div id="walletCreateTriggerArea" style="display: block; margin-bottom: 24px;">
-          <button class="btn-studio primary" onclick="simulateWalletCreation()" style="background: var(--y); color: var(--blk); margin: 0 auto; font-size: 12px; font-weight:800; padding: 14px 30px; border-radius: 30px; font-family: 'Outfit', sans-serif; text-transform: uppercase; letter-spacing: 0.08em; cursor: pointer;">
+          <button class="btn-studio primary" onclick="simulateWalletCreation()" style="background: var(--y); color: var(--blk); margin: 0 auto; font-size: 11px; font-weight:800; padding: 14px 28px; border-radius: 30px; font-family: 'Outfit', sans-serif; text-transform: uppercase; letter-spacing: 0.08em; cursor: pointer;">
             Create Base Wallet Instantly
           </button>
         </div>
 
         <!-- Creation Progress Loader -->
-        <div id="walletCreateLoader" style="display: none; flex-direction: column; align-items: center; gap: 12px; margin-bottom: 24px;">
-          <div class="glow-spinner-ring" style="width: 32px; height: 32px; border-width: 2px; border-top-color: var(--y); margin: 0;"></div>
-          <div style="font-family: monospace; font-size: 10px; color: var(--y); text-transform: uppercase; letter-spacing: 0.05em;" id="walletCreateText">Generating Cryptographic Keypair...</div>
+        <div id="walletCreateLoader" style="display: none; flex-direction: column; align-items: center; gap: 10px; margin-bottom: 24px;">
+          <div class="glow-spinner-ring" style="width: 28px; height: 28px; border-width: 2px; border-top-color: var(--y); margin: 0;"></div>
+          <div style="font-family: monospace; font-size: 10px; color: var(--y); text-transform: uppercase; letter-spacing: 0.05em;" id="walletCreateText">Generating Wallet...</div>
         </div>
 
         <!-- Creation Success Feedback -->
-        <div id="walletCreateSuccess" style="display: none; flex-direction: column; align-items: center; gap: 12px; background: rgba(0, 82, 255, 0.03); border: 1px solid rgba(0, 82, 255, 0.25); border-radius: 16px; padding: 20px; margin-bottom: 24px; max-width: 420px; margin-left: auto; margin-right: auto; text-align: left;">
-          <div style="display: flex; align-items: center; gap: 8px; color: #00ff66; font-size: 13.5px; font-weight: 800; text-transform: uppercase; font-family: 'Outfit', sans-serif;">
-            <span class="material-symbols-outlined" style="font-size: 20px;">check_circle</span>
+        <div id="walletCreateSuccess" style="display: none; flex-direction: column; align-items: center; gap: 10px; background: rgba(0, 82, 255, 0.03); border: 1px solid rgba(0, 82, 255, 0.25); border-radius: 12px; padding: 16px; margin-bottom: 24px; max-width: 340px; margin-left: auto; margin-right: auto; text-align: center;">
+          <div style="display: flex; align-items: center; gap: 6px; color: #00ff66; font-size: 13px; font-weight: 800; text-transform: uppercase; font-family: 'Outfit', sans-serif; justify-content: center;">
+            <span class="material-symbols-outlined" style="font-size: 18px;">check_circle</span>
             Base Wallet Created!
           </div>
-          <p style="font-size: 11px; color: var(--muted2); line-height: 1.4; margin: 0;">Your new Smart Account is active and deployed on the Coinbase Base Network.</p>
-          <div style="font-family: monospace; font-size: 10.5px; color: rgba(255,255,255,0.7); display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.02); padding: 10px 14px; border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; width: 100%; box-sizing: border-box;">
+          <div style="font-family: monospace; font-size: 10px; color: rgba(255,255,255,0.7); display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.02); padding: 8px 12px; border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; justify-content: center; width: 100%; box-sizing: border-box;">
             <span>Address:</span> <strong style="color: var(--y);" id="newWalletAddress">0x71C...307c</strong>
           </div>
         </div>

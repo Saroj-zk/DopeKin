@@ -217,7 +217,28 @@ $streamMain = @'
   // Populate from URL parameters
   const urlParams = new URLSearchParams(window.location.search);
   const name = urlParams.get('name') || 'Vale';
-  const imgUrl = urlParams.get('img') || 'Assets/Vale.jpeg';
+  
+  // Safe extraction of avatar image from localStorage or parameter to avoid about:blank#blocked length limits
+  let imgUrl = 'Assets/Vale.jpeg';
+  try {
+    const activeTwin = JSON.parse(localStorage.getItem('activeTwin'));
+    if (activeTwin && activeTwin.name === name && activeTwin.img) {
+      imgUrl = activeTwin.img;
+    } else {
+      const userTwins = JSON.parse(localStorage.getItem('userTwins') || '[]');
+      const found = userTwins.find(t => t.name === name);
+      if (found && found.img) {
+        imgUrl = found.img;
+      } else {
+        const urlImg = urlParams.get('img');
+        if (urlImg) imgUrl = urlImg;
+      }
+    }
+  } catch (e) {
+    console.error("Failed to load active twin image:", e);
+    const urlImg = urlParams.get('img');
+    if (urlImg) imgUrl = urlImg;
+  }
   
   document.getElementById('streamName').textContent = name;
   document.getElementById('streamAvatar').style.backgroundImage = 'url("' + imgUrl + '")';
@@ -613,7 +634,28 @@ $chatMain = @'
 
   const urlParams = new URLSearchParams(window.location.search);
   const name = urlParams.get('name') || 'Twin';
-  const imgUrl = urlParams.get('img') || 'Assets/Vale.jpeg';
+  
+  // Safe extraction of avatar image from localStorage or parameter to avoid about:blank#blocked length limits
+  let imgUrl = 'Assets/Vale.jpeg';
+  try {
+    const activeTwin = JSON.parse(localStorage.getItem('activeTwin'));
+    if (activeTwin && activeTwin.name === name && activeTwin.img) {
+      imgUrl = activeTwin.img;
+    } else {
+      const userTwins = JSON.parse(localStorage.getItem('userTwins') || '[]');
+      const found = userTwins.find(t => t.name === name);
+      if (found && found.img) {
+        imgUrl = found.img;
+      } else {
+        const urlImg = urlParams.get('img');
+        if (urlImg) imgUrl = urlImg;
+      }
+    }
+  } catch (e) {
+    console.error("Failed to load active twin image:", e);
+    const urlImg = urlParams.get('img');
+    if (urlImg) imgUrl = urlImg;
+  }
   
   document.getElementById('chatName').textContent = name;
   document.getElementById('chatAvatar').style.backgroundImage = 'url("' + imgUrl + '")';
