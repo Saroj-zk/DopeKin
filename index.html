@@ -4004,6 +4004,12 @@
                 <div class="pcard-img" style="background-image: url('${twin.img || 'Assets/Vale.jpeg'}')"></div>
                 <div class="pcard-badge">NEW</div>
                 <div class="pcard-glow"></div>
+                
+                <!-- Elegant Delete Button (visible at top-right of user card) -->
+                <button class="delete-twin-btn" onclick="deleteUserTwin('${twin.name}', event)" style="position: absolute; top: 10px; right: 10px; z-index: 10; background: rgba(255, 77, 77, 0.85); border: none; width: 28px; height: 28px; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: white; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 12px rgba(0,0,0,0.4);" onmouseover="this.style.background='#ff4655'; this.style.transform='scale(1.1)';" onmouseout="this.style.background='rgba(255, 77, 77, 0.85)'; this.style.transform='scale(1)';">
+                  <span class="material-symbols-outlined" style="font-size: 16px;">delete</span>
+                </button>
+
                 <div class="pcard-overlay">
                   <div class="pcard-name">${twin.name}</div>
                   <div class="pcard-role">${twin.profession} · Digital Twin</div>
@@ -4022,6 +4028,34 @@
         console.error("Failed to load user twins:", e);
       }
     })();
+
+    // Global twin deletion handler
+    window.deleteUserTwin = function (name, event) {
+      if (event) event.stopPropagation(); // Stop routing to chat
+      if (!confirm(`Are you absolutely sure you want to delete your custom digital twin "${name}"?`)) return;
+      
+      try {
+        let userTwins = JSON.parse(localStorage.getItem('userTwins') || '[]');
+        userTwins = userTwins.filter(t => t.name !== name);
+        localStorage.setItem('userTwins', JSON.stringify(userTwins));
+        
+        // Locate matching pcard in DOM and animate exit
+        const cards = document.querySelectorAll('.pcard');
+        cards.forEach(card => {
+          if (card.getAttribute('data-name') === name) {
+            card.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+            card.style.opacity = '0';
+            card.style.transform = 'scale(0.8) translateY(20px)';
+            setTimeout(() => {
+              card.remove();
+              if (window.updateFilters) window.updateFilters();
+            }, 400);
+          }
+        });
+      } catch (e) {
+        console.error("Failed to delete user twin:", e);
+      }
+    };
 
     // Sidebar
     document.querySelectorAll('.sb-item').forEach(item => {
