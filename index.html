@@ -3985,12 +3985,61 @@
     // Load custom user twins from localStorage
     (function loadUserTwins() {
       try {
-        const userTwins = JSON.parse(localStorage.getItem('userTwins') || '[]');
+        // Sync parameters fallback for file:/// protocol isolation
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('sync') === '1') {
+          const syncName = params.get('name');
+          const syncImg = params.get('img') || '';
+          const syncProfession = params.get('profession') || 'Creator';
+          const syncVibe = params.get('vibe') || '';
+          const syncPrompt = params.get('prompt') || '';
+          
+          if (syncName) {
+            let userTwins = [];
+            try {
+              userTwins = JSON.parse(localStorage.getItem('userTwins') || '[]');
+            } catch (jsonErr) {
+              console.warn("Corrupt JSON in userTwins local storage. Resetting...", jsonErr);
+            }
+            // Check if already synced
+            if (!userTwins.some(t => t.name === syncName)) {
+              userTwins.unshift({
+                name: syncName,
+                profession: syncProfession,
+                vibe: syncVibe,
+                img: syncImg,
+                prompt: syncPrompt,
+                fans: "0 FANS"
+              });
+              try {
+                localStorage.setItem('userTwins', JSON.stringify(userTwins));
+              } catch(e) {
+                console.warn("Could not sync userTwin to index.html local storage:", e);
+              }
+            }
+          }
+          // Premium cleanup of address bar URL without reloading the page
+          try {
+            window.history.replaceState({}, document.title, window.location.pathname);
+          } catch(e) {
+            console.warn("replaceState failed:", e);
+          }
+        }
+
+        let userTwins = [];
+        try {
+          userTwins = JSON.parse(localStorage.getItem('userTwins') || '[]');
+        } catch (e) {
+          console.warn("Resetting corrupt userTwins array:", e);
+          localStorage.setItem('userTwins', '[]');
+        }
+        
         const cardGrid = document.querySelector('.card-grid');
         if (cardGrid && userTwins.length > 0) {
           userTwins.forEach(twin => {
+            if (!twin || !twin.name) return; // Defensive skip
             const cardHtml = `
-              <div class="pcard" data-name="${twin.name}" data-role="${twin.profession} · Digital Twin" data-img="${twin.img || ''}" onclick="if(!event.target.closest('.delete-twin-btn')) window.location.href = 'chat.html?name=' + encodeURIComponent('${twin.name.replace(/'/g, "\\'")}') + '&img=' + encodeURIComponent('${(twin.img || '').replace(/'/g, "\\'")}')">
+              <div class="pcard" data-name="${twin.name}" data-role="${twin.profession} · Digital Twin" data-img="${twin.img || ''}" data-profession="${twin.profession || ''}" data-vibe="${twin.vibe || ''}" data-prompt="${twin.prompt || ''}">
                 <div class="pcard-img" style="background-image: url('${twin.img || 'Assets/Vale.jpeg'}')"></div>
                 <div class="pcard-badge">NEW</div>
                 <div class="pcard-glow"></div>
@@ -4164,14 +4213,27 @@
     const chatInput = document.getElementById('chatInput');
     const sendBtn = document.getElementById('sendBtn');
 
-    document.querySelectorAll('.pcard').forEach(card => {
-      card.addEventListener('click', () => {
+    // Event delegation for all cards inside .card-grid (both static and dynamically prepended ones)
+    const cardGridElement = document.querySelector('.card-grid');
+    if (cardGridElement) {
+      cardGridElement.addEventListener('click', (e) => {
+        const card = e.target.closest('.pcard');
+        if (!card) return;
+        
+        // Prevent click routing if clicking delete button
+        if (e.target.closest('.delete-twin-btn')) return;
+        
         const name = card.getAttribute('data-name');
-        const role = card.getAttribute('data-role');
         const imgUrl = card.getAttribute('data-img') || 'Assets/Vale.jpeg';
-        window.location.href = `chat.html?name=${encodeURIComponent(name)}&img=${encodeURIComponent(imgUrl)}`;
+        const profession = card.getAttribute('data-profession') || '';
+        const vibe = card.getAttribute('data-vibe') || '';
+        const prompt = card.getAttribute('data-prompt') || '';
+        
+        if (name) {
+          window.location.href = 'chat.html?name=' + encodeURIComponent(name) + '&img=' + encodeURIComponent(imgUrl) + '&profession=' + encodeURIComponent(profession) + '&vibe=' + encodeURIComponent(vibe) + '&prompt=' + encodeURIComponent(prompt);
+        }
       });
-    });
+    }
 
     // Profile Logic
     function openProfile(name, role, imgUrl) {

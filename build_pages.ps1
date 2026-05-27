@@ -455,7 +455,7 @@ $chatMain = @'
     
     <div style="padding: 20px 30px; border-bottom: 1px solid var(--border); background: var(--bg); display: flex; align-items: center; justify-content: space-between; z-index: 10; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
       <div style="display: flex; align-items: center; gap: 20px;">
-        <span class="material-symbols-outlined" style="cursor: pointer; color: var(--muted); transition: color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='var(--muted)'" onclick="window.location.href='index.html'">arrow_back</span>
+        <span class="material-symbols-outlined" style="cursor: pointer; color: var(--muted); transition: color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='var(--muted)'" onclick="window.location.href='index.html?sync=1&name=' + encodeURIComponent(name) + '&img=' + encodeURIComponent(imgUrl) + '&profession=' + encodeURIComponent(urlParams.get('profession') || '') + '&vibe=' + encodeURIComponent(urlParams.get('vibe') || '') + '&prompt=' + encodeURIComponent(urlParams.get('prompt') || '')">arrow_back</span>
         <div id="chatAvatar" style="width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--y); background-size: cover; background-position: center;"></div>
         <div>
           <h3 id="chatName" style="margin: 0; font-family: 'Inter', sans-serif; font-size: 18px; font-weight: 800; color: #fff; letter-spacing: -0.01em;">Twin Name</h3>
@@ -612,8 +612,13 @@ $chatMain = @'
         const labelSpan = item.querySelector('span:not(.sb-icon):not(.sb-badge)');
         if (labelSpan) {
           const label = labelSpan.textContent.toLowerCase();
+          
+          const professionParam = urlParams.get('profession') || '';
+          const vibeParam = urlParams.get('vibe') || '';
+          const promptParam = urlParams.get('prompt') || '';
+          
           if (label === 'home') {
-            window.location.href = 'index.html';
+            window.location.href = 'index.html?sync=1&name=' + encodeURIComponent(name) + '&img=' + encodeURIComponent(imgUrl) + '&profession=' + encodeURIComponent(professionParam) + '&vibe=' + encodeURIComponent(vibeParam) + '&prompt=' + encodeURIComponent(promptParam);
           } else if (label === 'feed') {
             window.location.href = 'index.html?section=feed';
           } else if (label === 'chat') {
@@ -625,7 +630,7 @@ $chatMain = @'
           } else if (label === 'create character') {
             window.location.href = 'create-avatar.html';
           } else {
-            window.location.href = 'index.html';
+            window.location.href = 'index.html?sync=1&name=' + encodeURIComponent(name) + '&img=' + encodeURIComponent(imgUrl) + '&profession=' + encodeURIComponent(professionParam) + '&vibe=' + encodeURIComponent(vibeParam) + '&prompt=' + encodeURIComponent(promptParam);
           }
         }
       });
