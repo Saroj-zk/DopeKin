@@ -1091,45 +1091,35 @@
       transform: scale(1.08);
     }
 
-    /* Image mappings for Featured Twins */
-    .pcard:nth-child(1) .pcard-img {
-      background-image: url('Assets/Vale.jpeg');
+    /* Elegant Delete Button style */
+    .delete-twin-btn {
+      position: absolute !important;
+      top: 10px !important;
+      right: 10px !important;
+      z-index: 99 !important;
+      background: rgba(255, 77, 77, 0.9) !important;
+      border: none !important;
+      width: 28px !important;
+      height: 28px !important;
+      border-radius: 6px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      color: white !important;
+      cursor: pointer !important;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5) !important;
     }
 
-    .pcard:nth-child(2) .pcard-img {
-      background-image: url('Assets/Serina.jpeg');
+    .delete-twin-btn:hover {
+      background: #ff3b30 !important;
+      transform: scale(1.1) !important;
     }
 
-    .pcard:nth-child(3) .pcard-img {
-      background-image: url('Assets/AIKO.jpeg');
-    }
-
-    .pcard:nth-child(4) .pcard-img {
-      background-image: url('Assets/Cody.jpeg');
-    }
-
-    .pcard:nth-child(5) .pcard-img {
-      background-image: url('Assets/Sarang.jpeg');
-    }
-
-    .pcard:nth-child(6) .pcard-img {
-      background-image: url('carlos_v_comedian_1777285979473.png');
-    }
-
-    .pcard:nth-child(7) .pcard-img {
-      background-image: url('ben_t_streamer_1777285995785.png');
-    }
-
-    .pcard:nth-child(8) .pcard-img {
-      background-image: url('Assets/Vale.jpeg');
-    }
-
-    .pcard:nth-child(9) .pcard-img {
-      background-image: url('Assets/Etherik.jpeg');
-    }
-
-    .pcard:nth-child(10) .pcard-img {
-      background-image: url('Assets/Cody.jpeg');
+    .delete-twin-btn .material-symbols-outlined {
+      font-size: 16px !important;
+      font-weight: bold !important;
+      color: white !important;
     }
 
     .pcard-badge {

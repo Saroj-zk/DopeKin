@@ -1091,45 +1091,35 @@
       transform: scale(1.08);
     }
 
-    /* Image mappings for Featured Twins */
-    .pcard:nth-child(1) .pcard-img {
-      background-image: url('Assets/Vale.jpeg');
+    /* Elegant Delete Button style */
+    .delete-twin-btn {
+      position: absolute !important;
+      top: 10px !important;
+      right: 10px !important;
+      z-index: 99 !important;
+      background: rgba(255, 77, 77, 0.9) !important;
+      border: none !important;
+      width: 28px !important;
+      height: 28px !important;
+      border-radius: 6px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      color: white !important;
+      cursor: pointer !important;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5) !important;
     }
 
-    .pcard:nth-child(2) .pcard-img {
-      background-image: url('Assets/Serina.jpeg');
+    .delete-twin-btn:hover {
+      background: #ff3b30 !important;
+      transform: scale(1.1) !important;
     }
 
-    .pcard:nth-child(3) .pcard-img {
-      background-image: url('Assets/AIKO.jpeg');
-    }
-
-    .pcard:nth-child(4) .pcard-img {
-      background-image: url('Assets/Cody.jpeg');
-    }
-
-    .pcard:nth-child(5) .pcard-img {
-      background-image: url('Assets/Sarang.jpeg');
-    }
-
-    .pcard:nth-child(6) .pcard-img {
-      background-image: url('carlos_v_comedian_1777285979473.png');
-    }
-
-    .pcard:nth-child(7) .pcard-img {
-      background-image: url('ben_t_streamer_1777285995785.png');
-    }
-
-    .pcard:nth-child(8) .pcard-img {
-      background-image: url('Assets/Vale.jpeg');
-    }
-
-    .pcard:nth-child(9) .pcard-img {
-      background-image: url('Assets/Etherik.jpeg');
-    }
-
-    .pcard:nth-child(10) .pcard-img {
-      background-image: url('Assets/Cody.jpeg');
+    .delete-twin-btn .material-symbols-outlined {
+      font-size: 16px !important;
+      font-weight: bold !important;
+      color: white !important;
     }
 
     .pcard-badge {
@@ -2985,7 +2975,7 @@
 
         <div class="pcard" data-name="Vale" data-role="Magnetic · Digital Twin"
           data-img="Assets/Vale.jpeg">
-          <div class="pcard-img"></div>
+          <div class="pcard-img" style="background-image: url('Assets/Vale.jpeg');"></div>
           <div class="pcard-badge live"><span class="live-dot"></span>Live</div>
           <div class="pcard-glow"></div>
           <div class="pcard-overlay">
@@ -3002,7 +2992,7 @@
 
         <div class="pcard" data-name="Serena" data-role="Wellness Coach · Digital Twin"
           data-img="Assets/Serina.jpeg">
-          <div class="pcard-img"></div>
+          <div class="pcard-img" style="background-image: url('Assets/Serina.jpeg');"></div>
           <div class="pcard-badge live"><span class="live-dot"></span>Live</div>
           <div class="pcard-glow"></div>
           <div class="pcard-overlay">
@@ -3018,7 +3008,7 @@
 
         <div class="pcard" data-name="Aiko" data-role="Executive Assistant · Digital Twin"
           data-img="Assets/AIKO.jpeg">
-          <div class="pcard-img"></div>
+          <div class="pcard-img" style="background-image: url('Assets/AIKO.jpeg');"></div>
           <div class="pcard-badge">New</div>
           <div class="pcard-glow"></div>
           <div class="pcard-overlay">
@@ -3035,7 +3025,7 @@
 
         <div class="pcard" data-name="Cody" data-role="Crypto Degen · Digital Twin"
           data-img="Assets/Cody.jpeg">
-          <div class="pcard-img"></div>
+          <div class="pcard-img" style="background-image: url('Assets/Cody.jpeg');"></div>
           <div class="pcard-badge live"><span class="live-dot"></span>Live</div>
           <div class="pcard-glow"></div>
           <div class="pcard-overlay">
@@ -3051,7 +3041,7 @@
 
         <div class="pcard" data-name="Sarang" data-role="K-pop Idol · Digital Twin"
           data-img="Assets/Sarang.jpeg">
-          <div class="pcard-img"></div>
+          <div class="pcard-img" style="background-image: url('Assets/Sarang.jpeg');"></div>
           <div class="pcard-badge">New</div>
           <div class="pcard-glow"></div>
           <div class="pcard-overlay">
@@ -3068,7 +3058,7 @@
 
         <div class="pcard" data-name="Carlos V." data-role="Comedian · Digital Twin"
           data-img="carlos_v_comedian_1777285979473.png">
-          <div class="pcard-img"></div>
+          <div class="pcard-img" style="background-image: url('carlos_v_comedian_1777285979473.png');"></div>
           <div class="pcard-glow"></div>
           <div class="pcard-overlay">
             <div class="pcard-name">Carlos V.</div>
@@ -3084,7 +3074,7 @@
 
         <div class="pcard" data-name="Ben T." data-role="Streamer · Digital Twin"
           data-img="ben_t_streamer_1777285995785.png">
-          <div class="pcard-img"></div>
+          <div class="pcard-img" style="background-image: url('ben_t_streamer_1777285995785.png');"></div>
           <div class="pcard-badge live"><span class="live-dot"></span>Live</div>
           <div class="pcard-glow"></div>
           <div class="pcard-overlay">
@@ -3100,7 +3090,7 @@
         </div>
 
         <div class="pcard" data-name="Rina L." data-role="DJ · Digital Twin" data-img="Assets/Vale.jpeg">
-          <div class="pcard-img"></div>
+          <div class="pcard-img" style="background-image: url('Assets/Vale.jpeg');"></div>
           <div class="pcard-badge">New</div>
           <div class="pcard-glow"></div>
           <div class="pcard-overlay">
@@ -3117,7 +3107,7 @@
 
         <div class="pcard" data-name="Etherik T." data-role="YouTuber · Digital Twin"
           data-img="Assets/Etherik.jpeg">
-          <div class="pcard-img"></div>
+          <div class="pcard-img" style="background-image: url('Assets/Etherik.jpeg');"></div>
           <div class="pcard-glow"></div>
           <div class="pcard-overlay">
             <div class="pcard-name">Etherik T.</div>
@@ -3133,7 +3123,7 @@
 
         <div class="pcard" data-name="Sasha W." data-role="Boxer · Digital Twin"
           data-img="Assets/Cody.jpeg">
-          <div class="pcard-img"></div>
+          <div class="pcard-img" style="background-image: url('Assets/Cody.jpeg');"></div>
           <div class="pcard-badge live"><span class="live-dot"></span>Live</div>
           <div class="pcard-glow"></div>
           <div class="pcard-overlay">
