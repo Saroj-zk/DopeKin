@@ -1108,7 +1108,7 @@
       color: white !important;
       cursor: pointer !important;
       transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.5) !important;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
     }
 
     .delete-twin-btn:hover {
@@ -2121,11 +2121,25 @@
       .card-grid {
         grid-template-columns: repeat(3, 1fr);
       }
-    
-      .live-explainer-wrap { padding: 40px 20px !important; }
-      .live-explainer-wrap > div { grid-template-columns: 1fr !important; gap: 40px !important; }
-      .visual-dashboard { width: 100% !important; max-width: 520px; margin: 0 auto; }
-      .hero-auth-links { display: none !important; }
+
+      .live-explainer-wrap {
+        padding: 40px 20px !important;
+      }
+
+      .live-explainer-wrap>div {
+        grid-template-columns: 1fr !important;
+        gap: 40px !important;
+      }
+
+      .visual-dashboard {
+        width: 100% !important;
+        max-width: 520px;
+        margin: 0 auto;
+      }
+
+      .hero-auth-links {
+        display: none !important;
+      }
     }
 
     @media (max-width: 600px) {
@@ -2463,9 +2477,13 @@
         background: rgba(10, 10, 10, 0.95) !important;
         backdrop-filter: blur(10px) !important;
       }
-      
-      .sb-logo, .sb-spacer, .sb-bottom { display: none; }
-      
+
+      .sb-logo,
+      .sb-spacer,
+      .sb-bottom {
+        display: none;
+      }
+
       .sb-items {
         display: flex;
         flex-direction: row;
@@ -2474,13 +2492,16 @@
         padding: 0 10px;
         overflow-x: auto;
         gap: 8px;
-        -ms-overflow-style: none;  /* IE and Edge */
-        scrollbar-width: none;  /* Firefox */
+        -ms-overflow-style: none;
+        /* IE and Edge */
+        scrollbar-width: none;
+        /* Firefox */
       }
+
       .sb-items::-webkit-scrollbar {
         display: none;
       }
-      
+
       .sb-item {
         flex-direction: column;
         padding: 8px 12px;
@@ -2490,11 +2511,15 @@
         border-radius: 8px;
         flex-shrink: 0;
       }
+
       .sb-item span:not(.sb-icon) {
         font-size: 10px;
       }
-      .sb-badge { display: none; }
-      
+
+      .sb-badge {
+        display: none;
+      }
+
       .main {
         margin-left: 0;
         margin-bottom: 70px;
@@ -2507,13 +2532,16 @@
         padding: 20px;
         gap: 40px;
       }
+
       .hero-left {
         width: 100%;
         padding-top: 40px;
       }
+
       .hero-left h1 {
         font-size: 40px;
       }
+
       .hero-right {
         display: none;
       }
@@ -2522,7 +2550,7 @@
         grid-template-columns: repeat(2, 1fr);
         gap: 16px;
       }
-      
+
       .live-grid {
         grid-template-columns: 1fr;
       }
@@ -2534,62 +2562,106 @@
         max-width: 100vw !important;
         overflow-x: hidden !important;
       }
-      
+
       .insta-header {
         flex-direction: column;
         gap: 20px !important;
         text-align: center;
       }
+
       .insta-header .insta-info {
         width: 100%;
       }
-      .insta-header .insta-info > div:first-child {
+
+      .insta-header .insta-info>div:first-child {
         flex-direction: column;
         justify-content: center;
       }
-      .insta-header .insta-info > div:nth-child(2) {
+
+      .insta-header .insta-info>div:nth-child(2) {
         justify-content: center;
       }
+
       .feed-post .post-header {
         padding: 12px;
       }
 
-      .grid-wrap, .creators-wrap {
+      .grid-wrap,
+      .creators-wrap {
         padding: 20px;
       }
 
       .vision-grid {
         grid-template-columns: 1fr;
       }
-      
+
       .creator-card {
         flex-direction: column;
         text-align: center;
       }
-      .insta-header .insta-info > div:first-child { flex-direction: column !important; gap: 10px !important; }
-      .profile-actions { gap: 10px !important; flex-direction: column !important; }
-      .profile-stats { gap: 20px !important; }
-      .profile-tabs { gap: 20px !important; }
-      .post-actions-row { gap: 4px !important; flex-wrap: wrap !important; justify-content: space-between !important; }
-      .post-actions-row > div { font-size: 11px !important; }
-      .post-actions-row span.material-symbols-outlined { font-size: 16px !important; }
-      
-    
-      .live-explainer-wrap { padding: 40px 20px !important; }
-      .live-explainer-wrap > div { grid-template-columns: 1fr !important; gap: 40px !important; }
-      .visual-dashboard { width: 100% !important; max-width: 520px; margin: 0 auto; }
-      .hero-auth-links { display: none !important; }
+
+      .insta-header .insta-info>div:first-child {
+        flex-direction: column !important;
+        gap: 10px !important;
+      }
+
+      .profile-actions {
+        gap: 10px !important;
+        flex-direction: column !important;
+      }
+
+      .profile-stats {
+        gap: 20px !important;
+      }
+
+      .profile-tabs {
+        gap: 20px !important;
+      }
+
+      .post-actions-row {
+        gap: 4px !important;
+        flex-wrap: wrap !important;
+        justify-content: space-between !important;
+      }
+
+      .post-actions-row>div {
+        font-size: 11px !important;
+      }
+
+      .post-actions-row span.material-symbols-outlined {
+        font-size: 16px !important;
+      }
+
+
+      .live-explainer-wrap {
+        padding: 40px 20px !important;
+      }
+
+      .live-explainer-wrap>div {
+        grid-template-columns: 1fr !important;
+        gap: 40px !important;
+      }
+
+      .visual-dashboard {
+        width: 100% !important;
+        max-width: 520px;
+        margin: 0 auto;
+      }
+
+      .hero-auth-links {
+        display: none !important;
+      }
     }
 
     @media (max-width: 600px) {
       .card-grid {
         grid-template-columns: 1fr;
       }
-    
-      
-      
-      
-      
+
+
+
+
+
     }
   </style>
 </head>
