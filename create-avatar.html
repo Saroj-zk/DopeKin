@@ -3078,6 +3078,36 @@
       }
     }
 
+    function compressImage(base64Str, maxWidth, maxHeight, quality, callback) {
+      const img = new Image();
+      img.src = base64Str;
+      img.onload = function() {
+        let width = img.width;
+        let height = img.height;
+        if (width > height) {
+          if (width > maxWidth) {
+            height = Math.round((height * maxWidth) / width);
+            width = maxWidth;
+          }
+        } else {
+          if (height > maxHeight) {
+            width = Math.round((width * maxHeight) / height);
+            height = maxHeight;
+          }
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+        const compressedBase64 = canvas.toDataURL('image/jpeg', quality);
+        callback(compressedBase64);
+      };
+      img.onerror = function() {
+        callback(base64Str);
+      };
+    }
+
     function triggerThumbnailUpload() {
       document.getElementById('thumbnailFileInput').click();
     }
@@ -3088,19 +3118,22 @@
       const reader = new FileReader();
 
       reader.onload = function(e) {
-        twin.avatarImg = e.target.result;
-        
-        const formPreview = document.getElementById('formThumbnailPreview');
-        const formPlaceholder = document.getElementById('formThumbnailPlaceholder');
-        if (formPreview) {
-          formPreview.style.backgroundImage = `url('${e.target.result}')`;
-          formPreview.style.display = 'block';
-        }
-        if (formPlaceholder) {
-          formPlaceholder.style.display = 'none';
-        }
-        
-        updatePreviewUI();
+        const rawBase64 = e.target.result;
+        compressImage(rawBase64, 450, 600, 0.7, function(compressedBase64) {
+          twin.avatarImg = compressedBase64;
+          
+          const formPreview = document.getElementById('formThumbnailPreview');
+          const formPlaceholder = document.getElementById('formThumbnailPlaceholder');
+          if (formPreview) {
+            formPreview.style.backgroundImage = `url('${compressedBase64}')`;
+            formPreview.style.display = 'block';
+          }
+          if (formPlaceholder) {
+            formPlaceholder.style.display = 'none';
+          }
+          
+          updatePreviewUI();
+        });
       };
 
       reader.readAsDataURL(file);
@@ -3711,15 +3744,44 @@
               prompt: twin.prompt,
               fans: "0 FANS"
             });
-            localStorage.setItem('userTwins', JSON.stringify(userTwins));
+            
+            try {
+              localStorage.setItem('userTwins', JSON.stringify(userTwins));
+            } catch (innerErr) {
+              console.warn("Storage quota hit. Cleaning old large twins to free space...", innerErr);
+              // Recovery step: keep the newest twin, but clear older twins' large base64 images
+              const recoveryTwins = userTwins.map((t, idx) => {
+                if (idx > 0 && t.img && t.img.startsWith('data:image')) {
+                  // Keep metadata but drop the massive image
+                  return { ...t, img: 'Assets/Vale.jpeg' };
+                }
+                return t;
+              });
+              try {
+                localStorage.setItem('userTwins', JSON.stringify(recoveryTwins));
+                console.log("Successfully saved twins after dropping old large images.");
+              } catch (retryErr) {
+                console.error("Critical storage failure: could not save even after recovery.", retryErr);
+              }
+            }
             
             // Also store it as the active chat twin to retrieve safely inside chat.html
-            localStorage.setItem('activeTwin', JSON.stringify({
-              name: twin.name,
-              img: twin.avatarImg,
-              profession: twin.profession,
-              vibe: twin.vibe
-            }));
+            try {
+              localStorage.setItem('activeTwin', JSON.stringify({
+                name: twin.name,
+                img: twin.avatarImg,
+                profession: twin.profession,
+                vibe: twin.vibe
+              }));
+            } catch (activeErr) {
+              console.warn("Could not save activeTwin image to localStorage, saving with fallback...", activeErr);
+              localStorage.setItem('activeTwin', JSON.stringify({
+                name: twin.name,
+                img: 'Assets/Vale.jpeg',
+                profession: twin.profession,
+                vibe: twin.vibe
+              }));
+            }
           } catch (e) {
             console.error("Failed to save user twin to localStorage:", e);
           }

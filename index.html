@@ -3990,7 +3990,7 @@
         if (cardGrid && userTwins.length > 0) {
           userTwins.forEach(twin => {
             const cardHtml = `
-              <div class="pcard" data-name="${twin.name}" data-role="${twin.profession} · Digital Twin" data-img="${twin.img || ''}">
+              <div class="pcard" data-name="${twin.name}" data-role="${twin.profession} · Digital Twin" data-img="${twin.img || ''}" onclick="if(!event.target.closest('.delete-twin-btn')) window.location.href = 'chat.html?name=' + encodeURIComponent('${twin.name.replace(/'/g, "\\'")}') + '&img=' + encodeURIComponent('${(twin.img || '').replace(/'/g, "\\'")}')">
                 <div class="pcard-img" style="background-image: url('${twin.img || 'Assets/Vale.jpeg'}')"></div>
                 <div class="pcard-badge">NEW</div>
                 <div class="pcard-glow"></div>
