@@ -3012,13 +3012,16 @@
           style="border-top: 1px solid var(--border); padding-top: 20px; display: flex; justify-content: center; gap: 40px; margin-bottom: 20px; flex-wrap: wrap;">
           <div
             style="color: #fff; font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; border-top: 1px solid #fff; padding-top: 15px; margin-top: -21px; display: flex; align-items: center; gap: 6px;">
-            <span class="material-symbols-outlined" style="font-size: 14px;">grid_on</span> POSTS</div>
+            <span class="material-symbols-outlined" style="font-size: 14px;">grid_on</span> POSTS
+          </div>
           <div
             style="color: var(--muted); font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; padding-top: 15px; margin-top: -21px; display: flex; align-items: center; gap: 6px; cursor:pointer;">
-            <span class="material-symbols-outlined" style="font-size: 14px;">play_circle</span> REELS</div>
+            <span class="material-symbols-outlined" style="font-size: 14px;">play_circle</span> REELS
+          </div>
           <div
             style="color: var(--muted); font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; padding-top: 15px; margin-top: -21px; display: flex; align-items: center; gap: 6px; cursor:pointer;">
-            <span class="material-symbols-outlined" style="font-size: 14px;">bookmark</span> SAVED</div>
+            <span class="material-symbols-outlined" style="font-size: 14px;">bookmark</span> SAVED
+          </div>
         </div>
 
         <div class="social-feed" id="mainSocialFeed">
@@ -3155,7 +3158,7 @@
             <div class="pcard-meta">2.1M fans</div>
           </div>
           <div class="pcard-hover-cta">
-            <div class="pcard-cta-btn">Chat with Twin →</div>
+            <div class="pcard-cta-btn">Subscribe & Chat →</div>
           </div>
         </div>
 
@@ -3170,7 +3173,7 @@
             <div class="pcard-meta">5.4M fans</div>
           </div>
           <div class="pcard-hover-cta">
-            <div class="pcard-cta-btn">Chat with Twin →</div>
+            <div class="pcard-cta-btn">Subscribe & Chat →</div>
           </div>
         </div>
 
@@ -3186,7 +3189,7 @@
             <div class="pcard-meta">15.9M fans</div>
           </div>
           <div class="pcard-hover-cta">
-            <div class="pcard-cta-btn">Chat with Twin →</div>
+            <div class="pcard-cta-btn">Subscribe & Chat →</div>
           </div>
         </div>
 
@@ -3201,7 +3204,7 @@
             <div class="pcard-meta">800K fans</div>
           </div>
           <div class="pcard-hover-cta">
-            <div class="pcard-cta-btn">Chat with Twin →</div>
+            <div class="pcard-cta-btn">Subscribe & Chat →</div>
           </div>
         </div>
 
@@ -3217,7 +3220,7 @@
             <div class="pcard-meta">4.5M fans</div>
           </div>
           <div class="pcard-hover-cta">
-            <div class="pcard-cta-btn">Chat with Twin →</div>
+            <div class="pcard-cta-btn">Subscribe & Chat →</div>
           </div>
         </div>
 
@@ -3232,7 +3235,7 @@
             <div class="pcard-meta">3.2M fans</div>
           </div>
           <div class="pcard-hover-cta">
-            <div class="pcard-cta-btn">Chat with Twin →</div>
+            <div class="pcard-cta-btn">Subscribe & Chat →</div>
           </div>
         </div>
 
@@ -3248,7 +3251,7 @@
             <div class="pcard-meta">2.9M fans</div>
           </div>
           <div class="pcard-hover-cta">
-            <div class="pcard-cta-btn">Chat with Twin →</div>
+            <div class="pcard-cta-btn">Subscribe & Chat →</div>
           </div>
         </div>
 
@@ -3264,7 +3267,7 @@
             <div class="pcard-meta">1.1M fans</div>
           </div>
           <div class="pcard-hover-cta">
-            <div class="pcard-cta-btn">Chat with Twin →</div>
+            <div class="pcard-cta-btn">Subscribe & Chat →</div>
           </div>
         </div>
 
@@ -3279,7 +3282,7 @@
             <div class="pcard-meta">6.7M fans</div>
           </div>
           <div class="pcard-hover-cta">
-            <div class="pcard-cta-btn">Chat with Twin →</div>
+            <div class="pcard-cta-btn">Subscribe & Chat →</div>
           </div>
         </div>
 
@@ -3294,7 +3297,7 @@
             <div class="pcard-meta">9.2M fans</div>
           </div>
           <div class="pcard-hover-cta">
-            <div class="pcard-cta-btn">Chat with Twin →</div>
+            <div class="pcard-cta-btn">Subscribe & Chat →</div>
           </div>
         </div>
 
@@ -4145,6 +4148,32 @@
     // Load custom user twins from localStorage
     (function loadUserTwins() {
       try {
+        // High-fidelity fallback window.name bridge for file:/// protocol isolation
+        if (window.name) {
+          try {
+            const storedTwin = JSON.parse(window.name);
+            if (storedTwin && storedTwin.name) {
+              let localTwins = [];
+              try {
+                localTwins = JSON.parse(localStorage.getItem('userTwins') || '[]');
+              } catch (err) {
+                console.warn("Resetting corrupt localTwins:", err);
+              }
+              if (!localTwins.some(t => t.name === storedTwin.name)) {
+                localTwins.unshift(storedTwin);
+                try {
+                  localStorage.setItem('userTwins', JSON.stringify(localTwins));
+                  console.log("Successfully synced twin from window.name bridge:", storedTwin.name);
+                } catch (storeErr) {
+                  console.warn("Failed to store twin from bridge:", storeErr);
+                }
+              }
+            }
+          } catch (winErr) {
+            console.warn("Could not parse window.name bridge:", winErr);
+          }
+        }
+
         // Sync parameters fallback for file:/// protocol isolation
         const params = new URLSearchParams(window.location.search);
         if (params.get('sync') === '1') {
@@ -4216,7 +4245,7 @@
                   <div class="pcard-meta">${twin.fans || '0 FANS'}</div>
                 </div>
                 <div class="pcard-hover-cta">
-                  <div class="pcard-cta-btn">Chat with Twin →</div>
+                  <div class="pcard-cta-btn">${twin.subscriptionPrice && parseFloat(twin.subscriptionPrice) > 0 ? `Subscribe ($${parseFloat(twin.subscriptionPrice).toFixed(2)}/mo)` : 'Subscribe & Chat'} →</div>
                 </div>
               </div>
             `;
@@ -4237,6 +4266,19 @@
         let userTwins = JSON.parse(localStorage.getItem('userTwins') || '[]');
         userTwins = userTwins.filter(t => t.name !== name);
         localStorage.setItem('userTwins', JSON.stringify(userTwins));
+
+        // Safely clear window.name bridge to prevent resurrecting deleted twin
+        try {
+          if (window.name) {
+            const storedTwin = JSON.parse(window.name);
+            if (storedTwin && storedTwin.name === name) {
+              window.name = '';
+              console.log("Cleared window.name bridge for deleted twin:", name);
+            }
+          }
+        } catch (e) {
+          console.warn("Could not clear window.name on delete:", e);
+        }
 
         // Locate matching pcard in DOM and animate exit
         const cards = document.querySelectorAll('.pcard');

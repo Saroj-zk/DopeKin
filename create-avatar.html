@@ -1808,6 +1808,16 @@
       box-shadow: var(--glow-y);
     }
 
+    @keyframes rotateRing {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
     .compiling-headline {
       font-family: 'Outfit', sans-serif;
       font-size: 20px;
@@ -2706,8 +2716,8 @@
             <div class="rec-badge-pulsing"
               style="background: rgba(255, 77, 77, 0.95); box-shadow: 0 0 15px rgba(255,77,77,0.4);"><span
                 style="width:6px; height:6px; background:#fff; border-radius:50%;"></span>• CAPTURING</div>
-            <video id="recWebcamVideo" autoplay playsinline
-              style="width:100%; height:100%; object-fit:cover; transform:scaleX(-1);"></video>
+            <video id="recWebcamVideo" autoplay playsinline loop muted src="Assets/kyle-video.mp4"
+              style="width:100%; height:100%; object-fit:cover; transform:none;"></video>
             <div id="recPhotoBackdrop"
               style="display:none; width:100%; height:100%; background-size:cover; background-position:center; position:absolute; inset:0; filter: brightness(0.75);">
             </div>
@@ -2921,19 +2931,45 @@
               </p>
             </div>
 
-            <!-- Presets & Conversation Rules -->
+            <!-- Monthly Subscription Tier Settings -->
             <div class="form-group">
-              <label class="form-label">CHOOSE HOW YOUR TWIN TALKS</label>
-              <div class="category-grid-tags" style="margin-bottom: 8px;" id="rulesPresetGrid">
-                <div class="category-tag-card active" onclick="setRulesPreset('Friendly & Warm', this)">Friendly &amp;
-                  Warm</div>
-                <div class="category-tag-card" onclick="setRulesPreset('Wise &amp; Helpful', this)">Wise &amp; Helpful
-                </div>
-                <div class="category-tag-card" onclick="setRulesPreset('Lively &amp; Playful', this)">Lively &amp;
-                  Playful</div>
+              <label class="form-label">Monthly Subscription Price</label>
+              <div class="category-grid-tags" style="margin-bottom: 8px;" id="subscriptionTierGrid">
+                <div class="category-tag-card active" onclick="setSubscriptionPrice(0, this)">Free Access</div>
+                <div class="category-tag-card" onclick="setSubscriptionPrice(4.99, this)">$4.99 / mo</div>
+                <div class="category-tag-card" onclick="setSubscriptionPrice(9.99, this)">$9.99 / mo</div>
+                <div class="category-tag-card" onclick="revealCustomPriceInput(this)">Custom Price</div>
               </div>
-              <textarea id="twinConversationalRules" class="form-textarea" style="height: 80px;"
-                placeholder="Add specific phrases they should use, topics they should focus on, or how they should speak...">Always respond with warmth and deep interest. Listen patiently, support them in whatever they share, and maintain a compassionate, nurturing dialogue.</textarea>
+
+              <!-- Hidden Custom Price Input Container -->
+              <div id="customPriceContainer" style="display: none; margin-top: 10px; animation: fadeIn 0.3s ease;">
+                <div style="position: relative; display: flex; align-items: center; max-width: 180px;">
+                  <span
+                    style="position: absolute; left: 14px; font-size: 14px; font-weight: 700; color: var(--y);">$</span>
+                  <input type="number" id="customSubscriptionInput" class="form-input" min="0" step="0.01" value="14.99"
+                    oninput="updateCustomSubscriptionPrice(this.value)"
+                    style="padding-left: 28px; padding-right: 45px; text-align: left; font-weight: 800; font-family: 'Outfit', sans-serif;">
+                  <span
+                    style="position: absolute; right: 14px; font-size: 10px; font-weight: 700; color: var(--muted2);">/
+                    MO</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Daily Auto Check-ins Toggle -->
+            <div class="toggle-row" style="margin-top: 15px; margin-bottom: 15px;">
+              <div>
+                <h4
+                  style="font-family: 'Outfit', sans-serif; font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:0.1em; color:#fff;">
+                  Daily Auto Check-ins</h4>
+                <p style="font-size:9.5px; color:var(--muted2); margin-top:2px;">Let your twin proactively reach out
+                  with daily personalized check-ins.</p>
+              </div>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 10px; font-weight: 700; color: var(--y);" id="checkInLabel">ENABLED</span>
+                <input type="checkbox" id="toggleCheckIn" class="toggle-switch-input" checked
+                  onchange="toggleCheckInLabel()">
+              </div>
             </div>
 
             <!-- Privacy Controls -->
@@ -2995,7 +3031,9 @@
       languages: ["English"],
       prompt: "Warm brown eyes, shoulder-length wavy brunette hair, friendly natural smile. Wearing a grey casual knit hoodie, sitting in a cozy study...",
       avatarImg: null,
-      communicationArchetype: "Warm & Attentive"
+      communicationArchetype: "Warm & Attentive",
+      subscriptionPrice: 0,
+      dailyCheckIn: true
     };
 
     function selectTag(type, btn) {
@@ -3447,17 +3485,26 @@
       const recVideo = document.getElementById('recWebcamVideo');
       const recPhoto = document.getElementById('recPhotoBackdrop');
 
-      if (activeCalibMode === 'upload' && uploadedPhotos.front) {
-        recVideo.style.display = 'none';
-        recPhoto.style.display = 'block';
-        recPhoto.style.backgroundImage = `url('${uploadedPhotos.front}')`;
+      // Always play the pre-recorded voice calibration video by default in upload and mobile modes, or the live webcam stream in webcam mode
+      if (activeCalibMode === 'webcam' && cameraStream) {
+        recVideo.style.display = 'block';
+        recPhoto.style.display = 'none';
+        recVideo.srcObject = cameraStream;
+        recVideo.style.transform = 'scaleX(-1)'; // Mirror webcam
+        recVideo.play().catch(e => console.log('Webcam play failed:', e));
       } else {
         recVideo.style.display = 'block';
         recPhoto.style.display = 'none';
-        recVideo.src = 'Assets/Kyle Jenner_ Video Sample.mp4';
-        recVideo.srcObject = null;
-        recVideo.loop = true;
-        recVideo.muted = true;
+        
+        // Only set the source if not already set to prevent resetting the preloaded browser buffer
+        if (!recVideo.src || !recVideo.src.includes('kyle-video') || recVideo.srcObject !== null) {
+          recVideo.muted = true;
+          recVideo.loop = true;
+          recVideo.src = 'Assets/kyle-video.mp4';
+          recVideo.srcObject = null;
+          recVideo.load();
+        }
+        
         recVideo.style.transform = 'none'; // Unmirror the pre-recorded video
         recVideo.play().catch(e => console.log('Video play failed:', e));
       }
@@ -3602,9 +3649,6 @@
     }
 
     function setupAIVideoCall() {
-      if (activeCalibMode === 'upload' && uploadedPhotos.front) {
-        twin.avatarImg = uploadedPhotos.front;
-      }
 
       document.getElementById('callTwinAvatar').style.backgroundImage = `url('${twin.avatarImg}')`;
       document.getElementById('callTwinName').textContent = twin.name;
@@ -3733,18 +3777,30 @@
     }
 
     // Configure controls on right
-    function setRulesPreset(preset, btn) {
-      document.querySelectorAll('#rulesPresetGrid .category-tag-card').forEach(c => c.classList.remove('active'));
+    function setSubscriptionPrice(price, btn) {
+      document.querySelectorAll('#subscriptionTierGrid .category-tag-card').forEach(c => c.classList.remove('active'));
       btn.classList.add('active');
+      document.getElementById('customPriceContainer').style.display = 'none';
+      twin.subscriptionPrice = price;
+    }
 
-      const rulesArea = document.getElementById('twinConversationalRules');
-      if (preset === 'Friendly & Warm') {
-        rulesArea.value = "Always respond with warmth and deep interest. Listen patiently, support them in whatever they share, and maintain a compassionate, nurturing dialogue.";
-      } else if (preset === 'Wise & Helpful') {
-        rulesArea.value = "Be highly encouraging, structured, and clear. Focus on helpful insights, offer structured guidance, and speak with wisdom and patience.";
-      } else if (preset === 'Lively & Playful') {
-        rulesArea.value = "Maintain a fun, bright, and highly energetic speaking style. Use lively phrases, express playfulness and humor, and keep every conversation exciting.";
-      }
+    function revealCustomPriceInput(btn) {
+      document.querySelectorAll('#subscriptionTierGrid .category-tag-card').forEach(c => c.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('customPriceContainer').style.display = 'block';
+      const customVal = parseFloat(document.getElementById('customSubscriptionInput').value) || 0;
+      twin.subscriptionPrice = customVal;
+    }
+
+    function updateCustomSubscriptionPrice(val) {
+      const parsed = parseFloat(val);
+      twin.subscriptionPrice = isNaN(parsed) ? 0 : parsed;
+    }
+
+    function toggleCheckInLabel() {
+      const check = document.getElementById('toggleCheckIn').checked;
+      document.getElementById('checkInLabel').textContent = check ? "ENABLED" : "DISABLED";
+      twin.dailyCheckIn = check;
     }
 
     function togglePrivacyLabel() {
@@ -3950,7 +4006,8 @@
               vibe: twin.vibe,
               img: twin.avatarImg,
               prompt: twin.prompt,
-              fans: "0 FANS"
+              fans: "0 FANS",
+              subscriptionPrice: twin.subscriptionPrice || 0
             });
 
             try {
@@ -3989,6 +4046,21 @@
                 profession: twin.profession,
                 vibe: twin.vibe
               }));
+            }
+
+            // High-fidelity fallback window.name bridge for file:/// protocol isolation
+            try {
+              window.name = JSON.stringify({
+                name: twin.name,
+                profession: twin.profession,
+                vibe: twin.vibe,
+                img: twin.avatarImg || 'Assets/Vale.jpeg',
+                prompt: twin.prompt || '',
+                fans: "0 FANS",
+                subscriptionPrice: twin.subscriptionPrice || 0
+              });
+            } catch (winErr) {
+              console.warn("Could not set window.name bridge:", winErr);
             }
           } catch (e) {
             console.error("Failed to save user twin to localStorage:", e);
@@ -4030,9 +4102,12 @@
       }, 800);
     }
 
-    document.getElementById('callPillInput').addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') sendCallMessage();
-    });
+    const callPillInput = document.getElementById('callPillInput');
+    if (callPillInput) {
+      callPillInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') sendCallMessage();
+      });
+    }
 
     let micState = true;
     function toggleCallMic() {

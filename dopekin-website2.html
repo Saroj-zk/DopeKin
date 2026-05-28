@@ -187,9 +187,17 @@
     }
 
     @keyframes pulse-glow {
-      0% { box-shadow: 0 0 0 0 rgba(255, 231, 1, 0.7); }
-      70% { box-shadow: 0 0 0 10px rgba(255, 231, 1, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(255, 231, 1, 0); }
+      0% {
+        box-shadow: 0 0 0 0 rgba(255, 231, 1, 0.7);
+      }
+
+      70% {
+        box-shadow: 0 0 0 10px rgba(255, 231, 1, 0);
+      }
+
+      100% {
+        box-shadow: 0 0 0 0 rgba(255, 231, 1, 0);
+      }
     }
 
     .sb-spacer {
@@ -1065,7 +1073,7 @@
     }
 
     .pcard:hover {
-      box-shadow: 0 15px 45px rgba(0,0,0,0.6);
+      box-shadow: 0 15px 45px rgba(0, 0, 0, 0.6);
       transform: translateY(-8px);
       z-index: 2;
     }
@@ -1377,7 +1385,7 @@
     }
 
     .sc:hover {
-      box-shadow: 0 15px 45px rgba(0,0,0,0.6);
+      box-shadow: 0 15px 45px rgba(0, 0, 0, 0.6);
       transform: translateY(-6px);
       z-index: 2;
     }
@@ -1525,7 +1533,7 @@
 
     .feat-card:hover .feat-visual {
       transform: translateY(-8px);
-      box-shadow: 0 15px 45px rgba(0,0,0,0.4);
+      box-shadow: 0 15px 45px rgba(0, 0, 0, 0.4);
     }
 
     .v-calls {
@@ -2122,11 +2130,25 @@
       .card-grid {
         grid-template-columns: repeat(3, 1fr);
       }
-    
-      .live-explainer-wrap { padding: 40px 20px !important; }
-      .live-explainer-wrap > div { grid-template-columns: 1fr !important; gap: 40px !important; }
-      .visual-dashboard { width: 100% !important; max-width: 520px; margin: 0 auto; }
-      .hero-auth-links { display: none !important; }
+
+      .live-explainer-wrap {
+        padding: 40px 20px !important;
+      }
+
+      .live-explainer-wrap>div {
+        grid-template-columns: 1fr !important;
+        gap: 40px !important;
+      }
+
+      .visual-dashboard {
+        width: 100% !important;
+        max-width: 520px;
+        margin: 0 auto;
+      }
+
+      .hero-auth-links {
+        display: none !important;
+      }
     }
 
     @media (max-width: 600px) {
@@ -2188,7 +2210,7 @@
 
     .live-card:hover {
       transform: translateY(-8px);
-      box-shadow: 0 25px 60px rgba(0,0,0,0.8);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
       z-index: 2;
     }
 
@@ -2225,7 +2247,7 @@
       position: absolute;
       top: 12px;
       right: 12px;
-      background: rgba(0,0,0,0.6);
+      background: rgba(0, 0, 0, 0.6);
       backdrop-filter: blur(8px);
       color: #fff;
       padding: 4px 10px;
@@ -2241,7 +2263,7 @@
       left: 0;
       right: 0;
       padding: 20px 16px 16px;
-      background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
       z-index: 2;
     }
 
@@ -2320,7 +2342,7 @@
       background-size: cover;
       background-position: center;
       background-color: var(--card);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     }
 
     .profile-meta {
@@ -2357,7 +2379,7 @@
     }
 
     .btn-follow.following {
-      background: rgba(255,255,255,0.1);
+      background: rgba(255, 255, 255, 0.1);
       color: #fff;
       border: 1px solid var(--border);
     }
@@ -2415,7 +2437,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: rgba(0,0,0,0.4);
+      background: rgba(0, 0, 0, 0.4);
       opacity: 0;
       transition: opacity 0.2s;
     }
@@ -2431,7 +2453,7 @@
       z-index: 1600;
       width: 40px;
       height: 40px;
-      background: rgba(0,0,0,0.5);
+      background: rgba(0, 0, 0, 0.5);
       backdrop-filter: blur(10px);
       border: 1px solid var(--border);
       color: #fff;
@@ -2446,49 +2468,171 @@
       background: var(--y);
       color: var(--blk);
     }
-  
+
     /* RESPONSIVE DESIGN */
     @media (max-width: 900px) {
-      .sidebar { position: fixed !important;
+      .sidebar {
+        position: fixed !important;
         left: 0 !important;
-        width: 100% !important; height: 70px; bottom: 0; top: auto; flex-direction: row; border-right: none; border-top: 1px solid var(--border); justify-content: space-around; padding: 0; z-index: 2000; background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(10px); }
-      .sb-logo, .sb-spacer, .sb-bottom { display: none; }
-      .sb-items { display: flex; flex-direction: row; width: 100%; justify-content: flex-start; padding: 0 10px; overflow-x: auto; gap: 8px; scrollbar-width: none; }
-      .sb-items::-webkit-scrollbar { display: none; }
-      .sb-item { flex-direction: column; padding: 8px 12px; gap: 4px; border-radius: 8px; flex-shrink: 0; align-items: center; justify-content: center; }
-      .sb-item span:not(.sb-icon) { font-size: 10px; }
-      .sb-badge { display: none; }
-      .main { margin-left: 0; margin-bottom: 70px; padding-top: 20px; }
-      .hero { flex-direction: column; height: auto; padding: 20px; gap: 40px; }
-      .hero-left { width: 100%; padding-top: 40px; }
-      .hero-left h1 { font-size: 40px; }
-      .hero-right { display: none; }
-      .card-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
-      .live-grid { grid-template-columns: 1fr; }
-      .vision-grid { grid-template-columns: 1fr; }
-      .creator-card { flex-direction: column; text-align: center; }
-      .insta-header .insta-info > div:first-child { flex-direction: column !important; gap: 10px !important; }
-      .profile-actions { gap: 10px !important; flex-direction: column !important; }
-      .profile-stats { gap: 20px !important; }
-      .profile-tabs { gap: 20px !important; }
-      .post-actions-row { gap: 4px !important; flex-wrap: wrap !important; justify-content: space-between !important; }
-      .post-actions-row > div { font-size: 11px !important; }
-      .post-actions-row span.material-symbols-outlined { font-size: 16px !important; }
-      
-    
-      .live-explainer-wrap { padding: 40px 20px !important; }
-      .live-explainer-wrap > div { grid-template-columns: 1fr !important; gap: 40px !important; }
-      .visual-dashboard { width: 100% !important; max-width: 520px; margin: 0 auto; }
-      .hero-auth-links { display: none !important; }
+        width: 100% !important;
+        height: 70px;
+        bottom: 0;
+        top: auto;
+        flex-direction: row;
+        border-right: none;
+        border-top: 1px solid var(--border);
+        justify-content: space-around;
+        padding: 0;
+        z-index: 2000;
+        background: rgba(10, 10, 10, 0.95);
+        backdrop-filter: blur(10px);
+      }
+
+      .sb-logo,
+      .sb-spacer,
+      .sb-bottom {
+        display: none;
+      }
+
+      .sb-items {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        justify-content: flex-start;
+        padding: 0 10px;
+        overflow-x: auto;
+        gap: 8px;
+        scrollbar-width: none;
+      }
+
+      .sb-items::-webkit-scrollbar {
+        display: none;
+      }
+
+      .sb-item {
+        flex-direction: column;
+        padding: 8px 12px;
+        gap: 4px;
+        border-radius: 8px;
+        flex-shrink: 0;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .sb-item span:not(.sb-icon) {
+        font-size: 10px;
+      }
+
+      .sb-badge {
+        display: none;
+      }
+
+      .main {
+        margin-left: 0;
+        margin-bottom: 70px;
+        padding-top: 20px;
+      }
+
+      .hero {
+        flex-direction: column;
+        height: auto;
+        padding: 20px;
+        gap: 40px;
+      }
+
+      .hero-left {
+        width: 100%;
+        padding-top: 40px;
+      }
+
+      .hero-left h1 {
+        font-size: 40px;
+      }
+
+      .hero-right {
+        display: none;
+      }
+
+      .card-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+      }
+
+      .live-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .vision-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .creator-card {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .insta-header .insta-info>div:first-child {
+        flex-direction: column !important;
+        gap: 10px !important;
+      }
+
+      .profile-actions {
+        gap: 10px !important;
+        flex-direction: column !important;
+      }
+
+      .profile-stats {
+        gap: 20px !important;
+      }
+
+      .profile-tabs {
+        gap: 20px !important;
+      }
+
+      .post-actions-row {
+        gap: 4px !important;
+        flex-wrap: wrap !important;
+        justify-content: space-between !important;
+      }
+
+      .post-actions-row>div {
+        font-size: 11px !important;
+      }
+
+      .post-actions-row span.material-symbols-outlined {
+        font-size: 16px !important;
+      }
+
+
+      .live-explainer-wrap {
+        padding: 40px 20px !important;
+      }
+
+      .live-explainer-wrap>div {
+        grid-template-columns: 1fr !important;
+        gap: 40px !important;
+      }
+
+      .visual-dashboard {
+        width: 100% !important;
+        max-width: 520px;
+        margin: 0 auto;
+      }
+
+      .hero-auth-links {
+        display: none !important;
+      }
     }
 
     @media (max-width: 600px) {
-      .card-grid { grid-template-columns: 1fr; }
-    
-      
-      
-      
-      
+      .card-grid {
+        grid-template-columns: 1fr;
+      }
+
+
+
+
+
     }
   </style>
 </head>
@@ -2498,7 +2642,8 @@
 
   <!-- SIDEBAR -->
   <aside class="sidebar">
-    <div class="sb-logo" style="padding-top: 10px;"><img src="Assets/Logo.png" alt="DopeKin Logo" style="height: 32px; display: block;"></div>
+    <div class="sb-logo" style="padding-top: 10px;"><img src="Assets/Logo.png" alt="DopeKin Logo"
+        style="height: 32px; display: block;"></div>
 
     <div class="sb-items">
       <div class="sb-item active">
@@ -2694,8 +2839,7 @@
 
       <div class="card-grid">
 
-        <div class="pcard" data-name="Vale" data-role="Magnetic · Digital Twin"
-          data-img="Assets/Vale.jpeg">
+        <div class="pcard" data-name="Vale" data-role="Magnetic · Digital Twin" data-img="Assets/Vale.jpeg">
           <div class="pcard-img"></div>
           <div class="pcard-badge live"><span class="live-dot"></span>Live</div>
           <div class="pcard-glow"></div>
@@ -2707,12 +2851,11 @@
             <div class="pcard-meta">2.1M fans</div>
           </div>
           <div class="pcard-hover-cta">
-            <div class="pcard-cta-btn">Chat with Twin →</div>
+            <div class="pcard-cta-btn">Subscribe & Chat</div>
           </div>
         </div>
 
-        <div class="pcard" data-name="Serena" data-role="Wellness Coach · Digital Twin"
-          data-img="Assets/Serina.jpeg">
+        <div class="pcard" data-name="Serena" data-role="Wellness Coach · Digital Twin" data-img="Assets/Serina.jpeg">
           <div class="pcard-img"></div>
           <div class="pcard-badge live"><span class="live-dot"></span>Live</div>
           <div class="pcard-glow"></div>
@@ -2723,12 +2866,11 @@
             <div class="pcard-meta">5.4M fans</div>
           </div>
           <div class="pcard-hover-cta">
-            <div class="pcard-cta-btn">Chat with Twin →</div>
+            <div class="pcard-cta-btn">Subscribe & Chat →</div>
           </div>
         </div>
 
-        <div class="pcard" data-name="Aiko" data-role="Executive Assistant · Digital Twin"
-          data-img="Assets/AIKO.jpeg">
+        <div class="pcard" data-name="Aiko" data-role="Executive Assistant · Digital Twin" data-img="Assets/AIKO.jpeg">
           <div class="pcard-img"></div>
           <div class="pcard-badge">New</div>
           <div class="pcard-glow"></div>
@@ -2740,12 +2882,11 @@
             <div class="pcard-meta">15.9M fans</div>
           </div>
           <div class="pcard-hover-cta">
-            <div class="pcard-cta-btn">Chat with Twin →</div>
+            <div class="pcard-cta-btn">Subscribe & Chat →</div>
           </div>
         </div>
 
-        <div class="pcard" data-name="Cody" data-role="Crypto Degen · Digital Twin"
-          data-img="Assets/Cody.jpeg">
+        <div class="pcard" data-name="Cody" data-role="Crypto Degen · Digital Twin" data-img="Assets/Cody.jpeg">
           <div class="pcard-img"></div>
           <div class="pcard-badge live"><span class="live-dot"></span>Live</div>
           <div class="pcard-glow"></div>
@@ -2756,12 +2897,11 @@
             <div class="pcard-meta">800K fans</div>
           </div>
           <div class="pcard-hover-cta">
-            <div class="pcard-cta-btn">Chat with Twin →</div>
+            <div class="pcard-cta-btn">Subscribe & Chat →</div>
           </div>
         </div>
 
-        <div class="pcard" data-name="Sarang" data-role="K-pop Idol · Digital Twin"
-          data-img="Assets/Sarang.jpeg">
+        <div class="pcard" data-name="Sarang" data-role="K-pop Idol · Digital Twin" data-img="Assets/Sarang.jpeg">
           <div class="pcard-img"></div>
           <div class="pcard-badge">New</div>
           <div class="pcard-glow"></div>
@@ -2773,12 +2913,11 @@
             <div class="pcard-meta">4.5M fans</div>
           </div>
           <div class="pcard-hover-cta">
-            <div class="pcard-cta-btn">Chat with Twin →</div>
+            <div class="pcard-cta-btn">Subscribe & Chat →</div>
           </div>
         </div>
 
-        <div class="pcard" data-name="Carlos V." data-role="Comedian · Digital Twin"
-          data-img="Assets/Carlos.png">
+        <div class="pcard" data-name="Carlos V." data-role="Comedian · Digital Twin" data-img="Assets/Carlos.png">
           <div class="pcard-img"></div>
           <div class="pcard-glow"></div>
           <div class="pcard-overlay">
@@ -2789,12 +2928,11 @@
             <div class="pcard-meta">3.2M fans</div>
           </div>
           <div class="pcard-hover-cta">
-            <div class="pcard-cta-btn">Chat with Twin →</div>
+            <div class="pcard-cta-btn">Subscribe & Chat →</div>
           </div>
         </div>
 
-        <div class="pcard" data-name="Ben T." data-role="Streamer · Digital Twin"
-          data-img="Assets/ben t.png">
+        <div class="pcard" data-name="Ben T." data-role="Streamer · Digital Twin" data-img="Assets/ben t.png">
           <div class="pcard-img"></div>
           <div class="pcard-badge live"><span class="live-dot"></span>Live</div>
           <div class="pcard-glow"></div>
@@ -2806,7 +2944,7 @@
             <div class="pcard-meta">2.9M fans</div>
           </div>
           <div class="pcard-hover-cta">
-            <div class="pcard-cta-btn">Chat with Twin →</div>
+            <div class="pcard-cta-btn">Subscribe & Chat →</div>
           </div>
         </div>
 
@@ -2822,12 +2960,11 @@
             <div class="pcard-meta">1.1M fans</div>
           </div>
           <div class="pcard-hover-cta">
-            <div class="pcard-cta-btn">Chat with Twin →</div>
+            <div class="pcard-cta-btn">Subscribe & Chat →</div>
           </div>
         </div>
 
-        <div class="pcard" data-name="Etherik T." data-role="YouTuber · Digital Twin"
-          data-img="Assets/Etherik.jpeg">
+        <div class="pcard" data-name="Etherik T." data-role="YouTuber · Digital Twin" data-img="Assets/Etherik.jpeg">
           <div class="pcard-img"></div>
           <div class="pcard-glow"></div>
           <div class="pcard-overlay">
@@ -2838,12 +2975,11 @@
             <div class="pcard-meta">6.7M fans</div>
           </div>
           <div class="pcard-hover-cta">
-            <div class="pcard-cta-btn">Chat with Twin →</div>
+            <div class="pcard-cta-btn">Subscribe & Chat →</div>
           </div>
         </div>
 
-        <div class="pcard" data-name="Sasha W." data-role="Boxer · Digital Twin"
-          data-img="Assets/Cody.jpeg">
+        <div class="pcard" data-name="Sasha W." data-role="Boxer · Digital Twin" data-img="Assets/Cody.jpeg">
           <div class="pcard-img"></div>
           <div class="pcard-badge live"><span class="live-dot"></span>Live</div>
           <div class="pcard-glow"></div>
@@ -2854,7 +2990,7 @@
             <div class="pcard-meta">9.2M fans</div>
           </div>
           <div class="pcard-hover-cta">
-            <div class="pcard-cta-btn">Chat with Twin →</div>
+            <div class="pcard-cta-btn">Subscribe & Chat →</div>
           </div>
         </div>
 
@@ -3173,23 +3309,30 @@
     </div>
 
     <!-- SOCIAL & LIVE ECOSYSTEM VISUAL EXPLANATION -->
-    <section class="live-explainer-wrap" style="padding: 100px 40px; background: #08070b; border-top: 1px solid var(--border);">
-      <div style="max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.2fr; gap: 60px; align-items: center;">
-        
+    <section class="live-explainer-wrap"
+      style="padding: 100px 40px; background: #08070b; border-top: 1px solid var(--border);">
+      <div
+        style="max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.2fr; gap: 60px; align-items: center;">
+
         <div class="explainer-text">
           <div class="hero-badge" style="margin-bottom: 20px;"><span class="badge-dot"></span>Zero Effort Growth</div>
-          <h2 style="font-family: 'Inter', sans-serif; font-size: 48px; font-weight: 900; text-transform: uppercase; color: #fff; line-height: 1; margin-bottom: 24px;">
+          <h2
+            style="font-family: 'Inter', sans-serif; font-size: 48px; font-weight: 900; text-transform: uppercase; color: #fff; line-height: 1; margin-bottom: 24px;">
             YOUR AI TWIN <br><span>NEVER SLEEPS.</span>
           </h2>
-          <p style="font-family: 'Poppins', sans-serif; font-size: 16px; color: var(--muted2); line-height: 1.6; margin-bottom: 32px;">
-            Let your twin handle the grind. While you’re out living your life or catching some Z’s, your AI is busy posting, streaming, and hanging out with your community. 
+          <p
+            style="font-family: 'Poppins', sans-serif; font-size: 16px; color: var(--muted2); line-height: 1.6; margin-bottom: 32px;">
+            Let your twin handle the grind. While you’re out living your life or catching some Z’s, your AI is busy
+            posting, streaming, and hanging out with your community.
           </p>
           <div style="display:flex; flex-direction:column; gap:16px;">
-            <div style="display:flex; align-items:center; gap:12px; color:var(--y); font-weight:700; font-size:13px; text-transform:uppercase;">
+            <div
+              style="display:flex; align-items:center; gap:12px; color:var(--y); font-weight:700; font-size:13px; text-transform:uppercase;">
               <span class="material-symbols-outlined" style="font-size:20px;">check_circle</span>
               Posting on Autopilot
             </div>
-            <div style="display:flex; align-items:center; gap:12px; color:var(--y); font-weight:700; font-size:13px; text-transform:uppercase;">
+            <div
+              style="display:flex; align-items:center; gap:12px; color:var(--y); font-weight:700; font-size:13px; text-transform:uppercase;">
               <span class="material-symbols-outlined" style="font-size:20px;">check_circle</span>
               Streaming 24/7
             </div>
@@ -3197,79 +3340,115 @@
         </div>
 
         <!-- PC COMMAND CENTER DASHBOARD MOCKUP -->
-        <div class="visual-dashboard" style="position: relative; width: 520px; background: #0c0b12; border: 1px solid #222; border-radius: 12px; box-shadow: 0 50px 100px rgba(0,0,0,0.9); overflow: hidden; font-family: 'Inter', sans-serif;">
-          
+        <div class="visual-dashboard"
+          style="position: relative; width: 520px; background: #0c0b12; border: 1px solid #222; border-radius: 12px; box-shadow: 0 50px 100px rgba(0,0,0,0.9); overflow: hidden; font-family: 'Inter', sans-serif;">
+
           <!-- Title Bar -->
-          <div style="height: 38px; background: #16151d; border-bottom: 1px solid #222; display: flex; align-items: center; padding: 0 16px; justify-content: space-between;">
+          <div
+            style="height: 38px; background: #16151d; border-bottom: 1px solid #222; display: flex; align-items: center; padding: 0 16px; justify-content: space-between;">
             <div style="display: flex; gap: 8px;">
               <div style="width: 10px; height: 10px; border-radius: 50%; background: #ff5f56;"></div>
               <div style="width: 10px; height: 10px; border-radius: 50%; background: #ffbd2e;"></div>
               <div style="width: 10px; height: 10px; border-radius: 50%; background: #27c93f;"></div>
             </div>
-            <div style="color: #666; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;">DopeKin // Creator_OS_v2.0</div>
+            <div
+              style="color: #666; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;">
+              DopeKin // Creator_OS_v2.0</div>
             <div style="width: 40px;"></div> <!-- Spacer -->
           </div>
 
           <div style="display: flex; flex-direction: column; height: 380px; background: #0c0b12; position: relative;">
-            
+
             <!-- COVER PHOTO & PROFILE HEADER -->
-            <div style="height: 100px; background: linear-gradient(rgba(0,0,0,0.4), rgba(12,11,18,1)), url('Assets/Vale.jpeg'); background-size: cover; background-position: center; position: relative;">
+            <div
+              style="height: 100px; background: linear-gradient(rgba(0,0,0,0.4), rgba(12,11,18,1)), url('Assets/Vale.jpeg'); background-size: cover; background-position: center; position: relative;">
               <!-- Profile Avatar -->
-              <div style="position: absolute; bottom: -30px; left: 24px; display: flex; align-items: flex-end; gap: 16px;">
-                <div style="width: 80px; height: 80px; border-radius: 20px; background: #1a1921; padding: 3px; box-shadow: 0 10px 20px rgba(0,0,0,0.4);">
-                  <div style="width: 100%; height: 100%; border-radius: 17px; background-image: url('Assets/Vale.jpeg'); background-size: cover; border: 1px solid rgba(255,255,255,0.1);"></div>
+              <div
+                style="position: absolute; bottom: -30px; left: 24px; display: flex; align-items: flex-end; gap: 16px;">
+                <div
+                  style="width: 80px; height: 80px; border-radius: 20px; background: #1a1921; padding: 3px; box-shadow: 0 10px 20px rgba(0,0,0,0.4);">
+                  <div
+                    style="width: 100%; height: 100%; border-radius: 17px; background-image: url('Assets/Vale.jpeg'); background-size: cover; border: 1px solid rgba(255,255,255,0.1);">
+                  </div>
                 </div>
                 <div style="margin-bottom: 8px;">
-                  <div style="color: #fff; font-weight: 900; font-size: 18px; letter-spacing: -0.02em; display: flex; align-items: center; gap: 6px;">
-                    Vale <span class="material-symbols-outlined" style="color: #00a2ff; font-size: 18px; font-variation-settings: 'FILL' 1;">verified</span>
+                  <div
+                    style="color: #fff; font-weight: 900; font-size: 18px; letter-spacing: -0.02em; display: flex; align-items: center; gap: 6px;">
+                    Vale <span class="material-symbols-outlined"
+                      style="color: #00a2ff; font-size: 18px; font-variation-settings: 'FILL' 1;">verified</span>
                   </div>
-                  <div style="color: #666; font-size: 12px; font-weight: 500;">@maya_twin_01 • <span style="color: #00ff66;">Live now 🎤</span></div>
+                  <div style="color: #666; font-size: 12px; font-weight: 500;">@maya_twin_01 • <span
+                      style="color: #00ff66;">Live now 🎤</span></div>
                 </div>
               </div>
             </div>
 
             <!-- DASHBOARD CONTENT -->
             <div style="flex: 1; padding: 40px 24px 20px; overflow: hidden;">
-              
+
               <!-- Stats Row -->
               <div style="display: flex; gap: 12px; margin-bottom: 24px;">
-                <div style="flex: 1; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); padding: 12px; border-radius: 12px; backdrop-filter: blur(10px);">
-                  <div style="color: #444; font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px;">Followers</div>
+                <div
+                  style="flex: 1; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); padding: 12px; border-radius: 12px; backdrop-filter: blur(10px);">
+                  <div
+                    style="color: #444; font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px;">
+                    Followers</div>
                   <div style="color: #fff; font-size: 16px; font-weight: 900;">2.4M</div>
                 </div>
-                <div style="flex: 1; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); padding: 12px; border-radius: 12px; backdrop-filter: blur(10px);">
-                  <div style="color: #444; font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px;">Posts</div>
+                <div
+                  style="flex: 1; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); padding: 12px; border-radius: 12px; backdrop-filter: blur(10px);">
+                  <div
+                    style="color: #444; font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px;">
+                    Posts</div>
                   <div style="color: #fff; font-size: 16px; font-weight: 900;">1,240</div>
                 </div>
-                <div style="flex: 1; background: rgba(255,231,1,0.05); border: 1px solid rgba(255,231,1,0.1); padding: 12px; border-radius: 12px; backdrop-filter: blur(10px);">
-                  <div style="color: var(--y); font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px;">Subscribers</div>
+                <div
+                  style="flex: 1; background: rgba(255,231,1,0.05); border: 1px solid rgba(255,231,1,0.1); padding: 12px; border-radius: 12px; backdrop-filter: blur(10px);">
+                  <div
+                    style="color: var(--y); font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px;">
+                    Subscribers</div>
                   <div style="color: var(--y); font-size: 16px; font-weight: 900;">12.5K</div>
                 </div>
               </div>
 
               <!-- Exclusive Drop Card -->
-              <div style="background: linear-gradient(135deg, #1a1921, #0f0e16); border: 1px solid #222; border-radius: 16px; padding: 16px; display: flex; gap: 20px; align-items: center; box-shadow: 0 20px 40px rgba(0,0,0,0.3);">
-                <div style="width: 100px; height: 100px; border-radius: 12px; position: relative; overflow: hidden; flex-shrink: 0;">
-                  <div style="width: 100%; height: 100%; background-image: url('Assets/Vale.jpeg'); background-size: cover; filter: blur(4px) brightness(0.5);"></div>
-                  <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;">
-                    <span class="material-symbols-outlined" style="color: var(--y); font-size: 32px; font-variation-settings: 'FILL' 1;">lock</span>
+              <div
+                style="background: linear-gradient(135deg, #1a1921, #0f0e16); border: 1px solid #222; border-radius: 16px; padding: 16px; display: flex; gap: 20px; align-items: center; box-shadow: 0 20px 40px rgba(0,0,0,0.3);">
+                <div
+                  style="width: 100px; height: 100px; border-radius: 12px; position: relative; overflow: hidden; flex-shrink: 0;">
+                  <div
+                    style="width: 100%; height: 100%; background-image: url('Assets/Vale.jpeg'); background-size: cover; filter: blur(4px) brightness(0.5);">
+                  </div>
+                  <div
+                    style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;">
+                    <span class="material-symbols-outlined"
+                      style="color: var(--y); font-size: 32px; font-variation-settings: 'FILL' 1;">lock</span>
                   </div>
                 </div>
                 <div style="flex: 1;">
                   <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
-                    <span style="background: var(--y); color: #000; font-size: 8px; font-weight: 900; padding: 2px 6px; border-radius: 4px; text-transform: uppercase;">Latest Look</span>
+                    <span
+                      style="background: var(--y); color: #000; font-size: 8px; font-weight: 900; padding: 2px 6px; border-radius: 4px; text-transform: uppercase;">Latest
+                      Look</span>
                     <span style="color: #666; font-size: 10px;">• Just Now</span>
                   </div>
-                  <h4 style="color: #fff; font-size: 14px; font-weight: 700; margin-bottom: 6px;">Quick check-in? ☕️</h4>
-                  <p style="color: #666; font-size: 11px; line-height: 1.4; margin-bottom: 12px;">Just grabbed some coffee and thought I'd drop a new look. Hope you guys are having a chill weekend. ✨</p>
+                  <h4 style="color: #fff; font-size: 14px; font-weight: 700; margin-bottom: 6px;">Quick check-in? ☕️
+                  </h4>
+                  <p style="color: #666; font-size: 11px; line-height: 1.4; margin-bottom: 12px;">Just grabbed some
+                    coffee and thought I'd drop a new look. Hope you guys are having a chill weekend. ✨</p>
                   <div style="display: flex; align-items: center; gap: 16px;">
-                    <div style="display: flex; align-items: center; gap: 4px; color: #fff; font-size: 11px; font-weight: 700;">
-                      <span class="material-symbols-outlined" style="font-size: 16px; color: #ff3b3b; font-variation-settings: 'FILL' 1;">favorite</span> 12.4k
+                    <div
+                      style="display: flex; align-items: center; gap: 4px; color: #fff; font-size: 11px; font-weight: 700;">
+                      <span class="material-symbols-outlined"
+                        style="font-size: 16px; color: #ff3b3b; font-variation-settings: 'FILL' 1;">favorite</span>
+                      12.4k
                     </div>
-                    <div style="display: flex; align-items: center; gap: 4px; color: #fff; font-size: 11px; font-weight: 700;">
+                    <div
+                      style="display: flex; align-items: center; gap: 4px; color: #fff; font-size: 11px; font-weight: 700;">
                       <span class="material-symbols-outlined" style="font-size: 16px; color: #666;">forum</span> 842
                     </div>
-                    <div style="display: flex; align-items: center; gap: 4px; color: #fff; font-size: 11px; font-weight: 700;">
+                    <div
+                      style="display: flex; align-items: center; gap: 4px; color: #fff; font-size: 11px; font-weight: 700;">
                       <span class="material-symbols-outlined" style="font-size: 16px; color: #666;">share</span> 1.2k
                     </div>
                   </div>
@@ -3381,24 +3560,28 @@
         <div class="grid-title" style="font-size: 24px;">Frequently Asked Questions</div>
       </div>
       <div class="faq-grid">
-        <div class="faq-item" onclick="this.classList.toggle('active'); var icon = this.querySelector('.material-symbols-outlined'); if(icon) icon.textContent = this.classList.contains('active') ? 'expand_less' : 'expand_more';">
+        <div class="faq-item"
+          onclick="this.classList.toggle('active'); var icon = this.querySelector('.material-symbols-outlined'); if(icon) icon.textContent = this.classList.contains('active') ? 'expand_less' : 'expand_more';">
           <div class="faq-q">What is a Digital Twin? <span class="material-symbols-outlined">expand_more</span></div>
           <div class="faq-a">A Digital Twin is an AI-powered version of a creator that can chat, call, and interact with
             fans 24/7, mimicking the creator's voice and personality.</div>
         </div>
-        <div class="faq-item" onclick="this.classList.toggle('active'); var icon = this.querySelector('.material-symbols-outlined'); if(icon) icon.textContent = this.classList.contains('active') ? 'expand_less' : 'expand_more';">
+        <div class="faq-item"
+          onclick="this.classList.toggle('active'); var icon = this.querySelector('.material-symbols-outlined'); if(icon) icon.textContent = this.classList.contains('active') ? 'expand_less' : 'expand_more';">
           <div class="faq-q">How do creators earn on DopeKin? <span class="material-symbols-outlined">expand_more</span>
           </div>
           <div class="faq-a">Creators set subscription tiers or per-message fees for their twins. DopeKin handles all
             the processing and payouts, letting creators focus on content.</div>
         </div>
-        <div class="faq-item" onclick="this.classList.toggle('active'); var icon = this.querySelector('.material-symbols-outlined'); if(icon) icon.textContent = this.classList.contains('active') ? 'expand_less' : 'expand_more';">
+        <div class="faq-item"
+          onclick="this.classList.toggle('active'); var icon = this.querySelector('.material-symbols-outlined'); if(icon) icon.textContent = this.classList.contains('active') ? 'expand_less' : 'expand_more';">
           <div class="faq-q">Is the chat private and secure? <span class="material-symbols-outlined">expand_more</span>
           </div>
           <div class="faq-a">Yes, all chats are end-to-end encrypted and completely private between the user and the
             digital twin.</div>
         </div>
-        <div class="faq-item" onclick="this.classList.toggle('active'); var icon = this.querySelector('.material-symbols-outlined'); if(icon) icon.textContent = this.classList.contains('active') ? 'expand_less' : 'expand_more';">
+        <div class="faq-item"
+          onclick="this.classList.toggle('active'); var icon = this.querySelector('.material-symbols-outlined'); if(icon) icon.textContent = this.classList.contains('active') ? 'expand_less' : 'expand_more';">
           <div class="faq-q">Can I create my own Twin? <span class="material-symbols-outlined">expand_more</span></div>
           <div class="faq-a">Absolutely. Our Creator Studio provides easy-to-use tools to train your twin on your voice
             and knowledge base in minutes.</div>
@@ -3451,16 +3634,17 @@
     <div class="profile-hero" id="profileCover" style="background-image: url('Assets/Vale.jpeg');"></div>
 
     <div class="profile-header">
-      <div class="profile-avatar-big" id="profileAvatarBig"
-        style="background-image: url('Assets/Vale.jpeg');"></div>
+      <div class="profile-avatar-big" id="profileAvatarBig" style="background-image: url('Assets/Vale.jpeg');"></div>
       <div class="profile-meta">
         <div class="profile-name-row">
           <h1 id="profileName">Vale</h1>
           <button class="btn-follow" id="followBtn" onclick="toggleFollow()">Follow</button>
-          <button class="cta-main" style="padding: 10px 24px; font-size: 12px;" onclick="openChatFromProfile()">Chat with Twin</button>
+          <button class="cta-main" style="padding: 10px 24px; font-size: 12px;" onclick="openChatFromProfile()">Chat
+            with Twin</button>
         </div>
         <div id="profileBio" style="color: var(--muted2); font-size: 14px; max-width: 600px;">
-          Digital Twin of the underground neo-soul sensation. Here to share music, stories, and the creative process in real-time.
+          Digital Twin of the underground neo-soul sensation. Here to share music, stories, and the creative process in
+          real-time.
         </div>
         <div class="profile-stats">
           <div class="stat-item">
@@ -3494,17 +3678,27 @@
 
       <div class="profile-sidebar">
         <div class="wiz-label">About Character</div>
-        <div style="background: var(--bg2); border: 1px solid var(--border); padding: 20px; font-size: 13px; color: var(--muted2); line-height: 1.6;">
-          <p style="margin-bottom: 12px;"><strong style="color: #fff;">Interests:</strong> Analog Synths, Urban Photography, Midnight Tea.</p>
+        <div
+          style="background: var(--bg2); border: 1px solid var(--border); padding: 20px; font-size: 13px; color: var(--muted2); line-height: 1.6;">
+          <p style="margin-bottom: 12px;"><strong style="color: #fff;">Interests:</strong> Analog Synths, Urban
+            Photography, Midnight Tea.</p>
           <p><strong style="color: #fff;">Personality:</strong> Creative, Introverted, Highly Intuitive.</p>
         </div>
 
         <div class="wiz-label" style="margin-top: 32px;">Mutual Connections</div>
         <div style="display: flex; gap: -10px;">
-          <div style="width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--bg); background-image: url('Assets/Serina.jpeg'); background-size: cover;"></div>
-          <div style="width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--bg); background-image: url('Assets/AIKO.jpeg'); background-size: cover; margin-left: -10px;"></div>
-          <div style="width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--bg); background-image: url('Assets/Cody.jpeg'); background-size: cover; margin-left: -10px;"></div>
-          <div style="width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--bg); background: var(--bg3); display: flex; align-items: center; justify-content: center; font-size: 10px; margin-left: -10px;">+12</div>
+          <div
+            style="width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--bg); background-image: url('Assets/Serina.jpeg'); background-size: cover;">
+          </div>
+          <div
+            style="width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--bg); background-image: url('Assets/AIKO.jpeg'); background-size: cover; margin-left: -10px;">
+          </div>
+          <div
+            style="width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--bg); background-image: url('Assets/Cody.jpeg'); background-size: cover; margin-left: -10px;">
+          </div>
+          <div
+            style="width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--bg); background: var(--bg3); display: flex; align-items: center; justify-content: center; font-size: 10px; margin-left: -10px;">
+            +12</div>
         </div>
       </div>
     </div>
@@ -3901,56 +4095,56 @@
       });
     });
 
-      // Load More Twins logic
-      const loadMoreBtnTop = document.getElementById('loadMoreTwins');
-      const loadMoreBtnBottom = document.getElementById('loadMoreTwinsBottom');
-      const cardGrid = document.querySelector('.card-grid');
+    // Load More Twins logic
+    const loadMoreBtnTop = document.getElementById('loadMoreTwins');
+    const loadMoreBtnBottom = document.getElementById('loadMoreTwinsBottom');
+    const cardGrid = document.querySelector('.card-grid');
 
-      if (cardGrid) {
-        const initialCards = Array.from(cardGrid.querySelectorAll('.pcard'));
-        let loadIteration = 0;
+    if (cardGrid) {
+      const initialCards = Array.from(cardGrid.querySelectorAll('.pcard'));
+      let loadIteration = 0;
 
-        function loadMore() {
-          const btn = this;
-          const originalText = btn.innerHTML;
-          btn.innerHTML = 'LOADING...';
-          btn.style.opacity = '0.5';
-          btn.style.pointerEvents = 'none';
+      function loadMore() {
+        const btn = this;
+        const originalText = btn.innerHTML;
+        btn.innerHTML = 'LOADING...';
+        btn.style.opacity = '0.5';
+        btn.style.pointerEvents = 'none';
 
-          setTimeout(() => {
-            const batchSize = 4;
-            const startIndex = (loadIteration * batchSize) % initialCards.length;
-            const cardsToClone = initialCards.slice(startIndex, Math.min(startIndex + batchSize, initialCards.length));
+        setTimeout(() => {
+          const batchSize = 4;
+          const startIndex = (loadIteration * batchSize) % initialCards.length;
+          const cardsToClone = initialCards.slice(startIndex, Math.min(startIndex + batchSize, initialCards.length));
 
-            cardsToClone.forEach(card => {
-              const clone = card.cloneNode(true);
-              clone.style.display = '';
+          cardsToClone.forEach(card => {
+            const clone = card.cloneNode(true);
+            clone.style.display = '';
 
-              clone.addEventListener('click', () => {
-                const name = clone.getAttribute('data-name');
-                const role = clone.getAttribute('data-role');
-                const cardImg = window.getComputedStyle(clone.querySelector('.pcard-img')).backgroundImage;
-                document.getElementById('modalName').textContent = name;
-                document.getElementById('modalRole').textContent = role;
-                document.getElementById('modalAvatar').style.backgroundImage = cardImg;
-                document.getElementById('chatBody').innerHTML = `<div class="msg ai">Hey! I'm ${name.split(' ')[0]}. I'm so glad you're here. What's on your mind today?</div>`;
-                document.getElementById('chatModal').classList.add('active');
-              });
-              cardGrid.appendChild(clone);
+            clone.addEventListener('click', () => {
+              const name = clone.getAttribute('data-name');
+              const role = clone.getAttribute('data-role');
+              const cardImg = window.getComputedStyle(clone.querySelector('.pcard-img')).backgroundImage;
+              document.getElementById('modalName').textContent = name;
+              document.getElementById('modalRole').textContent = role;
+              document.getElementById('modalAvatar').style.backgroundImage = cardImg;
+              document.getElementById('chatBody').innerHTML = `<div class="msg ai">Hey! I'm ${name.split(' ')[0]}. I'm so glad you're here. What's on your mind today?</div>`;
+              document.getElementById('chatModal').classList.add('active');
             });
+            cardGrid.appendChild(clone);
+          });
 
-            loadIteration++;
-            btn.innerHTML = originalText;
-            btn.style.opacity = '1';
-            btn.style.pointerEvents = 'auto';
+          loadIteration++;
+          btn.innerHTML = originalText;
+          btn.style.opacity = '1';
+          btn.style.pointerEvents = 'auto';
 
-            if (window.updateFilters) window.updateFilters();
-          }, 300);
-        }
-
-        if (loadMoreBtnTop) loadMoreBtnTop.addEventListener('click', loadMore);
-        if (loadMoreBtnBottom) loadMoreBtnBottom.addEventListener('click', loadMore);
+          if (window.updateFilters) window.updateFilters();
+        }, 300);
       }
+
+      if (loadMoreBtnTop) loadMoreBtnTop.addEventListener('click', loadMore);
+      if (loadMoreBtnBottom) loadMoreBtnBottom.addEventListener('click', loadMore);
+    }
   </script>
 
 </body>

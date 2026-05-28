@@ -2743,7 +2743,7 @@
     
     <div style="padding: 20px 30px; border-bottom: 1px solid var(--border); background: var(--bg); display: flex; align-items: center; justify-content: space-between; z-index: 10; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
       <div style="display: flex; align-items: center; gap: 20px;">
-        <span class="material-symbols-outlined" style="cursor: pointer; color: var(--muted); transition: color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='var(--muted)'" onclick="window.location.href='index.html?sync=1&name=' + encodeURIComponent(name) + '&img=' + encodeURIComponent(imgUrl) + '&profession=' + encodeURIComponent(urlParams.get('profession') || '') + '&vibe=' + encodeURIComponent(urlParams.get('vibe') || '') + '&prompt=' + encodeURIComponent(urlParams.get('prompt') || '')">arrow_back</span>
+        <span class="material-symbols-outlined" style="cursor: pointer; color: var(--muted); transition: color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='var(--muted)'" onclick="window.location.href='index.html'">arrow_back</span>
         <div id="chatAvatar" style="width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--y); background-size: cover; background-position: center;"></div>
         <div>
           <h3 id="chatName" style="margin: 0; font-family: 'Inter', sans-serif; font-size: 18px; font-weight: 800; color: #fff; letter-spacing: -0.01em;">Twin Name</h3>
@@ -2888,6 +2888,87 @@
 </style>
 
 <script>
+  window.urlParams = new URLSearchParams(window.location.search);
+  window.nameParam = window.urlParams.get('name') || 'Twin';
+  
+  // Safe extraction of avatar image and metadata from localStorage or window.name bridge
+  window.imgUrl = 'Assets/Vale.jpeg';
+  window.professionParam = window.urlParams.get('profession') || '';
+  window.vibeParam = window.urlParams.get('vibe') || '';
+  window.promptParam = window.urlParams.get('prompt') || '';
+
+  try {
+    if (window.name) {
+      const storedTwin = JSON.parse(window.name);
+      if (storedTwin && storedTwin.name === window.nameParam) {
+        if (storedTwin.img) window.imgUrl = storedTwin.img;
+        if (storedTwin.profession) window.professionParam = storedTwin.profession;
+        if (storedTwin.vibe) window.vibeParam = storedTwin.vibe;
+        if (storedTwin.prompt) window.promptParam = storedTwin.prompt;
+      }
+    }
+  } catch (winErr) {
+    console.warn("Could not read window.name bridge in chat:", winErr);
+  }
+
+  try {
+    if (window.imgUrl === 'Assets/Vale.jpeg') {
+      const activeTwin = JSON.parse(localStorage.getItem('activeTwin'));
+      if (activeTwin && activeTwin.name === window.nameParam && activeTwin.img) {
+        window.imgUrl = activeTwin.img;
+      } else {
+        const userTwins = JSON.parse(localStorage.getItem('userTwins') || '[]');
+        const found = userTwins.find(t => t.name === window.nameParam);
+        if (found && found.img) {
+          window.imgUrl = found.img;
+        } else {
+          const urlImg = window.urlParams.get('img');
+          if (urlImg) window.imgUrl = urlImg;
+        }
+      }
+    }
+  } catch (e) {
+    console.error("Failed to load active twin image:", e);
+    const urlImg = window.urlParams.get('img');
+    if (urlImg) window.imgUrl = urlImg;
+  }
+
+  // Extract subscription price from window.name or localStorage
+  window.subscriptionPriceParam = 0;
+  try {
+    if (window.name) {
+      const storedTwin = JSON.parse(window.name);
+      if (storedTwin && storedTwin.name === window.nameParam && storedTwin.subscriptionPrice) {
+        window.subscriptionPriceParam = storedTwin.subscriptionPrice;
+      }
+    }
+    if (!window.subscriptionPriceParam) {
+      const userTwins = JSON.parse(localStorage.getItem('userTwins') || '[]');
+      const found = userTwins.find(t => t.name === window.nameParam);
+      if (found && found.subscriptionPrice) {
+        window.subscriptionPriceParam = found.subscriptionPrice;
+      }
+    }
+  } catch (err) {
+    console.warn("Could not load subscriptionPrice inside chat:", err);
+  }
+
+  // Guarantee window.name is fully populated so index.html syncs correctly
+  try {
+    window.name = JSON.stringify({
+      name: window.nameParam,
+      profession: window.professionParam,
+      vibe: window.vibeParam,
+      img: window.imgUrl,
+      prompt: window.promptParam || '',
+      fans: "0 FANS",
+      subscriptionPrice: window.subscriptionPriceParam || 0
+    });
+    console.log("Successfully synced window.name bridge for:", window.nameParam);
+  } catch (syncErr) {
+    console.warn("Could not sync window.name back in chat:", syncErr);
+  }
+
   // Clean up and override sidebar event listeners to prevent errors
   const oldSidebar = document.querySelector('.sidebar');
   if (oldSidebar) {
@@ -2901,12 +2982,8 @@
         if (labelSpan) {
           const label = labelSpan.textContent.toLowerCase();
           
-          const professionParam = urlParams.get('profession') || '';
-          const vibeParam = urlParams.get('vibe') || '';
-          const promptParam = urlParams.get('prompt') || '';
-          
           if (label === 'home') {
-            window.location.href = 'index.html?sync=1&name=' + encodeURIComponent(name) + '&img=' + encodeURIComponent(imgUrl) + '&profession=' + encodeURIComponent(professionParam) + '&vibe=' + encodeURIComponent(vibeParam) + '&prompt=' + encodeURIComponent(promptParam);
+            window.location.href = 'index.html';
           } else if (label === 'feed') {
             window.location.href = 'index.html?section=feed';
           } else if (label === 'chat') {
@@ -2918,40 +2995,15 @@
           } else if (label === 'create character') {
             window.location.href = 'create-avatar.html';
           } else {
-            window.location.href = 'index.html?sync=1&name=' + encodeURIComponent(name) + '&img=' + encodeURIComponent(imgUrl) + '&profession=' + encodeURIComponent(professionParam) + '&vibe=' + encodeURIComponent(vibeParam) + '&prompt=' + encodeURIComponent(promptParam);
+            window.location.href = 'index.html';
           }
         }
       });
     });
   }
-
-  const urlParams = new URLSearchParams(window.location.search);
-  const name = urlParams.get('name') || 'Twin';
   
-  // Safe extraction of avatar image from localStorage or parameter to avoid about:blank#blocked length limits
-  let imgUrl = 'Assets/Vale.jpeg';
-  try {
-    const activeTwin = JSON.parse(localStorage.getItem('activeTwin'));
-    if (activeTwin && activeTwin.name === name && activeTwin.img) {
-      imgUrl = activeTwin.img;
-    } else {
-      const userTwins = JSON.parse(localStorage.getItem('userTwins') || '[]');
-      const found = userTwins.find(t => t.name === name);
-      if (found && found.img) {
-        imgUrl = found.img;
-      } else {
-        const urlImg = urlParams.get('img');
-        if (urlImg) imgUrl = urlImg;
-      }
-    }
-  } catch (e) {
-    console.error("Failed to load active twin image:", e);
-    const urlImg = urlParams.get('img');
-    if (urlImg) imgUrl = urlImg;
-  }
-  
-  document.getElementById('chatName').textContent = name;
-  document.getElementById('chatAvatar').style.backgroundImage = 'url("' + imgUrl + '")';
+  document.getElementById('chatName').textContent = window.nameParam;
+  document.getElementById('chatAvatar').style.backgroundImage = 'url("' + window.imgUrl + '")';
 
   const chatHistory = document.getElementById('chatHistory');
   const chatInput = document.getElementById('mainChatInput');
@@ -2959,7 +3011,7 @@
 
   // Initial greeting
   setTimeout(() => {
-    chatHistory.innerHTML += '<div class="msg-bubble ai">Hey! I\'m ' + name.split(' ')[0] + '. So glad you\'re here. What\'s on your mind today?</div>';
+    chatHistory.innerHTML += '<div class="msg-bubble ai">Hey! I\'m ' + window.nameParam.split(' ')[0] + '. So glad you\'re here. What\'s on your mind today?</div>';
   }, 400);
 
   function sendChatMsg() {
